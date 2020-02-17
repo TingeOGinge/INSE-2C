@@ -5,29 +5,29 @@ const path = require('path');
 const PRIVATE_KEY = fs.readFileSync(path.join(__dirname, 'private.key'), 'utf-8');
 const {users} = require('./ms_account.js');
 
-function extractToken(req, res, next) {
+function extractToken(req) {
   const bearerHeader = req.headers['authorization'];
-  if (bearerHeader) {
-    req.token = bearerHeader.split(' ')[1];
-    next();
-  } else {
-    res.sendStatus(404);
-  }
+  return (bearerHeader != null) ? bearerHeader.split(' ')[1] : undefined;
 }
 
 async function validateSession(req, res, next) {
-  jwt.verify(req.token, PRIVATE_KEY, {algorithms: ['RS256']}, (err, payload) => {
-    if (err) {
-      res.status(401);
-      res.json({
-        message: 'Access Denied',
-        err
-      });
-    } else {
-      req.body.tokenData = payload.data;
-      next();
-    }
-  });
+  req.token = extractToken(req);
+  if (req.token === undefined) {
+    res.sendStatus(404);
+  } else {
+    jwt.verify(req.token, PRIVATE_KEY, {algorithms: ['RS256']}, (err, payload) => {
+      if (err) {
+        res.status(401);
+        res.json({
+          message: 'Access Denied',
+          err
+        });
+      } else {
+        req.body.tokenData = payload.data;
+        next();
+      }
+    });
+  }
 }
 
 async function validateLogin (req, res) {
@@ -38,7 +38,7 @@ async function validateLogin (req, res) {
     res.status(200);
     const token = generateToken({
       username: user.username,
-      pseudoID: users.indexOf(user)
+      id: users.indexOf(user)
     });
     res.json({token});
   } else {
