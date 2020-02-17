@@ -29,7 +29,11 @@ async function registerUser(req, res) {
     return res.sendStatus(409);
   } else {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
-      const user = {username: req.body.username, password: hashedPassword};
+      const user = {
+        username: req.body.username,
+        password: hashedPassword,
+        scheduledRecipes: []
+      };
       users.push(user);
       res.sendStatus(201);
     }
@@ -43,7 +47,10 @@ async function validateLogin (req, res) {
     res.sendStatus(404);
   } else if (await bcrypt.compare(req.body.password, user.password)) {
     res.status(200);
-    const token = generateToken({username: user.username});
+    const token = generateToken({
+      username: user.username,
+      pseudoID: users.indexOf(user)
+    });
     res.json({token});
   } else {
     res.sendStatus(403);
@@ -54,7 +61,13 @@ function generateToken(data) {
   return jwt.sign({data}, PRIVATE_KEY, {algorithm: 'RS256', expiresIn: '20m'});
 }
 
-app.get('/api/protectedRoute', extractToken, validateSession);
+app.get('/api/protectedRoute', extractToken, validateSession, showProtectedResources);
+
+function showProtectedResources(req, res) {
+  res.json({
+    message: "Protected resources successfully accessed"
+  });
+}
 
 function extractToken(req, res, next) {
   const bearerHeader = req.headers['authorization'];
@@ -66,7 +79,7 @@ function extractToken(req, res, next) {
   }
 }
 
-async function validateSession(req, res) {
+async function validateSession(req, res, next) {
   jwt.verify(req.token, PRIVATE_KEY, {algorithms: ['RS256']}, (err, payload) => {
     if (err) {
       res.status(401);
@@ -75,13 +88,22 @@ async function validateSession(req, res) {
         err
       });
     } else {
-      res.status(200);
-      res.json({
-        message: 'Access Granted',
-        payload
-      })
+      req.body.tokenData = payload.data;
+      next();
     }
   });
+}
+
+app.post('/api/scheduleRecipe', extractToken, validateSession, scheduleRecipe);
+
+function scheduleRecipe(req, res) {
+  const user = users.find(user => user.username === req.body.tokenData.username);
+  user.scheduledRecipes.push({
+    recipeID: req.body.recipeID,
+    scheduledTime: req.body.scheduledTime
+  })
+  console.log(user);
+  res.sendStatus(200)
 }
 
 app.listen(5000, () => console.log('Server started on port 5000'));
