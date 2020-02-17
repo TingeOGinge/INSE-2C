@@ -14,6 +14,7 @@ app.use(cors());
 app.get('/', (req, res) => {res.sendFile(path.join(__dirname + '/home.html'));});
 app.get('/api/getUsers', (req, res) => { res.json(users); });
 app.get('/api/protectedRoute', extractToken, validateSession, showProtectedResources);
+app.get('/api/getUserSchedule', extractToken, validateSession, retrieveUserSchedule);
 
 app.post('/api/registerUser', registerUser);
 app.post('/api/login', validateLogin);
@@ -99,4 +100,9 @@ function scheduleRecipe(req, res) {
     scheduledTime: req.body.scheduledTime
   });
   res.sendStatus(200);
+}
+
+function retrieveUserSchedule(req, res) {
+  const user = users.find(user => user.username === req.body.tokenData.username);
+  res.json(user.scheduledRecipes);
 }
