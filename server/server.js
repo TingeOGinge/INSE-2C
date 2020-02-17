@@ -8,10 +8,9 @@ const fs = require('fs');
 const PRIVATE_KEY = fs.readFileSync(path.join(__dirname, 'private.key'), 'utf-8');
 
 app.use(express.json());
-app.use(express.static(__dirname + '/'));
+app.use(express.static(path.join(__dirname, '..', 'front-end')));
 app.use(cors());
 
-app.get('/', (req, res) => {res.sendFile(path.join(__dirname + '/home.html'));});
 app.get('/api/getUsers', (req, res) => { res.json(users); });
 app.get('/api/protectedRoute', extractToken, validateSession, showProtectedResources);
 app.get('/api/getUserSchedule', extractToken, validateSession, retrieveUserSchedule);
