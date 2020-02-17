@@ -13,13 +13,13 @@ app.use(cors());
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/home.html'));
-})
+}); 
 
 // Storing users in local memory for testing purposes
 // Will eventually communicate with the database
 const users = [];
 
-app.get('/api/getUsers', (req, res) => { res.json(users) });
+app.get('/api/getUsers', (req, res) => { res.json(users); });
 
 app.post('/api/registerUser', registerUser);
 
@@ -101,9 +101,9 @@ function scheduleRecipe(req, res) {
   user.scheduledRecipes.push({
     recipeID: req.body.recipeID,
     scheduledTime: req.body.scheduledTime
-  })
+  });
   console.log(user);
-  res.sendStatus(200)
+  res.sendStatus(200);
 }
 
 app.listen(5000, () => console.log('Server started on port 5000'));
