@@ -11,17 +11,19 @@ app.use(express.json());
 app.use(express.static(__dirname + '/'));
 app.use(cors());
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname + '/home.html'));
-}); 
+app.get('/', (req, res) => {res.sendFile(path.join(__dirname + '/home.html'));});
+app.get('/api/getUsers', (req, res) => { res.json(users); });
+app.get('/api/protectedRoute', extractToken, validateSession, showProtectedResources);
+
+app.post('/api/registerUser', registerUser);
+app.post('/api/login', validateLogin);
+app.post('/api/scheduleRecipe', extractToken, validateSession, scheduleRecipe);
+
+app.listen(5000, () => console.log('Server started on port 5000'));
 
 // Storing users in local memory for testing purposes
 // Will eventually communicate with the database
 const users = [];
-
-app.get('/api/getUsers', (req, res) => { res.json(users); });
-
-app.post('/api/registerUser', registerUser);
 
 async function registerUser(req, res) {
   const user = users.find(user => user.username === req.body.username);
@@ -38,8 +40,6 @@ async function registerUser(req, res) {
       res.sendStatus(201);
     }
 }
-
-app.post('/api/login', validateLogin);
 
 async function validateLogin (req, res) {
   const user = users.find(user => user.username === req.body.username);
@@ -60,8 +60,6 @@ async function validateLogin (req, res) {
 function generateToken(data) {
   return jwt.sign({data}, PRIVATE_KEY, {algorithm: 'RS256', expiresIn: '20m'});
 }
-
-app.get('/api/protectedRoute', extractToken, validateSession, showProtectedResources);
 
 function showProtectedResources(req, res) {
   res.json({
@@ -94,16 +92,11 @@ async function validateSession(req, res, next) {
   });
 }
 
-app.post('/api/scheduleRecipe', extractToken, validateSession, scheduleRecipe);
-
 function scheduleRecipe(req, res) {
   const user = users.find(user => user.username === req.body.tokenData.username);
   user.scheduledRecipes.push({
     recipeID: req.body.recipeID,
     scheduledTime: req.body.scheduledTime
   });
-  console.log(user);
   res.sendStatus(200);
 }
-
-app.listen(5000, () => console.log('Server started on port 5000'));
