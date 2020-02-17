@@ -1,0 +1,25 @@
+{
+  "name": "inse-2c",
+  "version": "1.0.0",
+  "description": "Software Engineering Theory and Practice Coursework",
+  "main": "server/server.js",
+  "scripts": {
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TingeOGinge/INSE-2C.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TingeOGinge/INSE-2C/issues"
+  },
+  "homepage": "https://github.com/TingeOGinge/INSE-2C#readme",
+  "dependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  }
+}
