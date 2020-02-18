@@ -11,7 +11,7 @@ recipe_name varchar(32) not null,
 recipe_cooking_time integer not null,
 recipe_method text not null,
 recipe_serving_size integer not null,
-recipe_carlories integer not null
+recipe_calories integer not null
 );
 
 create table recipe_ingredient (
