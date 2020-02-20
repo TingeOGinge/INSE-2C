@@ -1,19 +1,14 @@
 const {Client} = require('pg');
-
+const connectionString = 'postgresql://james:inse2c@localhost:5432/ecochefdb'
 //connect
 const client = new Client({
-    user: 'James',
-    host: 'JamesUni',
-    database: 'EcoChefDB',
-    password: 'inse2cjames',
-    port: 5432,
-
+   connectionString
 });
 
 client.connect()
 .then(() => console.log("Connection Established to Database"))
-.catch(e => console.log)
-.finally(() => client.end())
+.catch(e => console.log(e))
+.finally(() => client.end());
 
  /* const { Client } = require('pg');
 
