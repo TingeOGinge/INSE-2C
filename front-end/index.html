@@ -1,10 +1,35 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
+<!doctype html>
+<meta charset=utf-8>
+<link rel="stylesheet" title="Homepage" href="style.css">
+<script src="client-side.js"></script>
+<title>Welcome to Ecochef</title>
+
+
   <body>
+    <nav class="navbar">
+
+      <a class="navbar_home" aria-label="Homepage"><h1>Ecochef</h1></a>
+      <a href="login.html" aria-label="Login" class="navbar_login">LOGIN</a>
+      <a href="register.html" aria-label="Register" class="navbar_register">REGISTER</a>
+    </nav>
+
+    <aside id=detail>
+      <h2>Begin by typing ingredients here to help us find you recipes</h2>
+      <p>Alternatively, if you already have something in mind you can search by recipe</p>
+    </aside>
+
+    <input id=search type=text autofocus autocomplete=off>
+    <input id=send type=submit value=Search>
+
+
+    <ul id=messagelist>
+      <li>Cooking Time</li>
+      <li>Calories</li>
+      <li>Serving Size</li>
+      <li>Dietary Restrictions</li>
+    </ul>
+
+
 
   </body>
 </html>
