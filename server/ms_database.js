@@ -24,7 +24,7 @@ const queryDictionary = {
                             'left join ingredient c on b.ingredient_id = c.ingredient_id ' +
                             'where ingredient_name similar to $1',
   scheduleRecipe: 'INSERT INTO account_recipe (account_id, recipe_id, scheduled_time) values($1, $2, $3)'
-}
+};
 
 async function query(queryFlag, parameters) {
   if (!Array.isArray(parameters)) parameters = [parameters];
@@ -32,7 +32,7 @@ async function query(queryFlag, parameters) {
 
   const client = await pool.connect();
   try {
-    const queryString = queryDictionary[queryFlag]
+    const queryString = queryDictionary[queryFlag];
     if (queryString) {
       const res = await client.query(queryString, parameters);
       return res;
@@ -53,12 +53,12 @@ async function test() {
     // Using valid name
     console.log('Test Getting user with Account Name');
     console.log('Using valid name');
-    let response = await query('searchAccountName','James')
+    let response = await query('searchAccountName','James');
     console.log(response.rows[0]);
 
     // Using invalid Name
     console.log('Using invalid name');
-    response = await query('searchAccountName','Boogeyman')
+    response = await query('searchAccountName','Boogeyman');
     console.log(response.rows);
 
     // Using invalid queryFlag - Uncomment to run
@@ -114,7 +114,7 @@ async function test() {
     //Search recipe by ingredient
     // valid attempt
     console.log('Search recipe by ingredient');
-    console.log('valid attempt')
+    console.log('valid attempt');
     response = await query('searchRecipeIngredients', 'onion');
     console.log(response.rows);
 
