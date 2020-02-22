@@ -25,25 +25,41 @@ async function login(data) {
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw response;
-  return await response.json();
+  const payload = await response.json();
+  setClientToken(payload.token);
 }
 
-async function scheduleRecipe(data, token) {
+async function scheduleRecipe(data) {
   const url = 'http://localhost:5000/api/scheduleRecipe';
-  const requestOptions = generatePostRequestOptions(data, token);
+  const requestOptions = generatePostRequestOptions(data);
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw response;
+  setClientToken(response.token);
 }
 
-function generatePostRequestOptions(data, token) {
+function generatePostRequestOptions(data) {
   const retval =  {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   };
-  if(token) retval.headers.authorization = "Bearer " + token;
+  const jwt = getJWT();
+  if (jwt) retval.headers.authorization = "Bearer " + jwt;
   return retval;
 }
 
-export {registerUser, login, scheduleRecipe};
+function setClientToken(token) {
+  localStorage.setItem('jwt', token);
+}
+
+function getJWT() {
+  return localStorage.getItem('jwt');
+}
+
+function logout() {
+  if (localStorage.jwt) localStorage.clearItem('jwt');
+  window.location.href = 'index.html';
+}
+
+export {registerUser, login, scheduleRecipe, logout};
