@@ -37,7 +37,7 @@ function checkScheduleConflict(schedule, proposedTime) {
 
 function retrieveUserSchedule(req, res) {
   const user = users.find(user => user.username === req.body.tokenData.username);
-  res.json({schedule: user.scheduledRecipes});
+  res.json({schedule: user.scheduledRecipes, token: res.token});
 }
 
 module.exports = {users, registerUser, scheduleRecipe, retrieveUserSchedule};
