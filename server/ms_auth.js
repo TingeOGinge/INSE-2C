@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const PRIVATE_KEY = fs.readFileSync(path.join(__dirname, 'private.key'), 'utf-8');
 const {users} = require('./ms_account.js');
+const query = require('./ms_database.js');
 
 function extractToken(req) {
   const bearerHeader = req.headers['authorization'];
