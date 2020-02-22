@@ -15,6 +15,7 @@ const pool = new Pool({
 
 const queryDictionary = {
   searchAccountName: 'SELECT * FROM account WHERE account_username = $1',
+  getUserID: 'SELECT account_id FROM account WHERE account_username = $1',
   createAccount: 'INSERT INTO account (account_username, account_password) values($1, $2)',
   removeAccount: 'DELETE FROM account WHERE account_id = $1 AND account_username = $2',
   searchRecipeName: 'SELECT * FROM recipe WHERE recipe_name like $1',
@@ -46,102 +47,182 @@ async function query(queryFlag, parameters) {
   }
 }
 
-async function test() {
-  try {
-    // Test Getting user with Account Name
 
-    // Using valid name
+
+
+
+//----------------------------------------------------
+
+
+
+/* BELOW FUNCTIONS ARE FOR TESTING THE DATABASE API */
+
+
+//----------------------------------------------------
+
+
+async function getUserWithValidAccName() {
+  try {
     console.log('Test Getting user with Account Name');
     console.log('Using valid name');
-    let response = await query('searchAccountName','James');
+    const response = await query('searchAccountName','James');
     console.log(response.rows[0]);
-
-    // Using invalid Name
-    console.log('Using invalid name');
-    response = await query('searchAccountName','Boogeyman');
-    console.log(response.rows);
-
-    // Using invalid queryFlag - Uncomment to run
-    // response = await query('slkduhjslkdfjfh','Boogeyman')
-    // console.log(response.rows);
-
-    // Create Account
-
-    //account_id CHANGES ON EACH CREATE. COMMENTED OUT TO
-    // KEEP SERIAL LOW
-
-    // Valid attempt
-    //console.log('Create Account');
-    //console.log('Valid attempt');
-    //await query('createAccount', ['Tiago', 'myhashedpassword']);
-    //response = await query('searchAccountName', 'Tiago');
-    //console.log(response.rows[0]);
-
-    // // Invalid attempt - uncomment to run as error is thrown
-    // console.log('Invalid attempt');
-    // await query('createAccount', ['Tiago', 'myhashedpassword']);
-
-    // Delete user
-
-    //Valid attempt
-    //console.log('Delete user');
-    //console.log('Valid attempt');
-    //await query('removeAccount', ['10', 'Tiago']);
-    //response = await query('searchAccountName', 'Tiago');
-    //console.log(response.rows[0]);
-
-
-    //invalid attempt
-    //console.log('Delete user');
-    //console.log('invalid attempt');
-    //await query('removeAccount', ['9', 'Tiago']);
-    //response = await query('searchAccountName', 'Tiago');
-    //console.log(response.rows[0]);
-
-    //search recipe Name
-    //valid attempt
-    console.log('Search recipe by name');
-    console.log('Valid attempt');
-    response = await query('searchRecipeName','hummus');
-    console.log(response.rows);
-
-    //invalid attempt
-    console.log('Invalid attempt');
-    response = await query('searchRecipeName','KFC');
-    console.log(response.rows);
-
-
-    //Search recipe by ingredient
-    // valid attempt
-    console.log('Search recipe by ingredient');
-    console.log('valid attempt');
-    response = await query('searchRecipeIngredients', 'onion');
-    console.log(response.rows);
-
-    //invald attempt
-    console.log('invalid attempt');
-    response = await query('searchRecipeIngredients', 'beans');
-    console.log(response.rows);
-
-    //scheduleRecupe
-    //valid attempt
-
-    console.log('Schedule recipe');
-    console.log('valid attempt');
-    response = await query('scheduleRecipe', ['1', '1', '2020-05-01 10:00:00']);
-    console.log(response.rows);
-
-    //invalid attempt
-
-    //console.log('invalid attempt');
-    //response = await query('scheduleRecipe', ['1', '5', '2020-06-05 10:00:00']);
-    //console.log(response.rows);
-
   } catch (err) {
     console.log(err.stack);
-  } finally {
-    pool.end();
   }
+}
+
+async function getUserWithInvalidAccName() {
+  try {
+    console.log('Using invalid name');
+    const response = await query('searchAccountName','Boogeyman');
+    console.log(response);
+  } catch (err) {
+    console.log(err.stack);
+  }
+}
+
+async function createAccountValid() {
+  try {
+    console.log('Create Account');
+    console.log('Valid attempt');
+    await query('createAccount', ['Tiago', 'myhashedpassword']);
+    const response = await query('searchAccountName', 'Tiago');
+    console.log(response.rows[0]);
+  } catch (err) {
+    console.log(err.stack);
+  }
+
+}
+
+async function createAccountDuplicate() {
+  try {
+    console.log('Duplicate attempt');
+    await query('createAccount', ['Tiago', 'myhashedpassword']);
+    const response = await query('searchAccountName', 'Tiago');
+    console.log(response.rows[0]);
+  } catch (err) {
+    console.log(err.stack);
+  }
+
+}
+
+async function deleteUserValid() {
+  try {
+    console.log('Delete user');
+    console.log('Valid attempt');
+    const userID = await query('getUserID', 'Tiago');
+    await query('removeAccount', [userID.account_id, 'Tiago']);
+    const response = await query('searchAccountName', 'Tiago');
+    console.log(response.rows[0]);
+  } catch (err) {
+    console.log(err.stack);
+  }
+
+}
+
+async function deleteUserInvalid() {
+  try {
+    console.log('Delete user');
+    console.log('invalid attempt');
+    await query('removeAccount', ['1', 'Tiago']);
+    const response = await query('searchAccountName', 'Tiago');
+    console.log(response.rows[0]);
+  } catch (err) {
+    console.log(err.stack);
+  }
+
+}
+
+async function searchRecipeNameValid() {
+  try {
+    console.log('Search recipe by name');
+    console.log('Valid attempt');
+    const response = await query('searchRecipeName','hummus');
+    console.log(response.rows);
+  } catch (err) {
+    console.log(err.stack);
+  }
+
+}
+
+async function searchRecipeNameInvalid() {
+  try {
+    console.log('Invalid attempt');
+    const response = await query('searchRecipeName','KFC');
+    console.log(response.rows);
+  } catch (err) {
+    console.log(err.stack);
+  }
+}
+
+async function searchRecipeIngredientValid() {
+  try {
+    console.log('Search recipe by ingredient');
+    console.log('valid attempt');
+    const response = await query('searchRecipeIngredients', 'onion');
+    console.log(response.rows);
+  } catch (err) {
+    console.log(err.stack);
+  }
+}
+
+async function searchRecipeIngredientInvalid() {
+  try {
+    console.log('invalid attempt');
+    const response = await query('searchRecipeIngredients', 'beans');
+    console.log(response.rows);
+  } catch (err) {
+    console.log(err.stack);
+  }
+}
+
+async function scheduleRecipeValid(){
+  try {
+    console.log('Schedule recipe');
+    console.log('valid attempt');
+    const response = await query('scheduleRecipe', ['1', '1', '2020-05-01 10:00:00']);
+    console.log(response.rows);
+  } catch (err) {
+    console.log(err.stack);
+  }
+}
+
+async function scheduleRecipeInvalid() {
+  try {
+    console.log('invalid attempt');
+    const response = await query('scheduleRecipe', ['1', '5', '2020-06-05 10:00:00']);
+    console.log(response.rows);
+  } catch (err) {
+    console.log(err.stack);
+  }
+}
+
+async function test() {
+  const testFunctions = [
+    getUserWithValidAccName,
+    getUserWithInvalidAccName,
+    createAccountValid,
+    createAccountDuplicate,
+    deleteUserValid,
+    deleteUserInvalid,
+    searchRecipeNameValid,
+    searchRecipeNameInvalid,
+    searchRecipeIngredientValid,
+    searchRecipeIngredientInvalid,
+    scheduleRecipeValid,
+    scheduleRecipeInvalid
+  ];
+
+  for (const func of testFunctions) {
+    try {
+      await func.call();
+    } catch (err) {
+      console.log(err.stack);
+    }
+  }
+  pool.end();
+
 }
 
 
