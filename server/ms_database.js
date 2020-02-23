@@ -24,7 +24,8 @@ const queryDictionary = {
                             'left join recipe_ingredient b on a.recipe_id = b.recipe_id ' +
                             'left join ingredient c on b.ingredient_id = c.ingredient_id ' +
                             'where ingredient_name similar to $1',
-  scheduleRecipe: 'INSERT INTO account_recipe (account_id, recipe_id, scheduled_time) values($1, $2, $3)'
+  scheduleRecipe: 'INSERT INTO account_recipe (account_id, recipe_id, scheduled_time) values($1, $2, $3)',
+  getUsers: 'TABLE account'
 };
 
 async function query(queryFlag, parameters) {
