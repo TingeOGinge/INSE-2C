@@ -29,7 +29,9 @@ const queryDictionary = {
 };
 
 async function query(queryFlag, parameters) {
-  if (!Array.isArray(parameters)) parameters = [parameters];
+  if (!parameters) parameters = [];
+  else if (!Array.isArray(parameters)) parameters = [parameters];
+  
   if (queryFlag === 'searchByIngredients') parameters = `%(${parameters.join('|')})%`;
 
   const client = await pool.connect();
