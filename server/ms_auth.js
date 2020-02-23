@@ -3,8 +3,7 @@ const bcrypt = require('bcrypt');
 const fs = require('fs');
 const path = require('path');
 const PRIVATE_KEY = fs.readFileSync(path.join(__dirname, 'private.key'), 'utf-8');
-const {users} = require('./ms_account.js');
-const query = require('./ms_database.js');
+const {query} = require('./ms_database');
 
 function extractToken(req) {
   const bearerHeader = req.headers['authorization'];
@@ -32,19 +31,26 @@ async function validateSession(req, res, next) {
 }
 
 async function validateLogin (req, res) {
-  const user = users.find(user => user.username === req.body.username);
-  if (user == null) {
-    res.sendStatus(404);
-  } else if (await bcrypt.compare(req.body.password, user.password)) {
-    res.status(200);
-    const token = generateToken({
-      username: user.username,
-      id: users.indexOf(user)
-    });
-    res.json({token});
-  } else {
-    res.sendStatus(403);
+  try {
+    const queryResponse = await query('searchAccountName', req.body.username);
+    const user = queryResponse.rows[0];
+    if (user == null) {
+      res.sendStatus(404);
+    } else if (await bcrypt.compare(req.body.password, user.account_password)) {
+      res.status(200);
+      const token = generateToken({
+        username: user.account_username,
+        id: user.account_id
+      });
+      res.json({token});
+    } else {
+      res.sendStatus(403);
+    }
+  } catch (err) {
+    console.log(err.stack);
+    res.sendStatus(500);
   }
+
 }
 
 function generateToken(data) {
