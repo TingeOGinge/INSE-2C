@@ -33,4 +33,14 @@ function retrieveUserSchedule(req, res) {
   res.json({schedule: user.scheduledRecipes, token: res.token});
 }
 
-module.exports = {registerUser, scheduleRecipe, retrieveUserSchedule};
+async function getUsers(req, res) {
+  try {
+    const queryResponse = await query('getUsers');
+    res.send(queryResponse.rows);
+  } catch (err) {
+    console.log(err.stack);
+    res.sendStatus(500);
+  }
+}
+
+module.exports = {registerUser, scheduleRecipe, retrieveUserSchedule, getUsers};
