@@ -2,6 +2,7 @@
 TO do for James
 add delete recipe from schedule,
 add search schedule (print schedule)
+seperate test functions into seperate test directory
 */
 
 const {Pool} = require('pg');
