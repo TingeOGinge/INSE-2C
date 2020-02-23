@@ -1,20 +1,13 @@
-// Users currently stored in local memory for testing purpose
-// Will integrate with EcoChef_DB when it is ready
-const users = [];
+const {query}  = require('./ms_database.js');
 
-function registerUser(req, res) {
-  const user = users.find(user => user.username === req.body.username);
-  if (user) {
-    return res.sendStatus(409);
-  } else {
-      const user = {
-        username: req.body.username,
-        password: req.body.password,
-        scheduledRecipes: []
-      };
-      users.push(user);
-      res.sendStatus(201);
-    }
+async function registerUser(req, res) {
+  try {
+    const queryResponse = await query('createAccount', [req.body.username, req.body.password]);
+    (queryResponse) ? res.sendStatus(201) : res.sendStatus(409);
+  } catch (err) {
+    console.log(err.stack);
+    res.sendStatus(500);
+  }
 }
 
 function scheduleRecipe(req, res) {
@@ -40,4 +33,4 @@ function retrieveUserSchedule(req, res) {
   res.json({schedule: user.scheduledRecipes, token: res.token});
 }
 
-module.exports = {users, registerUser, scheduleRecipe, retrieveUserSchedule};
+module.exports = {registerUser, scheduleRecipe, retrieveUserSchedule};
