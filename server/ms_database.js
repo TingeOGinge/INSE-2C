@@ -34,13 +34,10 @@ async function query(queryFlag, parameters) {
   const client = await pool.connect();
   try {
     const queryString = queryDictionary[queryFlag];
-    if (queryString) {
-      const res = await client.query(queryString, parameters);
-      return res;
-    } else {
-        throw new Error('queryFlag not recognised');
-    }
-  } catch (err) {
+    if (!queryString) throw new Error('queryFlag not recognised');
+    const res = await client.query(queryString, parameters);
+    return res;
+    } catch (err) {
     console.log(err.stack);
   } finally {
     client.release();
@@ -227,5 +224,5 @@ async function test() {
 
 
 
-test();
+// test();
 module.exports = {query};
