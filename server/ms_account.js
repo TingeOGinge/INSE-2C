@@ -28,9 +28,15 @@ function checkScheduleConflict(schedule, proposedTime) {
   return !(conflict === undefined);
 }
 
-function retrieveUserSchedule(req, res) {
-  const user = users.find(user => user.username === req.body.tokenData.username);
-  res.json({schedule: user.scheduledRecipes, token: res.token});
+async function retrieveUserSchedule(req, res) {
+  try {
+    console.log(req.tokenPayload);
+    const queryResponse = await query('getUserSchedule', req.tokenPayload.account_id);
+    (queryResponse.rows.length > 0) ? res.json(queryResponse.rows) : res.sendStatus(404);
+  } catch (err) {
+    console.log(err.stack);
+    res.sendStatus(500);
+  }
 }
 
 async function getUsers(req, res) {
