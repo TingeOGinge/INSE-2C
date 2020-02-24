@@ -30,8 +30,9 @@ const queryDictionary = {
   getUsers: 'TABLE account',
   getUserSchedule: 'SELECT recipe_name, scheduled_time, recipe_cooking_time, recipe_serving_size, recipe_calories, recipe_method FROM' +
                     'recipe a' +
-                    'LEFT JOIN account_recipe b ON a.recipe_id = b.recipe_id',
-  deleteFromSchedule: 'DELETE from account_recipe WHERE account_id = $1 and recipe_id = $2 and scheduled_time = $3'
+                    'LEFT JOIN account_recipe b ON a.recipe_id = b.recipe_id' +
+                    'WHERE account_id = $1',
+  deleteFromSchedule: 'DELETE from account_recipe WHERE account_id = $1 AND recipe_id = $2 AND scheduled_time = $3'
 
 };
 
