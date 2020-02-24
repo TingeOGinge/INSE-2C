@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const fs = require('fs');
 const path = require('path');
 const PRIVATE_KEY = fs.readFileSync(path.join(__dirname, 'private.key'), 'utf-8');
-const {query} = require('./ms_database');
+const {query} = require('./ms_database.js');
 
 function extractToken(req) {
   const bearerHeader = req.headers['authorization'];
@@ -23,7 +23,8 @@ async function validateSession(req, res, next) {
           err
         });
       } else {
-        req.body.tokenData = payload.data;
+        req.tokenPayload = payload.data;
+        res.token = generateToken(payload.data);
         next();
       }
     });
@@ -39,8 +40,8 @@ async function validateLogin (req, res) {
     } else if (await bcrypt.compare(req.body.password, user.account_password)) {
       res.status(200);
       const token = generateToken({
-        username: user.account_username,
-        id: user.account_id
+        account_username: user.account_username,
+        account_id: user.account_id
       });
       res.json({token});
     } else {
