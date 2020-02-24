@@ -1,8 +1,9 @@
 /*
 TO do for James
-add delete recipe from schedule,
-add search schedule (print schedule)
-seperate test functions into seperate test directory
+[ ] add delete recipe from schedule,
+[x] add search schedule (print schedule)
+[ ] seperate test functions into seperate test directory
+[ ] alter account_recipe table to create composite key from (account_id, recipe_id, scheduled_time)
 */
 
 const {Pool} = require('pg');
@@ -26,13 +27,17 @@ const queryDictionary = {
                             'left join ingredient c on b.ingredient_id = c.ingredient_id ' +
                             'where ingredient_name similar to $1',
   scheduleRecipe: 'INSERT INTO account_recipe (account_id, recipe_id, scheduled_time) values($1, $2, $3)',
-  getUsers: 'TABLE account'
+  getUsers: 'TABLE account',
+  getUserSchedule: 'select recipe_name, scheduled_time, recipe_cooking_time, recipe_serving_size, recipe_calories, recipe_method   from' +
+                    'recipe a' +
+                    'left join account_recipe b on a.recipe_id = b.recipe_id' +
+                    'where b.account_id = $1'
 };
 
 async function query(queryFlag, parameters) {
   if (!parameters) parameters = [];
   else if (!Array.isArray(parameters)) parameters = [parameters];
-  
+
   if (queryFlag === 'searchByIngredients') parameters = `%(${parameters.join('|')})%`;
 
   const client = await pool.connect();
