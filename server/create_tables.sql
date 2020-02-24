@@ -1,4 +1,6 @@
 create database ecochefdb;
+create user myuser with encrytped password 'inse2c';
+grant all privileges on database echochefdb to myuser;
 \c ecochefdb
 
 create table ingredient (
