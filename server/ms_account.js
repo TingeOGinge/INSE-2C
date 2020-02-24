@@ -40,7 +40,7 @@ async function retrieveUserSchedule(req, res) {
 async function getUsers(req, res) {
   try {
     const result = await query('getUsers');
-    res.send(result.rows);
+    (result) ? res.send(result.rows) : res.sendStatus(404);
   } catch (err) {
     console.log(err.stack);
     res.sendStatus(500);
