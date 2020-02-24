@@ -1,7 +1,8 @@
 create database ecochefdb;
-create user myuser with encrytped password 'inse2c';
-grant all privileges on database echochefdb to myuser;
+create user myuser with encrypted password 'inse2c';
 \c ecochefdb
+grant all privileges on all tables in schema public to myuser;
+
 
 create table ingredient (
 ingredient_id serial primary key,
