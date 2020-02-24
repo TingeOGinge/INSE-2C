@@ -23,10 +23,10 @@ insert into ingredient (ingredient_name)
 values ('mozzarella');
 
 insert into recipe (recipe_name, recipe_cooking_time, recipe_method, recipe_serving_size, recipe_calories)
-values ('hummus', 5, ARRAY ["add them all together", "stir"], 1, 500);
+values ('hummus', 5, ARRAY ['add them all together', 'stir'], 1, 500);
 
 insert into recipe (recipe_name, recipe_cooking_time, recipe_method, recipe_serving_size, recipe_calories)
-values ('gnocchi pastabake', 15, ARRAY ["fry onion", "simmer tomatoes & red pepper", "boil gnocchi and add mozzarella"], 1, 700);
+values ('gnocchi pastabake', 15, ARRAY ['fry onion', 'simmer tomatoes & red pepper', 'boil gnocchi and add mozzarella'], 1, 700);
 
 insert into recipe_ingredient (recipe_id, ingredient_id)
 values ('1', '1');
