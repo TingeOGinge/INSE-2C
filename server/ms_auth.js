@@ -33,8 +33,8 @@ async function validateSession(req, res, next) {
 
 async function validateLogin (req, res) {
   try {
-    const queryResponse = await query('searchAccountName', req.body.username);
-    const user = queryResponse.rows[0];
+    const result = await query('searchAccountName', req.body.username);
+    const user = result.rows[0];
     if (user == null) {
       res.sendStatus(404);
     } else if (await bcrypt.compare(req.body.password, user.account_password)) {
