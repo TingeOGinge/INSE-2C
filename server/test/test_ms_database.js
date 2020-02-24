@@ -1,5 +1,4 @@
 const {query} = require('../ms_database.js');
-const {Pool} = require('pg');
 
 const TIMESTAMP = new Date();
 
@@ -166,9 +165,9 @@ async function deleteFromScheduleValid() {
     console.log('Delete From Schedule');
     console.log('Valid attempt');
     const response = await query('deleteFromSchedule', ['2', '2', TIMESTAMP]);
-    console.log(response.rows)
+    console.log(response.rows);
   } catch (err) {
-    console.log(err.stack)
+    console.log(err.stack);
   }
 }
 
@@ -177,9 +176,9 @@ async function deleteFromScheduleInvalid() {
     console.log('Delete From Schedule');
     console.log('Invalid attempt');
     const response = await query('deleteFromSchedule', ['2', '2', '2020-06-05 10:00:00']);
-    console.log(response.rows)
+    console.log(response.rows);
   } catch (err) {
-    console.log(err.stack)
+    console.log(err.stack);
   }
 }
 
