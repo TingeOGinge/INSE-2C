@@ -1,6 +1,6 @@
 /*
 TO do for James
-[ ] add delete recipe from schedule,
+[x] add delete recipe from schedule,
 [x] add search schedule (print schedule)
 [ ] seperate test functions into seperate test directory
 [ ] alter account_recipe table to create composite key from (account_id, recipe_id, scheduled_time)
@@ -28,10 +28,11 @@ const queryDictionary = {
                             'where ingredient_name similar to $1',
   scheduleRecipe: 'INSERT INTO account_recipe (account_id, recipe_id, scheduled_time) values($1, $2, $3)',
   getUsers: 'TABLE account',
-  getUserSchedule: 'select recipe_name, scheduled_time, recipe_cooking_time, recipe_serving_size, recipe_calories, recipe_method   from' +
+  getUserSchedule: 'SELECT recipe_name, scheduled_time, recipe_cooking_time, recipe_serving_size, recipe_calories, recipe_method FROM' +
                     'recipe a' +
-                    'left join account_recipe b on a.recipe_id = b.recipe_id' +
-                    'where b.account_id = $1'
+                    'LEFT JOIN account_recipe b ON a.recipe_id = b.recipe_id',
+  deleteFromSchedule: 'DELETE from account_recipe WHERE account_id = $1 and recipe_id = $2 and scheduled_time = $3'
+
 };
 
 async function query(queryFlag, parameters) {
