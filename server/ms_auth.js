@@ -67,7 +67,7 @@ async function validateLogin (req, res) {
 
 // Uses the private RSA key to sign a JWT with a 20 minute expiration
 function generateToken(data) {
-  return jwt.sign({data}, PRIVATE_KEY, {algorithm: 'RS256', expiresIn: '20m'});
+  return jwt.sign({data}, PRIVATE_KEY, {algorithm: 'RS256', expiresIn: '1d'});
 }
 
 // Uses a blowfish cypher encryption method to secure the passwords that will be stored
