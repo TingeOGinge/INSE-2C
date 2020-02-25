@@ -51,7 +51,8 @@ async function validateLogin (req, res) {
       res.status(200);
       const token = generateToken({
         account_username: user.account_username,
-        account_id: user.account_id
+        account_id: user.account_id,
+        admin_status: user.admin_status
       });
       res.json({token});
     } else {
