@@ -5,11 +5,15 @@ const path = require('path');
 const PRIVATE_KEY = fs.readFileSync(path.join(__dirname, 'private.key'), 'utf-8');
 const {query} = require('./ms_database.js');
 
+// Returns either the provided JWT or undefined
 function extractToken(req) {
   const bearerHeader = req.headers['authorization'];
   return (bearerHeader != null) ? bearerHeader.split(' ')[1] : undefined;
 }
 
+// If a JWT is successfully extracted from the Authorization header it is verified
+// Successful verifcation envokes next();
+// Invalid tokens return a 404 status and the error message in JSON format
 async function validateSession(req, res, next) {
   req.token = extractToken(req);
   if (req.token === undefined) {
@@ -31,6 +35,12 @@ async function validateSession(req, res, next) {
   }
 }
 
+// Searches for user using name provided in request
+// If user exists bcrypt will compare the plain text password and the hashed one
+// Successful login returns a JWT to validate future requests
+// If user doesn't exist 404 Not Found is returned
+// If password is wrong 403 Forbidden is returned
+// If the query fails a 500 Internal Server Error is returned
 async function validateLogin (req, res) {
   try {
     const result = await query('searchAccountName', req.body.username);
@@ -54,10 +64,13 @@ async function validateLogin (req, res) {
 
 }
 
+// Uses the private RSA key to sign a JWT with a 20 minute expiration
 function generateToken(data) {
   return jwt.sign({data}, PRIVATE_KEY, {algorithm: 'RS256', expiresIn: '20m'});
 }
 
+// Uses a blowfish cypher encryption method to secure the passwords that will be stored
+// Salt is left at the default of ten to provide a middle ground between security and speed
 async function hashPassword(req, res, next) {
   req.body.password = await bcrypt.hash(req.body.password, 10);
   next();

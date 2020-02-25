@@ -1,11 +1,3 @@
-/*
-TO do for James
-[x] add delete recipe from schedule,
-[x] add search schedule (print schedule)
-[x] seperate test functions into seperate test directory
-[x] alter account_recipe table to create composite key from (account_id, recipe_id, scheduled_time)
-*/
-
 const {Pool} = require('pg');
 
 const connectionString = 'postgresql://myuser:inse2c@localhost:5432/ecochefdb';

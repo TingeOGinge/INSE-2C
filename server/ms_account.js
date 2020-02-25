@@ -1,5 +1,8 @@
 const {query}  = require('./ms_database.js');
 
+// Attempts to register a user
+// Undefined response from the query indicates the username has already been registered
+// If the query fails a 500 Internal Server Error is returned
 async function registerUser(req, res) {
   try {
     const params = [req.body.username, req.body.password];
@@ -11,6 +14,9 @@ async function registerUser(req, res) {
   }
 }
 
+// Attempts to schedule a recipe at a specific time (ISO 8601 format)
+// User cannot schedule the a recipes twice at the same time, 409 returned if attempted
+// 500 Internal Server Error returned if query fails
 async function scheduleRecipe(req, res) {
   try {
     const params = [
@@ -27,6 +33,9 @@ async function scheduleRecipe(req, res) {
 
 }
 
+// Retrieves recipe information from user's schedule
+// 404 Not found returned if user has not scheduled any recipes or user does not exist
+// 500 Internal Server Error if query fails
 async function retrieveUserSchedule(req, res) {
   try {
     const result = await query('getUserSchedule', req.tokenPayload.account_id);
@@ -37,6 +46,11 @@ async function retrieveUserSchedule(req, res) {
   }
 }
 
+
+//------------------------------------------------------------------------------
+// Test function to retrieve all information on a user
+// DELETE BEFORE RELEASING PROTOTYPE \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ 
+//------------------------------------------------------------------------------
 async function getUsers(req, res) {
   try {
     const result = await query('getUsers');
@@ -46,5 +60,9 @@ async function getUsers(req, res) {
     res.sendStatus(500);
   }
 }
+//------------------------------------------------------------------------------
+// Test function to retrieve all information on a user ^^^^^^^^^^^^^^^^^^^^^^^^
+// DELETE BEFORE RELEASING PROTOTYPE
+//------------------------------------------------------------------------------
 
 module.exports = {registerUser, scheduleRecipe, retrieveUserSchedule, getUsers};
