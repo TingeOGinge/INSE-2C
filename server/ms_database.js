@@ -76,4 +76,11 @@ async function query(queryFlag, parameters) {
   }
 }
 
-module.exports = {query};
+function poolEnd() {
+  try {
+  pool.end().then(() => console.log('Pool has ended'))
+  } catch (err) {
+  console.log(err.stack);
+  }
+}
+module.exports = {query, poolEnd};

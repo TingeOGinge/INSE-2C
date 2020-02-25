@@ -1,4 +1,4 @@
-const {query} = require('../ms_database.js');
+const {query, poolEnd} = require('../ms_database.js');
 
 const TIMESTAMP = new Date();
 
@@ -209,6 +209,8 @@ async function test() {
       console.log(err.stack);
     }
   }
+
 }
 
 test();
+poolEnd();
