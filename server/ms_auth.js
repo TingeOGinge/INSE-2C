@@ -41,6 +41,7 @@ async function validateSession(req, res, next) {
 // If user doesn't exist 404 Not Found is returned
 // If password is wrong 403 Forbidden is returned
 // If the query fails a 500 Internal Server Error is returned
+// req.body must include username and password
 async function validateLogin (req, res) {
   try {
     const result = await query('searchAccountName', req.body.username);

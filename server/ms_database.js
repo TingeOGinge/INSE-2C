@@ -1,3 +1,26 @@
+/*
+Example query call from external module:
+
+const {query} = require('PATH TO ms_database')
+async function foo {
+  try {
+    const result = await query ('QUERY TYPE', [parameter values]);
+    // Handle successful result here
+  } catch (err) {
+    // Handle error here
+  }
+}
+
+  If query() is successful a result object will be returned with the following structure
+  result = {
+    rows: [] -                    Contains the return results from the database
+    rowCount: int -               Contains the number of rows (useful for DELETE queries etc)
+    command: string -             Contains the type of query executed (SELECT, INSERT, etc)
+    fields: [] -                  Contains the name and dataTypeID of each field
+}
+
+  If query() fails then 'undefined' is returned
+*/
 const {Pool} = require('pg');
 
 const connectionString = 'postgresql://myuser:inse2c@localhost:5432/ecochefdb';
@@ -7,6 +30,7 @@ const pool = new Pool({
   connectionString
 });
 
+// Query dictionary allows for additional security by not allowing a direct input into the database
 const queryDictionary = {
   searchAccountName: 'SELECT * FROM account WHERE account_username = $1',
   getUserID: 'SELECT account_id FROM account WHERE account_username = $1',
