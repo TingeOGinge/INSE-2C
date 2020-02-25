@@ -35,7 +35,7 @@ async function scheduleRecipe(req, res) {
 // Attempts to delete a recipe scheduled for a specific time
 // Successful queries return 200
 // Unsuccessful queries for 404 Not found
-// Failed queries return 500 Internal Server Error 
+// Failed queries return 500 Internal Server Error
 async function deleteFromSchedule(req, res) {
   try {
     const params = [
@@ -72,8 +72,12 @@ async function retrieveUserSchedule(req, res) {
 //------------------------------------------------------------------------------
 async function getUsers(req, res) {
   try {
-    const result = await query('getUsers');
-    (result) ? res.send(result.rows) : res.sendStatus(404);
+    if (req.tokenPayload.admin_status) {
+      const result = await query('getUsers');
+      (result) ? res.send(result.rows) : res.sendStatus(404);
+    } else {
+      res.sendStatus(404);
+    }
   } catch (err) {
     console.log(err.stack);
     res.sendStatus(500);

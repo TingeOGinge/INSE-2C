@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, '..', 'front-end')));
 app.use(cors());
 
 // TEST FUNCTION NOT INTENDED FOR PRODUCTION
-app.get('/api/getUsers', getUsers);
+app.get('/api/getUsers', validateSession, getUsers);
 
 // HTTP GET Requests
 app.get('/api/getUserSchedule', validateSession, retrieveUserSchedule);
