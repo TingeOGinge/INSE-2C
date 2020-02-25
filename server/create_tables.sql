@@ -29,6 +29,7 @@ create table account (
 account_id serial primary key,
 account_username varchar(32) not null,
 account_password varchar(100) not null,
+admin_status boolean DEFAULT false not null,
 UNIQUE(account_username)
 );
 
