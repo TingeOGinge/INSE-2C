@@ -3,6 +3,7 @@ const {query}  = require('./ms_database.js');
 // Attempts to register a user
 // Undefined response from the query indicates the username has already been registered
 // If the query fails a 500 Internal Server Error is returned
+// req.body must include username and password
 async function registerUser(req, res) {
   try {
     const params = [req.body.username, req.body.password];
@@ -17,6 +18,7 @@ async function registerUser(req, res) {
 // Attempts to schedule a recipe at a specific time (ISO 8601 format)
 // User cannot schedule the a recipes twice at the same time, 409 returned if attempted
 // 500 Internal Server Error returned if query fails
+// req.body must include recipe_id and scheduled_time
 async function scheduleRecipe(req, res) {
   try {
     const params = [
@@ -36,6 +38,7 @@ async function scheduleRecipe(req, res) {
 // Successful queries return 200
 // Unsuccessful queries for 404 Not found
 // Failed queries return 500 Internal Server Error
+// req.body must contain recipe_id and scheduled time (ISO 8601)
 async function deleteFromSchedule(req, res) {
   try {
     const params = [

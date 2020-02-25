@@ -3,11 +3,6 @@
       username,
       password,
     }
-
-    scheduleRecipe input structure is as follows:
-    {
-
-    }
 *   Responses will be thrown if there is an error
 */
 
