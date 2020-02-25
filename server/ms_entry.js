@@ -3,7 +3,12 @@ const app = express();
 const path = require('path');
 const cors = require('cors');
 const {validateLogin, validateSession, hashPassword} = require('./ms_auth.js');
-const {getUsers, registerUser, scheduleRecipe, retrieveUserSchedule} = require('./ms_account.js');
+const {
+  getUsers,
+  registerUser,
+  scheduleRecipe,
+  retrieveUserSchedule,
+  deleteFromSchedule } = require('./ms_account.js');
 
 // Bind middleware to app()
 app.use(express.json());
@@ -21,6 +26,7 @@ app.get('/api/getUserSchedule', validateSession, retrieveUserSchedule);
 app.post('/api/registerUser', hashPassword, registerUser);
 app.post('/api/login', validateLogin);
 app.post('/api/scheduleRecipe', validateSession, scheduleRecipe);
+app.post('/api/deleteFromSchedule', validateSession, deleteFromSchedule);
 
 
 // Start server on localhost:5000
