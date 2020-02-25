@@ -30,7 +30,26 @@ async function scheduleRecipe(req, res) {
     console.log(err.stack);
     res.sendStatus(500);
   }
+}
 
+// Attempts to delete a recipe scheduled for a specific time
+// Successful queries return 200
+// Unsuccessful queries for 404 Not found
+// Failed queries return 500 Internal Server Error 
+async function deleteFromSchedule(req, res) {
+  try {
+    const params = [
+      req.tokenPayload.account_id,
+      req.body.recipe_id,
+      req.body.scheduled_time
+    ];
+    const result = await query('deleteFromSchedule', params);
+    console.log(result);
+    (result.rowCount > 0) ? res.sendStatus(200) : res.sendStatus(404);
+  } catch (err) {
+    console.log(err.stack);
+    res.sendStatus(500);
+  }
 }
 
 // Retrieves recipe information from user's schedule
@@ -49,7 +68,7 @@ async function retrieveUserSchedule(req, res) {
 
 //------------------------------------------------------------------------------
 // Test function to retrieve all information on a user
-// DELETE BEFORE RELEASING PROTOTYPE \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ 
+// DELETE BEFORE RELEASING PROTOTYPE \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
 //------------------------------------------------------------------------------
 async function getUsers(req, res) {
   try {
@@ -65,4 +84,10 @@ async function getUsers(req, res) {
 // DELETE BEFORE RELEASING PROTOTYPE
 //------------------------------------------------------------------------------
 
-module.exports = {registerUser, scheduleRecipe, retrieveUserSchedule, getUsers};
+module.exports = {
+  registerUser,
+  scheduleRecipe,
+  retrieveUserSchedule,
+  getUsers,
+  deleteFromSchedule
+};
