@@ -70,7 +70,7 @@ async function query(queryFlag, parameters) {
     const res = await client.query(queryString, parameters);
     return res;
     } catch (err) {
-    console.log(err.stack);
+      console.log(err.stack);
   } finally {
     client.release();
   }
@@ -78,7 +78,7 @@ async function query(queryFlag, parameters) {
 
 function poolEnd() {
   try {
-  pool.end().then(() => console.log('Pool has ended'))
+  pool.end().then(() => console.log('Pool has ended'));
   } catch (err) {
   console.log(err.stack);
   }
