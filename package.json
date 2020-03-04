@@ -19,6 +19,7 @@
   "dependencies": {
     "bcrypt": "^3.0.8",
     "cors": "^2.8.5",
+    "csv-parse": "^4.8.6",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
