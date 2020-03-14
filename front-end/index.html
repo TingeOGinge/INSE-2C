@@ -1,6 +1,6 @@
 <!doctype html>
-<meta charset=utf-8>
-<link rel="stylesheet" title="Homepage" href="style.css">
+<meta charset=utf-8 name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" title="Ecochef" href="style.css">
 <script src="client-side.js"></script>
 <title>Welcome to Ecochef</title>
 
@@ -8,9 +8,9 @@
   <body>
     <nav class="navbar">
 
-      <a class="navbar_home" aria-label="Homepage"><h1>Ecochef</h1></a>
-      <a href="login.html" aria-label="Login" class="navbar_login">LOGIN</a>
-      <a href="register.html" aria-label="Register" class="navbar_register">REGISTER</a>
+      <a class="navbar_home">Ecochef</a>
+      <a href="login.html" aria-label="Login" class="navbar_loginreg" id=btnLogin>LOGIN</a>
+      <a href="register.html" aria-label="Register" class="navbar_loginreg" id="btnRegister">REGISTER</a>
     </nav>
 
     <aside id=detail>
@@ -18,15 +18,20 @@
       <p>Alternatively, if you already have something in mind you can search by recipe</p>
     </aside>
 
-    <input id=search type=text autofocus autocomplete=off>
-    <input id=send type=submit value=Search>
+    <div id=searching>
+      <input id=search type=text autofocus autocomplete=off>
+      <input id=send type=submit value=Search>
+    </div>
 
+    <aside id=detail>
+      <h3>What you eat is personal. Set your preferences here.</h3>
+    </aside>
 
-    <ul id=messagelist>
-      <li>Cooking Time</li>
-      <li>Calories</li>
-      <li>Serving Size</li>
-      <li>Dietary Restrictions</li>
+    <ul id="usrSelectionAll">
+      <img id="usrSelection" src="media/time.jpg">
+      <img id="usrSelection" src="media/calories.jpg">
+      <img id="usrSelection" src="media/serving.jpg">
+      <img id="usrSelection" src="media/diet.jpg">
     </ul>
 
 

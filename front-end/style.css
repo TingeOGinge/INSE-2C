@@ -11,7 +11,7 @@
   --bginput: #FEFEFE;
   --bghi: rgba(0,100,200,0.5);
   --fg: rgba(0,0,0,1);
-  --col1: rgba(0,100,200,1);
+  --col1: #18A0FB;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -31,31 +31,21 @@
   transition: background var(--slow) linear;
 }
 
+@media screen and (min-width: 800px) {
+  .container {
+    margin: 1em;
+  }
+}
+
 body {
   background: var(--bg);
   color: var(--fg);
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto auto 1fr auto;
-  grid-template-areas: "title" "input" "messages" "aside";
   width: 100vw;
   height: 100vh;
 }
 
 body>* {
   padding: var(--pad);
-}
-
-h1 {
-  grid-area: title;
-}
-
-header {
-  grid-area: input;
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  grid-template-areas: "msg ava btn";
-  width: 100vw;
 }
 
 a,
@@ -71,18 +61,62 @@ header * {
   padding: var(--pad);
 }
 
+.navbar_loginreg{
+    text-decoration: none;
+    text-align: center;
+    font-size: 75%;
+    display: inline-block; padding: 2px 8px;
+    border-style: solid; border-width: 1px ;
+    border-radius: 6px;
+    float: right;
+    margin-right: 1em;
+}
+
+#btnRegister{
+  background: #18A0FB;
+  color: #FFFFFF;
+}
+
+#btnLogin{
+  background: #FFFFFF;
+  color: #18A0FB;
+  }
+
+#detail{
+  margin-top: 5%;
+  margin-left: 10%;
+  margin-right: 10%
+}
+
+#detail p{
+  margin-top: 4%;
+}
+
+#searching{
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
 #search{
-  max-height: 3em;
-  margin-right: 4em;
-  margin-left: 4em;
-  background: var(--bginput);
-  color: var(--fg);
-  caret-color: var(--col1);
-  border: solid thin grey;
+  height: 3em;
+  width: 100%;
+  border: solid thin #18A0FB;
+  border-radius: 2px;
 }
 
 #send{
   max-height: 3em;
-  margin-right: 4em;
-  margin-left: 4em;
+  float: right;
+}
+
+#usrSelection{
+  width: 18%;
+  margin-top: 5%;
+  margin-right: 3%;
+  border-style: solid; border-width: 1px ;
+  max-width: 150px;
+}
+
+#usrSelectionAll{
+  margin-left: 10%;
 }
