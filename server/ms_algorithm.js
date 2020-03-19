@@ -34,14 +34,34 @@ function filterRecipe(recipe, searchObj) {
   return true;
 }
 
+function prioritySort(recipes, parameters) {
+  for (const recipe of recipes) {
+    recipe.score = parameters.length * 2;
+
+    for (const item of parameters) {
+      if (recipe.recipe_name.includes(item)) recipe.score -= 1;
+
+      for (const ingredient of recipe.recipe_ingredients) {
+        if (ingredient.includes(item)) {
+          recipe.score -= 1;
+          break;
+        }
+      }
+    }
+  }
+  return recipes.sort((a, b) => a.score - b.score);
+}
+
 async function search(req, res) {
   try {
     const searchObj = req.body;
-    let recipes = await collectRecipes(searchObj, res);
+    const recipes = await collectRecipes(searchObj, res);
 
     if (recipes.length > 0) {
-      recipes = recipes.filter(recipe => filterRecipe(recipe, searchObj));
-      res.json(recipes);
+      const retval = recipes.filter(recipe => filterRecipe(recipe, searchObj));
+      if (retval.length === 0) res.sendStatus(404);
+      prioritySort(retval, searchObj.parameters);
+      res.json(retval);
     } else {
       res.sendStatus(404);
     }
