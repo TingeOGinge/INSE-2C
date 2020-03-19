@@ -54,7 +54,20 @@ const queryDictionary = {
 					'GROUP BY recipe_name, scheduled_time, recipe_cooking_time, recipe_serving_size, ' +
 					'recipe_calories, recipe_method ' +
           'ORDER BY scheduled_time',
-  deleteFromSchedule: 'DELETE from account_recipe WHERE account_id = $1 AND recipe_id = $2 AND scheduled_time = $3'
+  deleteFromSchedule: 'DELETE from account_recipe WHERE account_id = $1 AND recipe_id = $2 AND scheduled_time = $3',
+  mainSearch: 'SELECT ' +
+                'DISTINCT a.recipe_id, ' +
+                'a.recipe_name, ' +
+                'a.recipe_cooking_time, ' +
+                'a.recipe_method, ' +
+                'a.recipe_ingredients, ' +
+                'a.recipe_serving_size, ' +
+                'a.recipe_calories ' +
+              'FROM recipe a ' +
+                'LEFT JOIN recipe_ingredient b ON a.recipe_id = b.recipe_id ' +
+                'LEFT JOIN ingredient c on b.ingredient_id = c.ingredient_id ' +
+                'WHERE c.ingredient_name SIMILAR TO $1 ' +
+                'OR a.recipe_name SIMILAR TO $1'
 };
 
 async function query(queryFlag, parameters) {
