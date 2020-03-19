@@ -11,9 +11,11 @@ async function collectRecipes(searchObj, res) {
 }
 
 function filterRecipe(recipe, searchObj) {
-  for (const restriction of searchObj.restrictions) {
-    if (!(recipe.dietary_restrictions.includes(restriction))) {
-      return false;
+  if (searchObj.restrictions) {
+    for (const restriction of searchObj.restrictions) {
+      if (!(recipe.dietary_restrictions.includes(restriction))) {
+        return false;
+      }
     }
   }
 
