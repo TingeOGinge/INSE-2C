@@ -74,8 +74,9 @@ async function query(queryFlag, parameters) {
   if (!parameters) parameters = [];
   else if (!Array.isArray(parameters)) parameters = [parameters];
 
-  if (queryFlag === 'searchRecipeIngredients' && parameters.length > 1) {
-    parameters = `%(${parameters.join('|')})%`;
+  if (['searchRecipeIngredients', 'mainSearch'].includes(queryFlag)) {
+    parameters = (parameters.length > 1) ? [`%(${parameters.join('|')})%`] :
+                                           [`%${parameters[0]}%`];
   }
 
   const client = await pool.connect();
