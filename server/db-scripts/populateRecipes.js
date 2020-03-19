@@ -12,7 +12,7 @@ const CSV_PARSE_OPTIONS = {
 function parseDataFile(filename) {
   const retval = [];
 
-  const file = fs.readFileSync(path.join(__dirname, '..', 'db-source-files', filename));
+  const file = fs.readFileSync(path.join(__dirname, '..', 'db-data', filename));
   const data = parse(file, CSV_PARSE_OPTIONS);
   retval.push(...data);
   return retval;
@@ -68,19 +68,17 @@ async function populateRecipes(recipes, client) {
 
         for (const ingredient of recipe.ingredients) {
           let ingredientIDResult = await client.query(queries.getIngredientID, [ingredient]);
+
           if (ingredientIDResult.rows.length > 0) {
             let ingredientID = ingredientIDResult.rows[0].ingredient_id;
             await client.query(queries.insertRecipeIngredient, [recipeID, ingredientID]);
-            console.log(ingredient + ' complete');
-          } else console.log('no ingredientID found - ' + ingredient);
+          }
         }
 
         for (const restriction of recipe.dietary_restrictions) {
-          let dietaryIDResult = await client.query(queries.getDietaryID, [restriction.diet_restriction_name]);
-          await client.query(queries.insertRecipeDietary, [restriction.diet_restriction_name]);
+          let dietaryIDResult = await client.query(queries.getDietaryID, [restriction]);
+          await client.query(queries.insertRecipeDietary, [recipeID, dietaryIDResult.rows[0].diet_restriction_id]);
         }
-
-        console.log('recipe insert complete - ' + recipe.name);
       }
     } catch (err) {
       console.log(err.stack);
@@ -99,17 +97,14 @@ async function populateDietaryRestrictions(data, client) {
 }
 
 async function main() {
-  const connectionString = 'postgresql://postgres:postgres@localhost:5432/ecochefdb2';
+  const connectionString = 'postgresql://postgres:postgres@localhost:5432/ecochefdb';
   const pool = new Pool({connectionString});
   const client = await pool.connect();
 
-  await populateIngredients(parseDataFile('ingredientCollection-v3.csv'), client);
-  await populateDietaryRestrictions(parseDataFile('dietaryCollection-v1.csv'), client);
-  const recipes = cleanData(parseDataFile('recipeCollection-v3.csv'));
+  await populateIngredients(parseDataFile('ingredientCollection.csv'), client);
+  await populateDietaryRestrictions(parseDataFile('dietaryCollection.csv'), client);
+  const recipes = cleanData(parseDataFile('recipeCollection.csv'));
   await populateRecipes(recipes, client);
-
-
-
 
   client.release();
   pool.end();
@@ -129,7 +124,8 @@ const queries = {
   insertIngredient: 'INSERT INTO ingredient(ingredient_name) values($1)',
   insertRecipeIngredient: 'INSERT INTO recipe_ingredient values($1, $2)',
   insertDietRestriciton: 'INSERT INTO dietary_restrictions(diet_restriction_name) values($1)',
-  insertRecipeDietary: 'INSERT INTO recipe_dietary values($1, $2)',
+  insertRecipeDietary: 'INSERT INTO recipe_dietary(recipe_id, diet_restriction_id) values($1, $2)',
   getIngredientID: 'SELECT ingredient_id from ingredient WHERE ingredient_name = $1',
   getRecipeID: 'SELECT recipe_id from recipe WHERE recipe_name = $1',
+  getDietaryID: 'SELECT diet_restriction_id FROM dietary_restrictions WHERE diet_restriction_name = $1'
 };
