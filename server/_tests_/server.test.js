@@ -20,8 +20,14 @@ describe("Test the server routes", () => {
   test("POST '/api/registerUser' with valid credentials", async () => {
     const response = await request(app).post('/api/registerUser')
                             .set('Content-Type', 'application/json')
-                            .send(`{"username": "${randomUsername}}", "password": "password"}`);
-    console.log(response.text);
+                            .send(`{"username": "${randomUsername}", "password": "password"}`);
     expect(response.statusCode).toBe(201);
+  });
+
+  test("POST '/api/registerUser' with same (now invalid) credentials", async () => {
+    const response = await request(app).post('/api/registerUser')
+                            .set('Content-Type', 'application/json')
+                            .send(`{"username": "${randomUsername}", "password": "password"}`);
+    expect(response.statusCode).toBe(409);
   });
 });
