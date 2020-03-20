@@ -61,7 +61,7 @@ header * {
   padding: var(--pad);
 }
 
-.navbar_loginreg{
+.btnStyle{
     text-decoration: none;
     text-align: center;
     font-size: 75%;
@@ -72,12 +72,12 @@ header * {
     margin-right: 1em;
 }
 
-#btnRegister{
+#btnBlue{
   background: #18A0FB;
   color: #FFFFFF;
 }
 
-#btnLogin{
+#btnWhite{
   background: #FFFFFF;
   color: #18A0FB;
   }
@@ -104,9 +104,19 @@ header * {
   border-radius: 2px;
 }
 
-#send{
+#search{
   max-height: 3em;
   float: right;
+  margin-top: 1em;
+  background: #18A0FB;
+  color: #FFFFFF;
+}
+
+#addIngredient{
+  margin-top: 1em;
+  background: #FFFFFF;
+  color: #18A0FB;
+  margin-right: 0em;
 }
 
 #usrSelection{
@@ -147,7 +157,8 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(5,160,185,1) 0%, rgba
   padding: 0 0 20px 0;
   border-bottom: 1px solid silver;
 #ingredient{
+  margin-top: 5%;
   margin-left: 10%;
   list-style-type: none;
-  font-size: 85%;
+  font-size: 105%;
 }
