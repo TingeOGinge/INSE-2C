@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const {poolEnd} = require(path.join(__dirname, '..', 'ms_database.js'));
 
 const randomUsername = crypto.randomBytes(10).toString('hex');
+const scheduledTime = new Date().toISOString();
 
 describe("Test the server routes", () => {
 
@@ -68,4 +69,63 @@ describe("Test the server routes", () => {
       .send(`{"username": "${randomUsername}", "password": "incorrect"}`);
     expect(response.statusCode).toBe(403);
   });
+
+  test("POST '/api/scheduleRecipe' with valid parameters", async () => {
+    const loginResponse = await request(app).post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send(`{"username": "${randomUsername}", "password": "password"}`);
+    expect(loginResponse.statusCode).toBe(200);
+
+    const response = await request(app).post('/api/scheduleRecipe')
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${loginResponse.body.token}`)
+      .send(`{"recipe_id": 2, "scheduled_time": "${scheduledTime}"}`);
+    expect(response.statusCode).toBe(200);
+  });
+
+  test("POST '/api/scheduleRecipe' with same (now invalid) parameters", async () => {
+    const loginResponse = await request(app).post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send(`{"username": "${randomUsername}", "password": "password"}`);
+    expect(loginResponse.statusCode).toBe(200);
+
+    const response = await request(app).post('/api/scheduleRecipe')
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${loginResponse.body.token}`)
+      .send(`{"recipe_id": 2, "scheduled_time": "${scheduledTime}"}`);
+    expect(response.statusCode).toBe(409);
+  });
+
+  test("POST '/api/scheduleRecipe' with invalid session credentials", async () => {
+    const loginResponse = await request(app).post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send(`{"username": "${randomUsername}", "password": "password"}`);
+    expect(loginResponse.statusCode).toBe(200);
+
+    const response = await request(app).post('/api/scheduleRecipe')
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${loginResponse.body.token}invalidstring`)
+      .send(`{"recipe_id": 2, "scheduled_time": "${scheduledTime}"}`);
+    expect(response.statusCode).toBe(401);
+  });
+
+  test("POST '/api/scheduleRecipe' with no session credentials", async () => {
+    const response = await request(app).post('/api/scheduleRecipe')
+      .set('Content-Type', 'application/json')
+      .send(`{"recipe_id": 2, "scheduled_time": "${scheduledTime}"}`);
+    expect(response.statusCode).toBe(404);
+  });
+
+  test("GET '/api/getUserSchedule' with valid session credentials", async () => {
+    const loginResponse = await request(app).post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send(`{"username": "${randomUsername}", "password": "password"}`);
+    expect(loginResponse.statusCode).toBe(200);
+
+    const response = await request(app).get('/api/getUserSchedule')
+      .set('Authorization', `Bearer ${loginResponse.body.token}`);
+    expect(response.statusCode).toBe(200);
+    expect(response.body.length > 0).toBe(true);
+  });
+
 });
