@@ -128,4 +128,20 @@ describe("Test the server routes", () => {
     expect(response.body.length > 0).toBe(true);
   });
 
+  test("GET '/api/getUserSchedule' with invalid session credentials", async () => {
+    const loginResponse = await request(app).post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send(`{"username": "${randomUsername}", "password": "password"}`);
+    expect(loginResponse.statusCode).toBe(200);
+
+    const response = await request(app).get('/api/getUserSchedule')
+      .set('Authorization', `Bearer ${loginResponse.body.token}invalidstring`);
+    expect(response.statusCode).toBe(401);
+  });
+
+  test("GET '/api/getUserSchedule' with no session credentials", async () => {
+    const response = await request(app).get('/api/getUserSchedule');
+    expect(response.statusCode).toBe(404);
+  });
+
 });
