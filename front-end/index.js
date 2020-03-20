@@ -1,4 +1,8 @@
-const el = {};
+import * as api from 'client-side.js';
+
+const el = {
+  ingredientArray: ['cabbage','cheese','milk']
+};
 
 /* adds ingredients to list below  */
 function addIngredienttoLI() {
@@ -23,14 +27,16 @@ function addIngredienttoLI() {
 
 /* handles what is done when the search button is pressed */
 
-// function searchHandler(){
-//     if (ingredientList != null){
-//       return ingredientList;
-//     }
-//     else{
-//       return el.searchBar.value;
-//     }
-// }
+async function searchHandler(){
+  if (el.ingredientArray.length > 0) {
+    try{
+      const response = await api.search(el.ingredientArray);
+      const searchResult = response.json();
+    } catch (response) {
+      window.console.log(err.stack);
+    }
+  }
+}
 
 /* handles all elements and stores them in 'el' class */
 function prepareHandles() {
@@ -43,7 +49,7 @@ function prepareHandles() {
 /* listens on all events */
 function addEventListeners() {
   el.ingredientButton.addEventListener('click', addIngredienttoLI);
-  // el.searchButton.addEventListener('click', searchHandler);
+  el.searchButton.addEventListener('click', searchHandler);
   el.searchBar.addEventListener('keyup', checkKeys);
 }
 
