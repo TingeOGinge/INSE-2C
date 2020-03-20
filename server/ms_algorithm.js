@@ -19,15 +19,10 @@ function filterRecipe(recipe, searchObj) {
     }
   }
 
-  if (searchObj.calories && recipe.recipe_calories > searchObj.calories) {
-    return false;
-  }
-
-  if (searchObj.serving && recipe.recipe_serving_size < searchObj.serving) {
-    return false;
-  }
-
-  if (searchObj.time && recipe.cooking_minutes > searchObj.time) {
+  if ((searchObj.calories && recipe.recipe_calories > searchObj.calories) ||
+      (searchObj.serving && recipe.recipe_serving_size < searchObj.serving) ||
+      (searchObj.time && recipe.cooking_minutes > searchObj.time))
+      {
     return false;
   }
 
