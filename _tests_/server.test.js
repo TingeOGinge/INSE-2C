@@ -1,8 +1,8 @@
 const request = require('supertest');
 const path = require('path');
-const app = require(path.join(__dirname, '..', 'ms_entry.js'));
+const app = require(path.join(__dirname, '..', 'server', 'ms_entry.js'));
 const crypto = require('crypto');
-const {poolEnd} = require(path.join(__dirname, '..', 'ms_database.js'));
+const {poolEnd} = require(path.join(__dirname, '..', 'server', 'ms_database.js'));
 
 const randomUsername = crypto.randomBytes(10).toString('hex');
 const scheduledTime = new Date().toISOString();
