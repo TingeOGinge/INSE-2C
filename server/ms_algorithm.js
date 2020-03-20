@@ -61,8 +61,10 @@ async function search(req, res) {
     if (recipes.length > 0) {
       const retval = recipes.filter(recipe => filterRecipe(recipe, searchObj));
       if (retval.length === 0) res.sendStatus(404);
-      prioritySort(retval, searchObj);
-      res.json(retval);
+      else {
+        prioritySort(retval, searchObj);
+        res.json(retval);
+      }
     } else {
       res.sendStatus(404);
     }
