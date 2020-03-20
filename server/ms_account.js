@@ -6,7 +6,7 @@ const {query}  = require('./ms_database.js');
 *
 * @param req.body.username - the username is passed from ms_entry
 * @param req.body.password - the password is passed from ms_entry
-* @param res - res object represents HTTP response that'0s sent when it gets an HTTP request.
+* @param res - res object represents HTTP response that's sent when it gets an HTTP request.
 */
 async function registerUser(req, res) {
   try {
@@ -24,11 +24,6 @@ async function registerUser(req, res) {
   }
 }
 
-// Attempts to schedule a recipe at a specific time (ISO 8601 format)
-// User cannot schedule the a recipes twice at the same time, 409 returned if attempted
-// 500 Internal Server Error returned if query fails
-// req.body must include recipe_id and scheduled_time
-
 /** Attempts to schedule a recipe at a specific time (ISO 8601 format). User
 *cannot schedule the recipes at the same time slot, 409 returned if attempted.
 *500 Internal Server Error returend if query fails
@@ -36,7 +31,7 @@ async function registerUser(req, res) {
 *@param req.tokenPayload.account_id - Account ID passed from ms_entry
 *@param req.body.recipe_id - recipe ID passed from ms_entry
 *@param req.body.scheduled_time - scheduled time passed from ms_entry
-*@param res - res object represents HTTP response that'0s sent when it gets an HTTP request.
+*@param res - res object represents HTTP response that's sent when it gets an HTTP request.
 */
 
 async function scheduleRecipe(req, res) {
@@ -61,11 +56,15 @@ async function scheduleRecipe(req, res) {
   }
 }
 
-// Attempts to delete a recipe scheduled for a specific time
-// Successful queries return 200
-// Unsuccessful queries for 404 Not found
-// Failed queries return 500 Internal Server Error
-// req.body must contain recipe_id and scheduled time (ISO 8601)
+/**Attempts to delete a recipe scheduled for a specific time. Successful queries
+*return 200, unsuccessful queries return 404 Not Found & failed queries return 500
+*Internal Server Error. req.body must contain recipe_id and sceduled time (ISO 8601)
+*@param req.tokenPayload.account_id - Account ID passed from ms_entry
+*@param req.body.recipe_id - recipe ID passed from ms_entry
+*@param req.body.scheduled_time - scheduled time passed from ms_entry
+*@param res - res object represents HTTP response that's sent when it gets an HTTP request.
+*/
+
 async function deleteFromSchedule(req, res) {
   try {
     const params = [
