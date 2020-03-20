@@ -28,6 +28,17 @@ async function registerUser(req, res) {
 // User cannot schedule the a recipes twice at the same time, 409 returned if attempted
 // 500 Internal Server Error returned if query fails
 // req.body must include recipe_id and scheduled_time
+
+/** Attempts to schedule a recipe at a specific time (ISO 8601 format). User
+*cannot schedule the recipes at the same time slot, 409 returned if attempted.
+*500 Internal Server Error returend if query fails
+*req.body must include recipe_id and scheduled_time.
+*@param req.tokenPayload.account_id - Account ID passed from ms_entry
+*@param req.body.recipe_id - recipe ID passed from ms_entry
+*@param req.body.scheduled_time - scheduled time passed from ms_entry
+*@param res - res object represents HTTP response that'0s sent when it gets an HTTP request.
+*/
+
 async function scheduleRecipe(req, res) {
   try {
     if (!(req.tokenPayload.account_id &&
