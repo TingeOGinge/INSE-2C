@@ -144,4 +144,43 @@ describe("Test the server routes", () => {
     expect(response.statusCode).toBe(404);
   });
 
+  test("POST '/api/deleteFromSchedule' with invalid session credentials", async () => {
+    const loginResponse = await request(app).post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send(`{"username": "${randomUsername}", "password": "password"}`);
+    expect(loginResponse.statusCode).toBe(200);
+
+    const response = await request(app).post('/api/deleteFromSchedule')
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${loginResponse.body.token}invalidstring`)
+      .send(`{"recipe_id": 2, "scheduled_time": "${scheduledTime}"}`);
+    expect(response.statusCode).toBe(401);
+  });
+
+  test("POST '/api/deleteFromSchedule' with valid parameters", async () => {
+    const loginResponse = await request(app).post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send(`{"username": "${randomUsername}", "password": "password"}`);
+    expect(loginResponse.statusCode).toBe(200);
+
+    const response = await request(app).post('/api/deleteFromSchedule')
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${loginResponse.body.token}`)
+      .send(`{"recipe_id": 2, "scheduled_time": "${scheduledTime}"}`);
+    expect(response.statusCode).toBe(200);
+  });
+
+  test("POST '/api/deleteFromSchedule' with the same (now invalid) parameters", async () => {
+    const loginResponse = await request(app).post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send(`{"username": "${randomUsername}", "password": "password"}`);
+    expect(loginResponse.statusCode).toBe(200);
+
+    const response = await request(app).post('/api/deleteFromSchedule')
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${loginResponse.body.token}`)
+      .send(`{"recipe_id": 2, "scheduled_time": "${scheduledTime}"}`);
+    expect(response.statusCode).toBe(404);
+  });
+
 });
