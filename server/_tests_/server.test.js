@@ -19,22 +19,22 @@ describe("Test the server routes", () => {
 
   test("POST '/api/registerUser' with valid credentials", async () => {
     const response = await request(app).post('/api/registerUser')
-                            .set('Content-Type', 'application/json')
-                            .send(`{"username": "${randomUsername}", "password": "password"}`);
+      .set('Content-Type', 'application/json')
+      .send(`{"username": "${randomUsername}", "password": "password"}`);
     expect(response.statusCode).toBe(201);
   });
 
   test("POST '/api/registerUser' with same (now invalid) credentials", async () => {
     const response = await request(app).post('/api/registerUser')
-                            .set('Content-Type', 'application/json')
-                            .send(`{"username": "${randomUsername}", "password": "password"}`);
+      .set('Content-Type', 'application/json')
+      .send(`{"username": "${randomUsername}", "password": "password"}`);
     expect(response.statusCode).toBe(409);
   });
 
   test("GET '/api/mainSearch' expecting specific results back", async () => {
     const response = await request(app).get('/api/mainSearch')
-                            .set('Content-Type', 'application/json')
-                            .send(`{"parameters": ["chicken", "potatoes"],"calories": 500,"serving": 4,"time": 180,"restrictions": ["gluten-free"]}`);
+      .set('Content-Type', 'application/json')
+      .send(`{"parameters": ["chicken", "potatoes"],"calories": 500,"serving": 4,"time": 180,"restrictions": ["gluten-free"]}`);
     expect(response.statusCode).toBe(200);
     expect(response.body[0].recipe_id).toEqual(344);
     expect(response.body.length).toEqual(50);
@@ -43,8 +43,8 @@ describe("Test the server routes", () => {
 
   test("GET '/api/mainSearch' expecting no results back", async () => {
     const response = await request(app).get('/api/mainSearch')
-                            .set('Content-Type', 'application/json')
-                            .send(`{"parameters": ["chicken"], "calories": 5, "serving": 1, "time": 1, "restrictions": ["vegetarian"]}`);
+      .set('Content-Type', 'application/json')
+      .send(`{"parameters": ["chicken"], "calories": 5, "serving": 1, "time": 1, "restrictions": ["vegetarian"]}`);
     expect(response.statusCode).toBe(404);
   });
 });
