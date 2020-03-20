@@ -29,19 +29,25 @@ function filterRecipe(recipe, searchObj) {
   return true;
 }
 
-function prioritySort(recipes, parameters) {
+function prioritySort(recipes, searchObj) {
   for (const recipe of recipes) {
-    recipe.score = parameters.length * 2;
+    recipe.score = searchObj.parameters.length * 2;
+    let ingredientsRemaining = recipe.recipe_ingredients.length;
 
-    for (const item of parameters) {
+    for (const item of searchObj.parameters) {
       if (recipe.recipe_name.includes(item)) recipe.score -= 1;
 
       for (const ingredient of recipe.recipe_ingredients) {
         if (ingredient.includes(item)) {
           recipe.score -= 1;
+          ingredientsRemaining -= 1;
           break;
         }
       }
+    }
+    recipe.score += ingredientsRemaining / 10;
+    if (searchObj.serving) {
+      recipe.score += (recipe.recipe_serving_size - searchObj.serving) / 5;
     }
   }
   return recipes.sort((a, b) => a.score - b.score);
@@ -55,7 +61,7 @@ async function search(req, res) {
     if (recipes.length > 0) {
       const retval = recipes.filter(recipe => filterRecipe(recipe, searchObj));
       if (retval.length === 0) res.sendStatus(404);
-      prioritySort(retval, searchObj.parameters);
+      prioritySort(retval, searchObj);
       res.json(retval);
     } else {
       res.sendStatus(404);
