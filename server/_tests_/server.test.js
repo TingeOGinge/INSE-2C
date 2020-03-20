@@ -47,4 +47,25 @@ describe("Test the server routes", () => {
       .send(`{"parameters": ["chicken"], "calories": 5, "serving": 1, "time": 1, "restrictions": ["vegetarian"]}`);
     expect(response.statusCode).toBe(404);
   });
+
+  test("POST '/api/login' with valid credentials", async () => {
+    const response = await request(app).post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send(`{"username": "${randomUsername}", "password": "password"}`);
+    expect(response.statusCode).toBe(200);
+  });
+
+  test("POST '/api/login' with invalid username credentials", async () => {
+    const response = await request(app).post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send(`{"username": "${randomUsername.substring(5)}", "password": "password"}`);
+    expect(response.statusCode).toBe(404);
+  });
+
+  test("POST '/api/login' with invalid password credentials", async () => {
+    const response = await request(app).post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send(`{"username": "${randomUsername}", "password": "incorrect"}`);
+    expect(response.statusCode).toBe(403);
+  });
 });
