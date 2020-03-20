@@ -30,4 +30,21 @@ describe("Test the server routes", () => {
                             .send(`{"username": "${randomUsername}", "password": "password"}`);
     expect(response.statusCode).toBe(409);
   });
+
+  test("GET '/api/mainSearch' expecting specific results back", async () => {
+    const response = await request(app).get('/api/mainSearch')
+                            .set('Content-Type', 'application/json')
+                            .send(`{"parameters": ["chicken", "potatoes"],"calories": 500,"serving": 4,"time": 180,"restrictions": ["gluten-free"]}`);
+    expect(response.statusCode).toBe(200);
+    expect(response.body[0].recipe_id).toEqual(344);
+    expect(response.body.length).toEqual(50);
+    expect(response.body.slice(-1)[0].recipe_id).toEqual(749);
+  });
+
+  test("GET '/api/mainSearch' expecting no results back", async () => {
+    const response = await request(app).get('/api/mainSearch')
+                            .set('Content-Type', 'application/json')
+                            .send(`{"parameters": ["chicken"], "calories": 5, "serving": 1, "time": 1, "restrictions": ["vegetarian"]}`);
+    expect(response.statusCode).toBe(404);
+  });
 });
