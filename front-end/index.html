@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset=utf-8 name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" title="Ecochef" href="style.css">
-<script src="client-side.js"></script>
+<script src="index.js"></script>
 <title>Welcome to Ecochef</title>
 
 
@@ -19,15 +19,20 @@
     </aside>
 
     <div id=searching>
-      <input id=search type=text autofocus autocomplete=off>
-      <input id=send type=submit value=Search>
+      <input id=searchbar type=text autofocus autocomplete=off>
+      <input id=addIngredient type=button value="Add Ingredient">
+      <input id=search type=button value="Search">
     </div>
+
+    <ul id="ingredient">
+    </ul>
+
 
     <aside id=detail>
       <h3>What you eat is personal. Set your preferences here.</h3>
     </aside>
 
-    <ul id="usrSelectionAll">
+    <ul class="dropdown" id="usrSelectionAll">
       <img id="usrSelection" src="media/time.jpg">
       <img id="usrSelection" src="media/calories.jpg">
       <img id="usrSelection" src="media/serving.jpg">
