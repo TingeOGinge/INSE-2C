@@ -2,9 +2,9 @@
   "name": "inse-2c",
   "version": "1.0.0",
   "description": "Software Engineering Theory and Practice Coursework",
-  "main": "server/ms_entry.js",
+  "main": "server/server.js",
   "scripts": {
-    "start": "nodemon ms_entry.js",
+    "start": "nodemon server.js",
     "test": "jest"
   },
   "repository": {
