@@ -1,6 +1,9 @@
 const {query}  = require('./ms_database.js');
 
-/**RegisterUser attempts to register a user. Undefined response from the query
+/**
+*/
+
+/** RegisterUser attempts to register a user. Undefined response from the query
 * indicates the username has already been registered. If the query fails a 500
 * Internal Server Error is returned. req.body must contain username and password.
 *
@@ -8,6 +11,7 @@ const {query}  = require('./ms_database.js');
 * @param req.body.password - the password is passed from ms_entry
 * @param res - res object represents HTTP response that's sent when it gets an HTTP request.
 */
+
 async function registerUser(req, res) {
   try {
     if (req.body.username && req.body.password) {
@@ -80,9 +84,13 @@ async function deleteFromSchedule(req, res) {
   }
 }
 
-// Retrieves recipe information from user's schedule
-// 404 Not found returned if user has not scheduled any recipes or user does not exist
-// 500 Internal Server Error if query fails
+
+/**Retrieves recipe infotmation from user's schedule. 404 Not found returned if
+* user has npt scheduled any recipes or user does not exist. 500 Internal server
+* Internal Server Error if query fails.
+*@param req.tokenPayload.account_id - Account ID passed from ms_entry
+*@param res - res object represents HTTP response that's sent when it gets an HTTP request.
+*/
 async function retrieveUserSchedule(req, res) {
   try {
     const result = await query('getUserSchedule', req.tokenPayload.account_id);

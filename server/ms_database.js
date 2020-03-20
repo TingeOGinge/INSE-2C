@@ -23,7 +23,7 @@ async function foo {
 */
 const {Pool} = require('pg');
 
-/**
+/**@module ms_database
 *Connection.
 */
 
