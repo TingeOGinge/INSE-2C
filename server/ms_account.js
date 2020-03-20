@@ -1,9 +1,13 @@
 const {query}  = require('./ms_database.js');
 
-// Attempts to register a user
-// Undefined response from the query indicates the username has already been registered
-// If the query fails a 500 Internal Server Error is returned
-// req.body must include username and password
+/**RegisterUser attempts to register a user. Undefined response from the query
+* indicates the username has already been registered. If the query fails a 500
+* Internal Server Error is returned. req.body must contain username and password.
+*
+* @param req.body.username - the username is passed from ms_entry
+* @param req.body.password - the password is passed from ms_entry
+* @param res - res object represents HTTP response that'0s sent when it gets an HTTP request.
+*/
 async function registerUser(req, res) {
   try {
     if (req.body.username && req.body.password) {
