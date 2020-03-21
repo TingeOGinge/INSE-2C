@@ -7,8 +7,13 @@ const {query} = require('./ms_database');
 * collectRecipes searches the database for recipes and dietary restrictions
 * given by the search obj parameter. It returns rows found in the database.
 * If the query fails a 50 Internal Server Error is returned.
-*@param searchObj - Search parameter passed by search function.
-*@param res - res object represents HTTP response that's sent when it gets an HTTP request.
+*@param {Object} searchObj - Search parameter object passed by search function.
+*@param {Array} searchObj.parameters - Recipe / ingredient name(s)
+*@param {Integer} searchObj.calories - (optional) Calories of a recipe
+*@param {Integer} searchObj.serving - (optional) Serving size
+*@param {Integer} searchObj.time - (optional) Cooking time
+*@param {Array} searchObj.restrictions - (optional) Dietary restrictions such as alergies
+*@param {Object} res - res object represents HTTP response that's sent when it gets an HTTP request.
 */
 
 async function collectRecipes(searchObj, res) {
@@ -24,6 +29,28 @@ async function collectRecipes(searchObj, res) {
     res.sendStatus(500);
   }
 }
+
+/** filterRecipe filters given recipes firstly by returning False if
+*dietary restrictions are not met. Secondly, returning false if there are
+* too many calories, too small of a serving size and if cooking time is too long.
+*Otherwise it returns True
+*@param {Object} recipe - Recipe object returned from collectRecipes
+*@param {Integer} recipe.recipe_id - ID of recipe
+*@param {String} recipe.recipe_name - Name of recipe
+*@param {Integer} recipe.cooking_minutes - Time to cook recipe in minutes
+*@param {Array} recipe.recipe_method - Instructions on how to cook the recipes
+*@param {Array} recipe.recipe_ingredient - List of ingredients in the recipes
+*@param {Integer} recipe.recipe_serving_size - How many people the recipe serves
+*@param {Integer} recipe.recipe_calories - How many calories the recipe contains
+*@param {Array} recipe.diet_restrictions -  Dietary restrictions such as alergies
+*@param {Object} searchObj - Search parameter object passed by search function.
+*@param {Array} searchObj.parameters - Recipe / ingredient name(s)
+*@param {Integer} searchObj.calories - (optional) Calories of a recipe
+*@param {Integer} searchObj.serving - (optional) Serving size
+*@param {Integer} searchObj.time - (optional) Cooking time
+*@param {Array} searchObj.restrictions - (optional) Dietary restrictions such as alergies
+*@param {Object} res - res object represents HTTP response that's sent when it gets an HTTP request.
+*/
 
 function filterRecipe(recipe, searchObj) {
   if (searchObj.restrictions) {
