@@ -58,17 +58,65 @@ describe("Test the client-side API functions", () =>{
     );
 
     // Valid login
-    const token = await api.login();
+    const token = await api.login(`[{"username":"username","password":"password"}]`);
     expect(token).toEqual(exampleToken);
 
     // User not found
-    await expect(api.login()).rejects.toThrow('Not Found');
+    await expect(api.login(`[{"username":"username","password":"password"}]`))
+      .rejects.toThrow('Not Found');
 
     // Invalid password
-    await expect(api.login()).rejects.toThrow('Forbidden');
+    await expect(api.login(`[{"username":"username","password":"notpassword"}]`))
+      .rejects.toThrow('Forbidden');
 
     // Internal server error
-    await expect(api.registerUser()).rejects.toThrow('Internal Server Error');
+    await expect(api.login()).rejects.toThrow('Internal Server Error');
+  });
+
+  test("Test scheduling a recipe", async () => {
+    fetch.mockResponses(
+      [
+        `{"token":"${exampleToken}"}`,
+        { status: 200 }
+      ],
+      [
+        '',
+        { status: 404 }
+      ],
+      [
+        `{"message":"Access Denied","err":"error message"}`,
+        { status: 401 }
+      ],
+      [
+        `{"token":"${exampleToken}"}`,
+        { status: 409 }
+      ],
+      [
+        '',
+        { status: 500 }
+      ]
+    );
+
+    const newDate = new Date();
+
+    // Valid attempt
+    const token = await api.scheduleRecipe(`{"recipe_id":2,"scheduled_time":"${newDate}"}`);
+    expect(token).toEqual(exampleToken);
+
+    // No JWT in request
+    await expect(api.scheduleRecipe(`{"recipe_id":2,"scheduled_time":"${newDate}"}`))
+      .rejects.toThrow('Not Found');
+
+    // Token verification fail
+    await expect(api.scheduleRecipe(`{"recipe_id":2,"scheduled_time":"${newDate}"}`))
+      .rejects.toThrow('Unauthorized');
+
+    // Schedule conflict
+    await expect(api.scheduleRecipe(`{"recipe_id":2,"scheduled_time":"${newDate}"}`))
+      .rejects.toThrow('Conflict');
+
+    // Server error
+    await expect(api.scheduleRecipe()).rejects.toThrow('Internal Server Error');
   });
 
 });
