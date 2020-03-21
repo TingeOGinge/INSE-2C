@@ -71,6 +71,30 @@ function filterRecipe(recipe, searchObj) {
   return true;
 }
 
+/** prioritySort has a score in which to sort recipes. The score is initialised
+*based on the length of the recipe/ingredients array. It then goes through and matches
+*ingredients from the search obj to the recipe adjusting the score accordingly. Next
+*it makes sure the serving size of the recipe is inline with the one in the search
+*object but this has a lower piroty. Lastly the recipes are sorted by which has
+the lowest score. Aka the best match.
+*@param {Object} recipe - Recipe object returned from collectRecipes
+*@param {Integer} recipe.score - Score used by the algorithm to best sort matches
+*@param {Integer} recipe.recipe_id - ID of recipe
+*@param {String} recipe.recipe_name - Name of recipe
+*@param {Integer} recipe.cooking_minutes - Time to cook recipe in minutes
+*@param {Array} recipe.recipe_method - Instructions on how to cook the recipes
+*@param {Array} recipe.recipe_ingredient - List of ingredients in the recipes
+*@param {Integer} recipe.recipe_serving_size - How many people the recipe serves
+*@param {Integer} recipe.recipe_calories - How many calories the recipe contains
+*@param {Array} recipe.diet_restrictions -  Dietary restrictions such as alergies
+*@param {Object} searchObj - Search parameter object passed by search function.
+*@param {Array} searchObj.parameters - Recipe / ingredient name(s)
+*@param {Integer} searchObj.calories - (optional) Calories of a recipe
+*@param {Integer} searchObj.serving - (optional) Serving size
+*@param {Integer} searchObj.time - (optional) Cooking time
+*@param {Array} searchObj.restrictions - (optional) Dietary restrictions such as alergies
+*/
+
 function prioritySort(recipes, searchObj) {
   for (const recipe of recipes) {
     recipe.score = searchObj.parameters.length * 2;
