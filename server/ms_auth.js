@@ -28,7 +28,7 @@ async function validateSession(req, res, next) {
         });
       } else {
         req.tokenPayload = payload.data;
-        res.token = generateToken(payload.data);
+        res.body = {token: generateToken(payload.data)};
         next();
       }
     });
