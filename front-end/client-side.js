@@ -28,10 +28,14 @@ async function scheduleRecipe(data) {
   return response;
 }
 
+async function search(data) {
+  const url = 'http://localhost:5000/api/search';
+  const requestOptions = generateRequestOptions(data, 'GET');
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw response;
-  setClientToken(response.token);
+  const recipes = await response.json();
+  return {response, recipes};
 }
 
 function generateRequestOptions(data, type, token) {
