@@ -14,9 +14,10 @@ async function login(data) {
   const requestOptions = generateRequestOptions(data, 'POST');
   const response = await fetch(url, requestOptions);
 
-  if (!response.ok) throw response;
+  if (!response.ok) throw new Error(response.statusText);
+  // console.log(response);
   const payload = await response.json();
-  return {response, token: payload.token};
+  return payload.token;
 }
 
 async function scheduleRecipe(data) {
@@ -24,7 +25,7 @@ async function scheduleRecipe(data) {
   const requestOptions = generateRequestOptions(data, 'POST');
   const response = await fetch(url, requestOptions);
 
-  if (!response.ok) throw response;
+  if (!response.ok) throw new Error(response.statusText);
   return response;
 }
 
@@ -33,7 +34,7 @@ async function search(data) {
   const requestOptions = generateRequestOptions(data, 'GET');
   const response = await fetch(url, requestOptions);
 
-  if (!response.ok) throw response;
+  if (!response.ok) throw new Error(response.statusText);
   const recipes = await response.json();
   return {response, recipes};
 }
@@ -48,6 +49,8 @@ function generateRequestOptions(data, type, token) {
   return retval;
 }
 
+const api = {registerUser, login, scheduleRecipe, search};
+
 if (typeof module === 'object') {
-  module.exports = {registerUser, login, scheduleRecipe, search};
+  module.exports = api;
 }
