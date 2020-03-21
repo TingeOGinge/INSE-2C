@@ -119,6 +119,31 @@ function prioritySort(recipes, searchObj) {
   return recipes.sort((a, b) => a.score - b.score);
 }
 
+/**
+*search uses collectRecipes and filterRecipes to return sorted recipes. It does
+* this by first calling collectRecipes then filters recipes using filterRecipe.
+*Lastly it uses prioritySort and returns the sorted recipes.
+
+*@param {Object} recipe - Recipe object returned from collectRecipes
+*@param {Integer} recipe.score - Score used by the algorithm to best sort matches
+*@param {Integer} recipe.recipe_id - ID of recipe
+*@param {String} recipe.recipe_name - Name of recipe
+*@param {Integer} recipe.cooking_minutes - Time to cook recipe in minutes
+*@param {Array} recipe.recipe_method - Instructions on how to cook the recipes
+*@param {Array} recipe.recipe_ingredient - List of ingredients in the recipes
+*@param {Integer} recipe.recipe_serving_size - How many people the recipe serves
+*@param {Integer} recipe.recipe_calories - How many calories the recipe contains
+*@param {Array} recipe.diet_restrictions -  Dietary restrictions such as alergies
+*@param {Object} req.body - contains searchObj
+*@param {Object} searchObj - Search parameter object passed by search function.
+*@param {Array} searchObj.parameters - Recipe / ingredient name(s)
+*@param {Integer} searchObj.calories - (optional) Calories of a recipe
+*@param {Integer} searchObj.serving - (optional) Serving size
+*@param {Integer} searchObj.time - (optional) Cooking time
+*@param {Array} searchObj.restrictions - (optional) Dietary restrictions such as alergies
+*@param {Object} res - res object represents HTTP response that's sent when it gets an HTTP request.
+*/
+
 async function search(req, res) {
   try {
     const searchObj = req.body;
