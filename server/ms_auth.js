@@ -52,6 +52,25 @@ async function validateSession(req, res, next) {
 // If password is wrong 403 Forbidden is returned
 // If the query fails a 500 Internal Server Error is returned
 // req.body must include username and password
+
+/**
+*Searches for user using name provided in request
+*If user exists bcrypt will compare the plain text password and the hashed one
+*Successful login returns a JWT to validate future requests
+*If user doesn't exist 404 Not Found is returned
+*If password is wrong 403 Forbidden is returned
+*If the query fails a 500 Internal Server Error is returned
+*req.body must include username and password
+*@param {Object} req - HTTP request
+*@param {String} req.body.username - Username of user.
+*@param {String} req.body.password - password of user.
+*@param {Object} user - account object passed from ms_database
+*@param {String} user.account_username - username of account from ms_database
+*@param {String} user.account_password - passwrod of account rfom ms_database
+*@param {Integer} user.account_id - ID of account used by the database
+*@param {Boolean} user.admin_status - Boolean of whether account is admin or not.
+*@param {Object} res - res object represents HTTP response that's sent when it gets an HTTP request.
+*/
 async function validateLogin (req, res) {
   try {
     if (!(req.body.username && req.body.password)) {
