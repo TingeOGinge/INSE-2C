@@ -1,3 +1,7 @@
+/**
+*@module ms_database
+*/
+
 /*
 Example query call from external module:
 
@@ -23,7 +27,7 @@ async function foo {
 */
 const {Pool} = require('pg');
 
-/**@module ms_database
+/**
 *Connection.
 */
 
