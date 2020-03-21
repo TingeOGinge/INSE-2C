@@ -26,7 +26,8 @@ async function scheduleRecipe(data) {
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw new Error(response.statusText);
-  return response;
+  const payload = await response.json();
+  return payload.token;
 }
 
 async function search(data) {
