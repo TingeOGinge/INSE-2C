@@ -1,6 +1,6 @@
 const {query}  = require('./ms_database.js');
 
-/**
+/** @module ms_account
 */
 
 /** RegisterUser attempts to register a user. Undefined response from the query
