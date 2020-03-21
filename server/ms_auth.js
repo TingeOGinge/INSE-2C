@@ -99,13 +99,16 @@ async function validateLogin (req, res) {
 
 }
 
-// Uses the private RSA key to sign a JWT with a 20 minute expiration
+/** Uses the private RSA key to sign a JWT with a 1 day expiration
+*/
 function generateToken(data) {
   return jwt.sign({data}, PRIVATE_KEY, {algorithm: 'RS256', expiresIn: '1d'});
 }
 
-// Uses a blowfish cypher encryption method to secure the passwords that will be stored
-// Salt is left at the default of ten to provide a middle ground between security and speed
+/**
+Uses a blowfish cypher encryption method to secure the passwords that will be stored
+Salt is left at the default of ten to provide a middle ground between security and speed
+*/
 async function hashPassword(req, res, next) {
   if (req.body.password) {
     req.body.password = await bcrypt.hash(req.body.password, 10);
