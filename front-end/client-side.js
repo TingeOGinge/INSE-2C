@@ -15,7 +15,6 @@ async function login(data) {
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw new Error(response.statusText);
-  // console.log(response);
   const payload = await response.json();
   return payload.token;
 }
@@ -37,10 +36,10 @@ async function search(data) {
 
   if (!response.ok) throw new Error(response.statusText);
   const recipes = await response.json();
-  return {response, recipes};
+  return recipes;
 }
 
-function generateRequestOptions(data, type, token) {
+function generateRequestOptions(type, data, token) {
   const retval =  {
     method: `${type}`,
     headers: { 'Content-Type': 'application/json' },
