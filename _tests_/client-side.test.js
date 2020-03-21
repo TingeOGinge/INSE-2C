@@ -119,4 +119,36 @@ describe("Test the client-side API functions", () =>{
     await expect(api.scheduleRecipe()).rejects.toThrow('Internal Server Error');
   });
 
+  test("Testing the search", async() => {
+    fetch.mockResponses(
+      [
+        `[{"recipe1":{}},{"recipe2":{}}]`,
+        { status: 200 }
+      ],
+      [
+        '',
+        { status: 500 }
+      ],
+      [
+        '',
+        { status: 404 }
+      ]
+    );
+
+    // Valid attempt
+    const recipes = await api.search(`{"parameters":["chicken"]}`);
+    expect(Array.isArray(recipes)).toEqual(true);
+    expect(typeof recipes[0]).toEqual('object');
+    expect(recipes.length > 0).toEqual(true);
+
+    // Server error
+    await expect(api.search(`{"parameters":["chicken"]}`))
+      .rejects.toThrow('Internal Server Error');
+
+    // No results found
+    await expect(api.search(`{"parameters":["chicken"],"restrictions":["vegetarian"]}`))
+      .rejects.toThrow('Not Found');
+
+  });
+
 });
