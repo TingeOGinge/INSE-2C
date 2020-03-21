@@ -1,60 +1,49 @@
-/*  registerUser and login input stucture is as follows:
-    {
-      username,
-      password,
-    }
-*   Responses will be thrown if there is an error
-*/
+/* global module */
 
 async function registerUser(data) {
   const url = 'http://localhost:5000/api/registerUser';
-  const requestOptions = generatePostRequestOptions(data);
+  const requestOptions = generateRequestOptions(data, 'POST');
   const response = await fetch(url, requestOptions);
 
-  if (!response.ok) throw response;
+  if (!response.ok) throw new Error(response.statusText);
+  return response;
 }
 
 async function login(data) {
   const url = 'http://localhost:5000/api/login';
-  const requestOptions = generatePostRequestOptions(data);
+  const requestOptions = generateRequestOptions(data, 'POST');
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw response;
   const payload = await response.json();
-  setClientToken(payload.token);
+  return {response, token: payload.token};
 }
 
 async function scheduleRecipe(data) {
   const url = 'http://localhost:5000/api/scheduleRecipe';
-  const requestOptions = generatePostRequestOptions(data);
+  const requestOptions = generateRequestOptions(data, 'POST');
+  const response = await fetch(url, requestOptions);
+
+  if (!response.ok) throw response;
+  return response;
+}
+
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw response;
   setClientToken(response.token);
 }
 
-function generatePostRequestOptions(data) {
+function generateRequestOptions(data, type, token) {
   const retval =  {
-    method: 'POST',
+    method: `${type}`,
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+    body: (data) ? JSON.stringify(data) : undefined
   };
-  const jwt = getJWT();
-  if (jwt) retval.headers.authorization = "Bearer " + jwt;
+  if (token) retval.headers.authorization = `Bearer ${token}`;
   return retval;
 }
 
-function setClientToken(token) {
-  localStorage.setItem('jwt', token);
+if (typeof module === 'object') {
+  module.exports = {registerUser, login, scheduleRecipe, search};
 }
-
-function getJWT() {
-  return localStorage.getItem('jwt');
-}
-
-function logout() {
-  if (localStorage.jwt) localStorage.clearItem('jwt');
-  window.location.href = 'index.html';
-}
-
-export {registerUser, login, scheduleRecipe, logout};
