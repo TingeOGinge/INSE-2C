@@ -44,20 +44,24 @@ async function validateSession(req, res, next) {
 // req.body must include username and password
 async function validateLogin (req, res) {
   try {
-    const result = await query('searchAccountName', req.body.username);
-    const user = result.rows[0];
-    if (user == null) {
-      res.sendStatus(404);
-    } else if (await bcrypt.compare(req.body.password, user.account_password)) {
-      res.status(200);
-      const token = generateToken({
-        account_username: user.account_username,
-        account_id: user.account_id,
-        admin_status: user.admin_status
-      });
-      res.json({token});
+    if (!(req.body.username && req.body.password)) {
+      res.sendStatus(400);
     } else {
-      res.sendStatus(403);
+      const result = await query('searchAccountName', req.body.username);
+      const user = result.rows[0];
+      if (user == null) {
+        res.sendStatus(404);
+      } else if (await bcrypt.compare(req.body.password, user.account_password)) {
+        res.status(200);
+        const token = generateToken({
+          account_username: user.account_username,
+          account_id: user.account_id,
+          admin_status: user.admin_status
+        });
+        res.json({token});
+      } else {
+        res.sendStatus(403);
+      }
     }
   } catch (err) {
     console.log(err.stack);
@@ -74,8 +78,12 @@ function generateToken(data) {
 // Uses a blowfish cypher encryption method to secure the passwords that will be stored
 // Salt is left at the default of ten to provide a middle ground between security and speed
 async function hashPassword(req, res, next) {
-  req.body.password = await bcrypt.hash(req.body.password, 10);
-  next();
+  if (req.body.password) {
+    req.body.password = await bcrypt.hash(req.body.password, 10);
+    next();
+  } else {
+    res.sendStatus(400);
+  }
 }
 
 module.exports = {extractToken, validateSession, validateLogin, hashPassword};

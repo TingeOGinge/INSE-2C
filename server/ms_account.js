@@ -6,9 +6,14 @@ const {query}  = require('./ms_database.js');
 // req.body must include username and password
 async function registerUser(req, res) {
   try {
-    const params = [req.body.username, req.body.password];
-    const result = await query('createAccount', params);
-    (result) ? res.sendStatus(201) : res.sendStatus(409);
+    if (req.body.username && req.body.password) {
+      const params = [req.body.username, req.body.password];
+      const result = await query('createAccount', params);
+      (result) ? res.sendStatus(201) : res.sendStatus(409);
+    } else {
+      res.sendStatus(400);
+    }
+
   } catch (err) {
     console.log(err.stack);
     res.sendStatus(500);
@@ -21,13 +26,20 @@ async function registerUser(req, res) {
 // req.body must include recipe_id and scheduled_time
 async function scheduleRecipe(req, res) {
   try {
-    const params = [
-      req.tokenPayload.account_id,
-      req.body.recipe_id,
-      req.body.scheduled_time
-    ];
-    const result = await query('scheduleRecipe', params);
-    (result) ? res.sendStatus(200) : res.sendStatus(409);
+    if (!(req.tokenPayload.account_id &&
+        req.body.recipe_id &&
+        req.body.scheduled_time))
+        {
+          res.sendStatus(400);
+    } else {
+      const params = [
+        req.tokenPayload.account_id,
+        req.body.recipe_id,
+        req.body.scheduled_time
+      ];
+      const result = await query('scheduleRecipe', params);
+      (result) ? res.sendStatus(200) : res.sendStatus(409);
+    }
   } catch (err) {
     console.log(err.stack);
     res.sendStatus(500);

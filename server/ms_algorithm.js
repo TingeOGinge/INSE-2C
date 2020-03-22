@@ -2,8 +2,12 @@ const {query} = require('./ms_database');
 
 async function collectRecipes(searchObj, res) {
   try {
-    const result = await query('mainSearch', searchObj.parameters);
-    return result.rows;
+    if (searchObj.parameters) {
+      const result = await query('mainSearch', searchObj.parameters);
+      return result.rows;
+    } else {
+      res.sendStatus(400);
+    }
   } catch(err) {
     console.log(err.stack);
     res.sendStatus(500);
@@ -58,7 +62,7 @@ async function search(req, res) {
     const searchObj = req.body;
     const recipes = await collectRecipes(searchObj, res);
 
-    if (recipes.length > 0) {
+    if (recipes && recipes.length > 0) {
       const retval = recipes.filter(recipe => filterRecipe(recipe, searchObj));
       if (retval.length === 0) res.sendStatus(404);
       else {
@@ -69,9 +73,9 @@ async function search(req, res) {
       res.sendStatus(404);
     }
 
+
   } catch (err) {
     console.log(err.stack);
-    res.sendStatus(500);
   }
 }
 
