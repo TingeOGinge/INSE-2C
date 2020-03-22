@@ -133,6 +133,17 @@ header * {
   margin-left: 10%;
 }
 
+#usrRequirementsAll{
+  display: inline-block;
+}
+
+#time,#cal,#serve,#diet{
+  width: 18%;
+  max-width: 120px;
+  margin-right: 3%;
+  border-style: solid; border-width: 1px ;
+}
+
 
 body.Login {
   margin: 0;

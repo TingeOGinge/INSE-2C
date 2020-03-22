@@ -18,6 +18,10 @@ function addIngredienttoLI() {
 // function removeIngredientFromArray(){
 // }
 
+// function requirementsHandler(options){
+//
+// }
+
 
 /* handles what is done when the search button is pressed */
 
@@ -43,6 +47,10 @@ function prepareHandles() {
   el.searchButton = document.querySelector('#search');
   el.ingredientList = document.querySelector('#ingredient');
   // el.ingredientToRemove = document.querySelector('#ingredient');
+
+  el.disptime = document.querySelector('#disptime');
+  el.dispcal = document.querySelector('#dispcal');
+  el.dispserve = document.querySelector('#dispserve');
 }
 
 /* listens on all events */
@@ -51,6 +59,7 @@ function addEventListeners() {
   // el.ingredientToRemove.addEventListener('click', removeIngredientFromArray);
   // el.searchButton.addEventListener('click', searchHandler);
   el.searchBar.addEventListener('keyup', checkKeys);
+
 }
 
 /* remove all content from searchbar */
