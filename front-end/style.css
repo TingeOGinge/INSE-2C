@@ -37,11 +37,20 @@
   }
 }
 
+html {
+    display: table;
+    margin: auto;
+}
+
 body {
   background: var(--bg);
   color: var(--fg);
   width: 100vw;
   height: 100vh;
+  max-width: 40rem;
+
+  display: table-cell;
+  vertical-align:top;
 }
 
 body>* {
@@ -117,6 +126,20 @@ header * {
   background: #FFFFFF;
   color: #18A0FB;
   margin-right: 0em;
+}
+
+
+ul {
+  padding-left: 2rem;
+  list-style-type: none;
+}
+
+ul li {
+  padding-left: 2rem;
+  background-image: url(media/remove.png);
+  background-position: 0 0;
+  background-size: 1.6rem 1.6rem;
+  background-repeat: no-repeat;
 }
 
 #usrSelection{

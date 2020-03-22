@@ -26,7 +26,6 @@
     <ul id="ingredient">
     </ul>
 
-
     <aside id=detail>
       <h3>What you eat is personal. Set your preferences here.</h3>
     </aside>
@@ -42,7 +41,13 @@
         <input id=time type=text autofocus autocomplete=off>
         <input id=cal type=text autofocus autocomplete=off>
         <input id=serve type=text autofocus autocomplete=off>
-        <input id=diet type=dropdown autofocus autocomplete=off>
+        <select name="dietaryreqs" id="diet">
+          <option value="">--Please choose an option--</option>
+          <option value="vegetarian">Vegetarian</option>
+          <option value="gluten-free">Gluten-Free</option>
+          <option value="vegan">Vegan</option>
+          <option value="dairy-free">Dairy-Free</option>
+        </select>
     </div>
 
   <script src="client-side.js"> </script>
