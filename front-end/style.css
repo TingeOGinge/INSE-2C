@@ -129,12 +129,12 @@ header * {
 }
 
 
-ul {
+#ingredient ul {
   padding-left: 2rem;
   list-style-type: none;
 }
 
-ul li {
+#ingredient li {
   padding-left: 2rem;
   background-image: url(media/remove.png);
   background-position: 0 0;
@@ -169,6 +169,18 @@ ul li {
 
 #diet input {
     margin: .05rem;
+}
+
+#result{
+  border-style: solid; border-width: 1px ;
+  margin-bottom: 4%;
+  margin-top: 5%;
+  margin-left: 10%;
+  margin-right: 10%
+}
+
+#ingredientResult{
+  margin: 1rem;
 }
 
 
