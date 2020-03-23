@@ -1,9 +1,18 @@
 /** @module ms_entry
 */
-/**ms_entry is the server code for which the rest of the backend runs off.
-* * Bind middleware to app
-* * HTTP get requests
+/**ms_entry contains the server code wherein we define the HTTP routes.
+* * We also bind middlewares to app such as
+*   * express.json() to interpret request bodies as JSON
+*   * CORS to allow for cross origin resource sharing
+* Here we define the static folder to serve the front end HTML pages etc
+* * HTTP GET requests
+*   * mainSearch allows users to pass parameters and search for recipes
+*   * getUserSchedule allows a validated session to pull back their schedule from the server
 * * HTTP post requests
+*   * registerUser registers a user on the server
+*   * login logs a user into the server
+*   * scheduleRecipe allows a user to schedule a specific recipe at a specific time
+*   * deleteFromSchedule allows a user to delete a specific, scheduled recipes from their profile
 */
 
 const express = require('express');
