@@ -50,7 +50,7 @@ describe("Test the server routes", () => {
     // Valid search attempt looking to return an array with specific attributes
     const responseValid = await request(app).get('/api/mainSearch')
       .set('Content-Type', 'application/json')
-      .send(`{"parameters": ["chicken", "potatoes"],"calories": 500,"serving": 4,"time": 180,"restrictions": ["gluten-free"]}`);
+      .query({"parameters": ["chicken", "potatoes"],"calories": 500,"serving": 4,"time": 180,"restrictions": ["gluten-free"]});
     expect(responseValid.statusCode).toBe(200);
     expect(Array.isArray(responseValid.body)).toEqual(true);
     expect(typeof responseValid.body[0] === 'object');
@@ -61,7 +61,7 @@ describe("Test the server routes", () => {
     // Valid search with just one string as a parameter
     const responseValid2 = await request(app).get('/api/mainSearch')
       .set('Content-Type', 'application/json')
-      .send(`{"parameters": "chicken"}`);
+      .query({"parameters": "chicken"});
     expect(responseValid2.statusCode).toBe(200);
     expect(Array.isArray(responseValid2.body)).toEqual(true);
     expect(typeof responseValid2.body[0] === 'object');
@@ -69,19 +69,19 @@ describe("Test the server routes", () => {
     // Valid search attempt looking to return 0 results
     const responseNoResults = await request(app).get('/api/mainSearch')
       .set('Content-Type', 'application/json')
-      .send(`{"parameters": ["chicken"], "calories": 5, "serving": 1, "time": 1, "restrictions": ["vegetarian"]}`);
+      .query({"parameters": ["chicken"], "calories": 5, "serving": 1, "time": 1, "restrictions": ["vegetarian"]});
     expect(responseNoResults.statusCode).toBe(404);
 
     // Invalid search with mismatched types
     const responseBadTypes = await request(app).get('/api/mainSearch')
       .set('Content-Type', 'application/json')
-      .send(`{"parameters": [1], "calories": '5', "serving": '1', "time": '1', "restrictions": ["vegetarian"]}`);
+      .query({"parameters": {}, "calories": '5', "serving": '1', "time": '1', "restrictions": ["vegetarian"]});
     expect(responseBadTypes.statusCode).toBe(400);
 
     // Invalid search attempt (no parameters)
     const responseNoParams = await request(app).get('/api/mainSearch')
       .set('Content-Type', 'application/json')
-      .send(`{"calories": 5, "serving": 1, "time": 1, "restrictions": ["vegetarian"]}`);
+      .query({"calories": 5, "serving": 1, "time": 1, "restrictions": ["vegetarian"]});
     expect(responseNoParams.statusCode).toBe(400);
 
   });
