@@ -1,7 +1,8 @@
-/* Global api */
+/* global module, clientSideAPI */
 
 const el = {
-  ingredientArray: []
+  ingredientArray: [],
+  chosenRestrictions: []
 };
 
 /* adds ingredients to list below  */
@@ -12,7 +13,6 @@ function addIngredienttoLI() {
   el.ingredientList.append(listItem);
   el.ingredientArray.push(query);
   removeContentFrom(el.searchBar);
-  window.console.log(el.ingredientArray);
 }
 
 // function removeIngredientFromArray(){
@@ -23,22 +23,47 @@ function addIngredienttoLI() {
 // }
 
 
+
+function collectSearchObject() {
+  const searchObj = {parameters: el.ingredientArray};
+
+  if (el.time.value !== '' && Number.isInteger(el.time.value)) {
+    searchObj.time = Number(el.time.value);
+  }
+  if (el.cal.value !== '' && Number.isInteger(el.cal.value)) {
+    searchObj.calories = Number(el.cal.value);
+  }
+  if (el.serve.value !== '' && Number.isInteger(el.serve.value)) {
+    searchObj.serving = Number(el.serve.value);
+  }
+  for (const restriction of el.restrictions) {
+    if (restriction.checked) {
+      el.chosenRestrictions.push(restriction);
+    }
+  }
+  el.restrictions.forEach(elem => {
+    if (elem.checked) el.chosenRestrictions.push(elem);
+  });
+
+  return searchObj;
+}
+
+
 /* handles what is done when the search button is pressed */
 
-// async function searchHandler(){
-//   if (el.ingredientArray.length > 0) {
-//     try{
-//       const response = await api.search(el.ingredientArray);
-//       const searchResult = response.json();
-//     } catch (response) {
-//       if (response.statusCode === 404) {
-//
-//       } else if (response.statusCode === 500) {
-//
-//       }
-//     }
-//   }
-// }
+async function searchHandler(){
+  if (el.ingredientArray.length > 0) {
+    try{
+      const searchObj = collectSearchObject();
+      const searchResult = await clientSideAPI.search(searchObj);
+      window.localStorage.setItem('searchResult', JSON.stringify(searchResult));
+      window.location.href = 'results.html';
+    } catch (err) {
+      // handle search with no response
+      console.log(err);
+    }
+  }
+}
 
 /* handles all elements and stores them in 'el' class */
 function prepareHandles() {
@@ -46,20 +71,18 @@ function prepareHandles() {
   el.searchBar = document.querySelector('#searchbar');
   el.searchButton = document.querySelector('#search');
   el.ingredientList = document.querySelector('#ingredient');
-  // el.ingredientToRemove = document.querySelector('#ingredient');
-
-  el.disptime = document.querySelector('#disptime');
-  el.dispcal = document.querySelector('#dispcal');
-  el.dispserve = document.querySelector('#dispserve');
+  el.time = document.querySelector('#time');
+  el.cal = document.querySelector('#cal');
+  el.serve = document.querySelector('#serve');
+  el.restrictions = document.querySelectorAll('.restriction');
 }
 
 /* listens on all events */
 function addEventListeners() {
   el.ingredientButton.addEventListener('click', addIngredienttoLI);
   // el.ingredientToRemove.addEventListener('click', removeIngredientFromArray);
-  // el.searchButton.addEventListener('click', searchHandler);
+  el.searchButton.addEventListener('click', searchHandler);
   el.searchBar.addEventListener('keyup', checkKeys);
-
 }
 
 /* remove all content from searchbar */
@@ -77,6 +100,14 @@ function checkKeys(e) {
 function pageLoaded() {
   prepareHandles();
   addEventListeners();
+}
+
+
+// Needed for testing purposes
+const indexAPI = {el, searchHandler};
+
+if (typeof module === 'object') {
+  module.exports = indexAPI;
 }
 
 window.addEventListener('load', pageLoaded);
