@@ -58,6 +58,9 @@ function prioritySort(recipes, searchObj) {
 }
 
 function convertQueryFormats(searchObj) {
+  if (searchObj.parameters && !Array.isArray(searchObj.parameters)) {
+    searchObj.parameters = searchObj.parameters.split('%2C');
+  }
   if (searchObj.calories && Number.isInteger(searchObj.caloreis)) {
      searchObj.calories = Number(searchObj.calories);
    }
@@ -76,7 +79,6 @@ async function search(req, res) {
   try {
     const searchObj = req.query;
     convertQueryFormats(searchObj);
-    console.log(searchObj);
     const recipes = await collectRecipes(searchObj, res);
 
     if (recipes && recipes.length > 0) {
@@ -84,14 +86,13 @@ async function search(req, res) {
       if (retval.length === 0) res.sendStatus(404);
       else {
         prioritySort(retval, searchObj);
-        res.json(retval);
+
+        res.json((retval.length < 20) ? retval : retval.slice(0, 20));
       }
     }
     else {
       res.end();
     }
-
-
   } catch (err) {
     console.log(err.stack);
   }
