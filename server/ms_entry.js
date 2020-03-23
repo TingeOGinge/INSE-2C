@@ -1,3 +1,11 @@
+/** @module ms_entry
+*/
+/**ms_entry is the server code for which the rest of the backend runs off.
+* * Bind middleware to app
+* * HTTP get requests
+* * HTTP post requests
+*/
+
 const express = require('express');
 const app = express();
 const path = require('path');

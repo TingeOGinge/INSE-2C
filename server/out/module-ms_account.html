@@ -72,7 +72,9 @@
 
 
 <div class="description">
-    Attempts to delete a recipe scheduled for a specific time. Successful queriesreturn 200, unsuccessful queries return 404 Not Found & failed queries return 500Internal Server Error. req.body must contain recipe_id and sceduled time (ISO 8601)
+    <p>Attempts to delete a recipe scheduled for a specific time. Successful queries
+return 200, unsuccessful queries return 404 Not Found &amp; failed queries return 500
+Internal Server Error. req.body must contain recipe_id and sceduled time (ISO 8601)</p>
 </div>
 
 
@@ -119,7 +121,7 @@
 
             
 
-            <td class="description last">Account ID passed from ms_entry</td>
+            <td class="description last"><p>Account ID passed from ms_entry</p></td>
         </tr>
 
     
@@ -137,7 +139,7 @@
 
             
 
-            <td class="description last">recipe ID passed from ms_entry</td>
+            <td class="description last"><p>recipe ID passed from ms_entry</p></td>
         </tr>
 
     
@@ -155,7 +157,7 @@
 
             
 
-            <td class="description last">scheduled time passed from ms_entry</td>
+            <td class="description last"><p>scheduled time passed from ms_entry</p></td>
         </tr>
 
     
@@ -173,7 +175,7 @@
 
             
 
-            <td class="description last">res object represents HTTP response that's sent when it gets an HTTP request.</td>
+            <td class="description last"><p>res object represents HTTP response that's sent when it gets an HTTP request.</p></td>
         </tr>
 
     
@@ -214,7 +216,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ms_account.js.html">ms_account.js</a>, <a href="ms_account.js.html#line60">line 60</a>
+        <a href="ms_account.js.html">ms_account.js</a>, <a href="ms_account.js.html#line72">line 72</a>
     </li></ul></dd>
     
 
@@ -258,7 +260,9 @@
 
 
 <div class="description">
-    RegisterUser attempts to register a user. Undefined response from the queryindicates the username has already been registered. If the query fails a 500Internal Server Error is returned. req.body must contain username and password.
+    <p>RegisterUser attempts to register a user. Undefined response from the query
+indicates the username has already been registered. If the query fails a 500
+Internal Server Error is returned. req.body must contain username and password.</p>
 </div>
 
 
@@ -305,7 +309,7 @@
 
             
 
-            <td class="description last">the username is passed from ms_entry</td>
+            <td class="description last"><p>the username is passed from ms_entry</p></td>
         </tr>
 
     
@@ -323,7 +327,7 @@
 
             
 
-            <td class="description last">the password is passed from ms_entry</td>
+            <td class="description last"><p>the password is passed from ms_entry</p></td>
         </tr>
 
     
@@ -341,7 +345,7 @@
 
             
 
-            <td class="description last">res object represents HTTP response that's sent when it gets an HTTP request.</td>
+            <td class="description last"><p>res object represents HTTP response that's sent when it gets an HTTP request.</p></td>
         </tr>
 
     
@@ -426,7 +430,9 @@
 
 
 <div class="description">
-    Retrieves recipe infotmation from user's schedule. 404 Not found returned ifuser has npt scheduled any recipes or user does not exist. 500 Internal serverInternal Server Error if query fails.
+    <p>Retrieves recipe infotmation from user's schedule. 404 Not found returned if
+user has npt scheduled any recipes or user does not exist. 500 Internal server
+Internal Server Error if query fails.</p>
 </div>
 
 
@@ -473,7 +479,7 @@
 
             
 
-            <td class="description last">Account ID passed from ms_entry</td>
+            <td class="description last"><p>Account ID passed from ms_entry</p></td>
         </tr>
 
     
@@ -491,7 +497,7 @@
 
             
 
-            <td class="description last">res object represents HTTP response that's sent when it gets an HTTP request.</td>
+            <td class="description last"><p>res object represents HTTP response that's sent when it gets an HTTP request.</p></td>
         </tr>
 
     
@@ -532,7 +538,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ms_account.js.html">ms_account.js</a>, <a href="ms_account.js.html#line83">line 83</a>
+        <a href="ms_account.js.html">ms_account.js</a>, <a href="ms_account.js.html#line94">line 94</a>
     </li></ul></dd>
     
 
@@ -576,7 +582,10 @@
 
 
 <div class="description">
-    Attempts to schedule a recipe at a specific time (ISO 8601 format). Usercannot schedule the recipes at the same time slot, 409 returned if attempted.500 Internal Server Error returend if query failsreq.body must include recipe_id and scheduled_time.
+    <p>Attempts to schedule a recipe at a specific time (ISO 8601 format). User
+cannot schedule the recipes at the same time slot, 409 returned if attempted.
+500 Internal Server Error returend if query fails
+req.body must include recipe_id and scheduled_time.</p>
 </div>
 
 
@@ -623,7 +632,7 @@
 
             
 
-            <td class="description last">Account ID passed from ms_entry</td>
+            <td class="description last"><p>Account ID passed from ms_entry</p></td>
         </tr>
 
     
@@ -641,7 +650,7 @@
 
             
 
-            <td class="description last">recipe ID passed from ms_entry</td>
+            <td class="description last"><p>recipe ID passed from ms_entry</p></td>
         </tr>
 
     
@@ -659,7 +668,7 @@
 
             
 
-            <td class="description last">scheduled time passed from ms_entry</td>
+            <td class="description last"><p>scheduled time passed from ms_entry</p></td>
         </tr>
 
     
@@ -677,7 +686,7 @@
 
             
 
-            <td class="description last">res object represents HTTP response that's sent when it gets an HTTP request.</td>
+            <td class="description last"><p>res object represents HTTP response that's sent when it gets an HTTP request.</p></td>
         </tr>
 
     
@@ -718,7 +727,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ms_account.js.html">ms_account.js</a>, <a href="ms_account.js.html#line36">line 36</a>
+        <a href="ms_account.js.html">ms_account.js</a>, <a href="ms_account.js.html#line41">line 41</a>
     </li></ul></dd>
     
 
@@ -764,13 +773,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ms_account.html">ms_account</a></li><li><a href="module-ms_algorithm.html">ms_algorithm</a></li><li><a href="module-ms_auth.html">ms_auth</a></li><li><a href="module-ms_database.html">ms_database</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ms_account.html">ms_account</a></li><li><a href="module-ms_algorithm.html">ms_algorithm</a></li><li><a href="module-ms_auth.html">ms_auth</a></li><li><a href="module-ms_database.html">ms_database</a></li><li><a href="module-ms_entry.html">ms_entry</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sat Mar 21 2020 14:56:34 GMT+0000 (Greenwich Mean Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Mon Mar 23 2020 13:22:27 GMT+0000 (Greenwich Mean Time)
 </footer>
 
 <script> prettyPrint(); </script>
