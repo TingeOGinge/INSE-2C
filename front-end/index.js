@@ -8,6 +8,8 @@ const el = {
 /* adds ingredients to list below  */
 function addIngredienttoLI() {
   const listItem = document.createElement("li");
+  listItem.classList.add('parameter');
+  listItem.addEventListener('click', removeParameterHandler);
   let query = document.getElementById("searchbar").value;
   listItem.textContent = query;
   el.ingredientList.append(listItem);
@@ -15,14 +17,12 @@ function addIngredienttoLI() {
   removeContentFrom(el.searchBar);
 }
 
-// function removeIngredientFromArray(){
-// }
-
-// function requirementsHandler(options){
-//
-// }
-
-
+function removeParameterHandler(e) {
+  if (el.ingredientArray.indexOf(e.target.textContent) !== -1) {
+    el.ingredientArray.splice(e.target.textContent, 1);
+  }
+  e.target.remove();
+}
 
 function collectSearchObject() {
   const searchObj = {parameters: el.ingredientArray};
