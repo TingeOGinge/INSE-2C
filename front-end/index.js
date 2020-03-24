@@ -53,7 +53,7 @@ function collectSearchObject() {
     }
     searchObj.serving = parseInt(el.serve.value, 10);
   }
-  
+
   el.restrictions.forEach(elem => {
     if (elem.checked) el.chosenRestrictions.push(elem);
   });
@@ -94,7 +94,13 @@ function prepareHandles() {
   el.popupContainer = document.querySelector('#searchErrorPopup');
   el.popupContent= document.querySelector('#searchErrorContent');
   el.popupButton = document.querySelector('#searchPopupButton');
+  // add profile btn
 }
+
+// pflistener
+// if (window.localStorage.getitem('jwt') =! null){
+//
+// }
 
 /* listens on all events */
 function addEventListeners() {

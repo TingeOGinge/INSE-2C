@@ -188,7 +188,7 @@ header * {
     margin: .05rem;
 }
 
-#result{
+#recipe{
   border-style: solid; border-width: 1px ;
   margin-bottom: 4%;
   margin-top: 5%;
@@ -196,7 +196,7 @@ header * {
   margin-right: 10%
 }
 
-#ingredientResult{
+#recipeIngredient{
   margin: 1rem;
 }
 
