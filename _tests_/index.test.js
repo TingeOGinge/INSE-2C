@@ -17,6 +17,8 @@ describe("Test front-end/index.js", () => {
     document.body.innerHTML = HTML_TEMPLATE;
     setWindowToIndex();
     dispatchEvent(LOAD_EVENT);
+    index.el.ingredientArray = [];
+    index.el.chosenRestrictions = [];
   });
 
   const mockSearchHandler = jest.fn(index.searchHandler);
