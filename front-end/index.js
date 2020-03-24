@@ -25,20 +25,33 @@ function removeParameterHandler(e) {
 }
 
 function collectSearchObject() {
-  const searchObj = {parameters: el.ingredientArray};
+  const searchObj = {
+    parameters: el.ingredientArray,
+    valid: true
+  };
 
-  if (el.time.value !== '' && Number.isInteger(el.time.value)) {
-    searchObj.time = Number(el.time.value);
+  if (el.time.value !== '') {
+    if (!isNaN(parseInt(el.time, 10))) {
+      searchObj.time = parseInt(el.time, 10);
+    } else {
+      searchObj.valid = false;
+      return searchObj;
+    }
   }
-  if (el.cal.value !== '' && Number.isInteger(el.cal.value)) {
-    searchObj.calories = Number(el.cal.value);
+  if (el.cal.value !== '') {
+    if (!isNaN(parseInt(el.cal, 10))) {
+      searchObj.calories = Number.parseInt(el.cal);
+    } else {
+      searchObj.valid = false;
+      return searchObj;
+    }
   }
-  if (el.serve.value !== '' && Number.isInteger(el.serve.value)) {
-    searchObj.serving = Number(el.serve.value);
-  }
-  for (const restriction of el.restrictions) {
-    if (restriction.checked) {
-      el.chosenRestrictions.push(restriction);
+  if (el.serve.value !== '') {
+    if (!isNaN(parseInt(el.serve, 10))) {
+      searchObj.serving = Number.parseInt(el.serve);
+    } else {
+      searchObj.valid = false;
+      return searchObj;
     }
   }
   el.restrictions.forEach(elem => {
@@ -55,12 +68,15 @@ async function searchHandler(){
   if (el.ingredientArray.length > 0) {
     try{
       const searchObj = collectSearchObject();
+      if (!searchObj.valid) throw new Error("It seems you've entered invalid search paramters");
       const searchResult = await clientSideAPI.search(searchObj);
       window.localStorage.setItem('searchResult', JSON.stringify(searchResult));
       window.location.href = 'results.html';
     } catch (err) {
       // handle search with no response
       console.log(err);
+      el.popupContent.textContent = err;
+      el.popupContainer.classList.remove('hiddenContent');
     }
   }
 }
@@ -75,14 +91,22 @@ function prepareHandles() {
   el.cal = document.querySelector('#cal');
   el.serve = document.querySelector('#serve');
   el.restrictions = document.querySelectorAll('.restriction');
+  el.popupContainer = document.querySelector('#searchErrorPopup');
+  el.popupContent= document.querySelector('#searchErrorContent');
+  el.popupButton = document.querySelector('#searchPopupButton');
 }
 
 /* listens on all events */
 function addEventListeners() {
   el.ingredientButton.addEventListener('click', addIngredienttoLI);
-  // el.ingredientToRemove.addEventListener('click', removeIngredientFromArray);
   el.searchButton.addEventListener('click', searchHandler);
   el.searchBar.addEventListener('keyup', checkKeys);
+  el.popupButton.addEventListener('click', popupButtonHandler);
+}
+
+function popupButtonHandler(){
+  el.popupContainer.classList.add('hiddenContent');
+  el.popupContent.textContent = '';
 }
 
 /* remove all content from searchbar */

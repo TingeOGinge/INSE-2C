@@ -23,6 +23,11 @@
       <input id=search class=btnStyle type=button value="Search">
     </div>
 
+    <aside id="searchErrorPopup" class="hiddenContent">
+      <p id="searchErrorContent">Error</p>name=""
+      <button type="button" name="closeSearchPopup" id="searchPopupButton">Close</button>
+    </aside>
+
     <ul id="ingredient">
     </ul>
 
@@ -38,9 +43,9 @@
     </ul>
 
     <div class="dropdown" id="usrSelectionAll">
-        <input id=time type=text autofocus autocomplete=off>
-        <input id=cal type=text autofocus autocomplete=off>
-        <input id=serve type=text autofocus autocomplete=off>
+        <input id=time name="time" type=text autofocus autocomplete=off>
+        <input id=cal name="cal" type=text autofocus autocomplete=off>
+        <input id=serve name="serve" type=text autofocus autocomplete=off>
 
         <div id=diet>
           <input class="restriction" type="checkbox" id="vegetarian" name="vegetarian">
