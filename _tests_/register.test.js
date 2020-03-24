@@ -7,7 +7,6 @@ const HTML_TEMPLATE = fs.readFileSync(path.join(__dirname, '..', 'front-end', 'r
 const LOAD_EVENT = new Event('load');
 
 const randomUsername = crypto.randomBytes(10).toString('hex');
-// const scheduledTime = new Date().toISOString();
 
 function resetWindowLocation() {
   window.location.href = 'register.html';
