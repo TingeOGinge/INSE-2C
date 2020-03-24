@@ -30,30 +30,30 @@ function collectSearchObject() {
     valid: true
   };
 
-  if (el.time.value !== '') {
-    if (!isNaN(parseInt(el.time, 10))) {
-      searchObj.time = parseInt(el.time, 10);
-    } else {
+  if (el.time.value !== ''){
+    if (isNaN(el.time.value)) {
       searchObj.valid = false;
       return searchObj;
     }
+    searchObj.time = parseInt(el.time.value, 10);
   }
-  if (el.cal.value !== '') {
-    if (!isNaN(parseInt(el.cal, 10))) {
-      searchObj.calories = Number.parseInt(el.cal);
-    } else {
+
+  if (el.cal.value !== ''){
+    if (isNaN(el.cal.value)) {
       searchObj.valid = false;
       return searchObj;
     }
+    searchObj.calories = parseInt(el.cal.value, 10);
   }
-  if (el.serve.value !== '') {
-    if (!isNaN(parseInt(el.serve, 10))) {
-      searchObj.serving = Number.parseInt(el.serve);
-    } else {
+
+  if (el.serve.value !== ''){
+    if (isNaN(el.serve.value)) {
       searchObj.valid = false;
       return searchObj;
     }
+    searchObj.serving = parseInt(el.serve.value, 10);
   }
+  
   el.restrictions.forEach(elem => {
     if (elem.checked) el.chosenRestrictions.push(elem);
   });
