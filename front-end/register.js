@@ -1,4 +1,4 @@
-/* global registerUser */
+/* global clientSideAPI, module */
 
 const el = {};
 
@@ -12,11 +12,12 @@ async function register() {
   if (el.username.value !== "" && el.password.value !== "") {
     try {
       const registerObj = {username: el.username.value, password: el.password.value};
-      await registerUser(registerObj);
+      await clientSideAPI.registerUser(registerObj);
       window.location.href = 'login.html';
     } catch(err) {
-      // Either 409 Conflict or 500 Internal Server Error if unforseen issue
+      // Either 409 Conflict, 400 Bad Request or 500 Internal Server Error if unforseen issue
       console.log(err);
+      return false;
     }
   }
 }
@@ -36,3 +37,5 @@ function init() {
 }
 
 window.addEventListener('load', init);
+
+if (typeof module === 'object') module.exports = {el, register};
