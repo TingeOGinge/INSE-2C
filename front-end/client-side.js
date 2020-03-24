@@ -49,8 +49,7 @@ function generateRequestOptions(type, data, token) {
   return retval;
 }
 
-const clientSideAPI = {registerUser, login, scheduleRecipe, search};
-
 if (typeof module === 'object') {
+  const clientSideAPI = {registerUser, login, scheduleRecipe, search};
   module.exports = clientSideAPI;
 }
