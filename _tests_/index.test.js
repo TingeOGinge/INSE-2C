@@ -73,4 +73,13 @@ describe("Test front-end/index.js", () => {
     expect(window.location.href).toEqual('results.html');
   });
 
+  test("Test deleting elements from search parameters", () => {
+    index.el.searchBar.value = 'chicken';
+    index.el.ingredientButton.click();
+    const searchParams = document.querySelectorAll('.parameter');
+    expect(index.el.ingredientArray.length === 1).toBe(true);
+    searchParams[0].click();
+    expect(index.el.ingredientArray.length === 0).toBe(true);
+  });
+
 });
