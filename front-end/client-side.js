@@ -2,7 +2,7 @@
 
 async function registerUser(data) {
   const url = 'http://localhost:5000/api/registerUser';
-  const requestOptions = generateRequestOptions(data, 'POST');
+  const requestOptions = generateRequestOptions(data);
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw new Error(response.statusText);
@@ -11,7 +11,7 @@ async function registerUser(data) {
 
 async function login(data) {
   const url = 'http://localhost:5000/api/login';
-  const requestOptions = generateRequestOptions(data, 'POST');
+  const requestOptions = generateRequestOptions(data);
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw new Error(response.statusText);
@@ -21,7 +21,7 @@ async function login(data) {
 
 async function scheduleRecipe(data) {
   const url = 'http://localhost:5000/api/scheduleRecipe';
-  const requestOptions = generateRequestOptions(data, 'POST');
+  const requestOptions = generateRequestOptions(data);
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw new Error(response.statusText);
@@ -39,17 +39,16 @@ async function search(data) {
   return recipes;
 }
 
-function generateRequestOptions(type, data, token) {
+function generateRequestOptions(data, token) {
   const retval =  {
-    method: `${type}`,
+    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: (data) ? JSON.stringify(data) : undefined
+    body: JSON.stringify(data)
   };
   if (token) retval.headers.authorization = `Bearer ${token}`;
   return retval;
 }
 
 if (typeof module === 'object') {
-  const clientSideAPI = {registerUser, login, scheduleRecipe, search};
-  module.exports = clientSideAPI;
+  module.exports = {registerUser, login, scheduleRecipe, search};
 }
