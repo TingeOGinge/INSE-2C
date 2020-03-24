@@ -19,6 +19,7 @@ describe("Test front-end/index.js", () => {
     dispatchEvent(LOAD_EVENT);
     index.el.ingredientArray = [];
     index.el.chosenRestrictions = [];
+    window.localStorage.clear();
   });
 
   const mockSearchHandler = jest.fn(index.searchHandler);
@@ -57,9 +58,9 @@ describe("Test front-end/index.js", () => {
     index.el.ingredientButton.click();
     index.el.searchBar.value = 'potatoes';
     index.el.ingredientButton.click();
-    index.el.time = '180';
-    index.el.cal = '500';
-    index.el.serve = '4';
+    index.el.time.value = '180';
+    index.el.cal.value = '500';
+    index.el.serve.value = '4';
     index.el.restrictions.forEach((r) => {
       if (r.id === 'gluten-free') {
         r.checked = true;
