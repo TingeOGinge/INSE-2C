@@ -59,7 +59,7 @@ function prioritySort(recipes, searchObj) {
 
 function convertQueryFormats(searchObj) {
   if (searchObj.parameters && !Array.isArray(searchObj.parameters)) {
-    searchObj.parameters = searchObj.parameters.split('%2C');
+    searchObj.parameters = searchObj.parameters.split(',');
   }
   if (searchObj.calories && Number.isInteger(searchObj.caloreis)) {
      searchObj.calories = Number(searchObj.calories);
