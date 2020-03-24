@@ -7,23 +7,21 @@
     <script src="client-side.js"></script>
   </head>
   <body>
-    <div class="container">
-      <h1>Log in to your EcoChef account</h1>
-      <form class="" action="index.html" method="post">
-      <div class="tbox">
-          <input type="text" placeholder="Email address" value="">
-      </div>
+  <div class="container">
+    <h1>Log in to your EcoChef account</h1>
     <div class="tbox">
-      <input type="text" placeholder="password" value="">
-
+      <input id="loginUsername" type="text" placeholder="Username" value="">
     </div>
-    <input class="btn" type="submit" name="" value="LOG IN">
-      </form>
-
-      <div class="register_link">
-        <p>Don't have an account yet?</p>
-        <a class="b1" href="#">Register</a>
+    <div class="tbox">
+      <input id="loginPassword" type="password" placeholder="password" value="">
+    </div>
+    <button type="button" name="loginButton" id="loginButton">Login</button>
+    <div class="register_link">
+      <p>Don't have an account yet?</p>
+      <a class="b1" href="#">Register</a>
     </div>
   </div>
+  <script src="client-side.js"></script>
+  <script src="login.js"></script>
   </body>
 </html>
