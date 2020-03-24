@@ -1,4 +1,4 @@
-/* global module, clientSideAPI */
+/* global module, search */
 
 const el = {
   ingredientArray: [],
@@ -69,7 +69,7 @@ async function searchHandler(){
     try{
       const searchObj = collectSearchObject();
       if (!searchObj.valid) throw new Error("It seems you've entered invalid search paramters");
-      const searchResult = await clientSideAPI.search(searchObj);
+      const searchResult = await search(searchObj);
       window.localStorage.setItem('searchResult', JSON.stringify(searchResult));
       window.location.href = 'results.html';
     } catch (err) {

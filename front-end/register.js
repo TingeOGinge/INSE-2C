@@ -1,4 +1,4 @@
-/* global clientSideAPI, module */
+/* global registerUser, module */
 
 const el = {};
 
@@ -12,7 +12,7 @@ async function register() {
   if (el.username.value !== "" && el.password.value !== "") {
     try {
       const registerObj = {username: el.username.value, password: el.password.value};
-      await clientSideAPI.registerUser(registerObj);
+      await registerUser(registerObj);
       window.location.href = 'login.html';
     } catch(err) {
       // Either 409 Conflict, 400 Bad Request or 500 Internal Server Error if unforseen issue

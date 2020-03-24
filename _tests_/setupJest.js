@@ -1,5 +1,9 @@
 require('jest-fetch-mock').enableMocks();
-global.clientSideAPI = require('../front-end/client-side.js');
+const clientSideAPI = require('../front-end/client-side.js');
+
+global.search = clientSideAPI.search;
+global.registerUser = clientSideAPI.registerUser;
+global.login = clientSideAPI.login;
 
 delete window.location;
 global.window.location = {href: null};
