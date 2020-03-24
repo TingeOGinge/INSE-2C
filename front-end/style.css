@@ -74,7 +74,8 @@ header * {
     text-decoration: none;
     text-align: center;
     font-size: 75%;
-    display: inline-block; padding: 2px 8px;
+    display: inline-block;
+    padding: 2px 8px;
     border-style: solid; border-width: 1px ;
     border-radius: 6px;
     float: right;
@@ -90,6 +91,19 @@ header * {
   background: #FFFFFF;
   color: #18A0FB;
   }
+
+#btnProfile{
+  background: #FFFFFF;
+  color: #18A0FB;
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+#btnProfile img{
+  width: 15px;
+  height: 15px;
+}
 
 #detail{
   margin-top: 5%;
@@ -131,7 +145,6 @@ header * {
   color: #18A0FB;
   margin-right: 0em;
 }
-
 
 #ingredient ul {
   padding-left: 2rem;
