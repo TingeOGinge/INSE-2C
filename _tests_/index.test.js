@@ -78,6 +78,7 @@ describe("Test front-end/index.js", () => {
     index.el.ingredientButton.click();
     const searchParams = document.querySelectorAll('.parameter');
     expect(index.el.ingredientArray.length === 1).toBe(true);
+    expect(index.el.ingredientArray[0] === 'chicken');
     searchParams[0].click();
     expect(index.el.ingredientArray.length === 0).toBe(true);
   });
