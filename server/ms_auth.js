@@ -79,8 +79,13 @@ function generateToken(data) {
 // Salt is left at the default of ten to provide a middle ground between security and speed
 async function hashPassword(req, res, next) {
   if (req.body.password) {
-    req.body.password = await bcrypt.hash(req.body.password, 10);
-    next();
+    try {
+      console.log(req.body);
+      req.body.password = await bcrypt.hash(req.body.password, 10);
+      next();
+    } catch(err) {
+      res.sendStatus(400);
+    }
   } else {
     res.sendStatus(400);
   }
