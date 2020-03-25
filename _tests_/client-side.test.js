@@ -1,12 +1,16 @@
 const api = require('../front-end/client-side.js');
+const resultData = require('./results.json');
 
 const exampleToken = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImFjY291bnRfdXNlcm5hbWUiOiJEaWxsb24iLCJhY2NvdW50X2lkIjoxNDUsImFkbWluX3N0YXR1cyI6dHJ1ZX0sImlhdCI6MTU4NDc3NjYxMSwiZXhwIjoxNTg0ODYzMDExfQ.jWPk1jinxvLuQuK_oFE6dh_nnPfRTUaGeOLMZTXtWuNfJSzdcSdeGS-q4TVoXEMhslZ7x-h9L5J2pgsjdNemKDsDafbrvTCdII1BZRZOfTrmRht__bwQm9CJ5DbnStwBu52AfUCrvaGnJCQR3UAcwkvbdSgiRwf4l5bAB_cT9sDmPR9FJFazeZc8QRCWANGLW5FrUZ7uFC95AX627DuxxSNOTStO298OjyHm80cFleN8zKYxms3tSpypG5qYgL5YMLEY8OAjtWR6eM2avlacatPoJKeoUaJzQ-ZP3wmwres383pEMJ72_AJHPHEEAiwQhEWOWYxodur0dUMaEA4gJA';
+
 
 describe("Test the client-side API functions", () =>{
 
   beforeEach(() => {
     fetch.resetMocks();
   });
+
+  const newDate = new Date();
 
   test("Test registering a new user", async () => {
     fetch.mockResponses(
@@ -36,6 +40,7 @@ describe("Test the client-side API functions", () =>{
     // Internal server error
     await expect(api.registerUser()).rejects.toThrow('Internal Server Error');
   });
+
 
   test("Test logging in", async () => {
     fetch.mockResponses(
@@ -73,6 +78,7 @@ describe("Test the client-side API functions", () =>{
     await expect(api.login()).rejects.toThrow('Internal Server Error');
   });
 
+
   test("Test scheduling a recipe", async () => {
     fetch.mockResponses(
       [
@@ -97,8 +103,6 @@ describe("Test the client-side API functions", () =>{
       ]
     );
 
-    const newDate = new Date();
-
     // Valid attempt
     const token = await api.scheduleRecipe(`{"recipe_id":2,"scheduled_time":"${newDate}"}`);
     expect(token).toEqual(exampleToken);
@@ -119,10 +123,56 @@ describe("Test the client-side API functions", () =>{
     await expect(api.scheduleRecipe()).rejects.toThrow('Internal Server Error');
   });
 
+
+  test("Test deleting a recipe from user's schedule", async () => {
+    fetch.mockResponses(
+      [
+        `{"token":"${exampleToken}"}`,
+        { status: 200 }
+      ],
+      [
+        '',
+        { status: 404 }
+      ],
+      [
+        `{"message":"Access Denied","err":"error message"}`,
+        { status: 401 }
+      ],
+      [
+        `{"token":"${exampleToken}"}`,
+        { status: 409 }
+      ],
+      [
+        '',
+        { status: 500 }
+      ]
+    );
+
+    // Valid attempt
+    const token = await api.deleteFromSchedule(`{"recipe_id":2,"scheduled_time":"${newDate}"}`);
+    expect(token).toEqual(exampleToken);
+
+    // No JWT in request
+    await expect(api.deleteFromSchedule(`{"recipe_id":2,"scheduled_time":"${newDate}"}`))
+      .rejects.toThrow('Not Found');
+
+    // Token verification fail
+    await expect(api.deleteFromSchedule(`{"recipe_id":2,"scheduled_time":"${newDate}"}`))
+      .rejects.toThrow('Unauthorized');
+
+    // Schedule conflict
+    await expect(api.deleteFromSchedule(`{"recipe_id":2,"scheduled_time":"${newDate}"}`))
+      .rejects.toThrow('Conflict');
+
+    // Server error
+    await expect(api.deleteFromSchedule()).rejects.toThrow('Internal Server Error');
+  });
+
+
   test("Testing the search", async() => {
     fetch.mockResponses(
       [
-        `[{"recipe1":{}},{"recipe2":{}}]`,
+        JSON.stringify(resultData.justChickenSearch),
         { status: 200 }
       ],
       [
@@ -140,6 +190,7 @@ describe("Test the client-side API functions", () =>{
     expect(Array.isArray(recipes)).toEqual(true);
     expect(typeof recipes[0]).toEqual('object');
     expect(recipes.length > 0).toEqual(true);
+    expect(recipes).toEqual(resultData.justChickenSearch);
 
     // Server error
     await expect(api.search(`{"parameters":["chicken"]}`))
