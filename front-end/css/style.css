@@ -193,15 +193,30 @@ header * {
   margin-bottom: 4%;
   margin-top: 5%;
   margin-left: 10%;
-  margin-right: 10%
+  margin-right: 10%;
+  padding-bottom: 1em;
 }
 
-.recipeIngredient{
+.recipe:hover{
+  cursor: pointer;
+}
+
+recipeIngredient{
   margin: 1rem;
 }
 
 .recipeTitle{
   padding: 1em;
+}
+
+.ingredientTitle{
+  padding-left: 2em;
+  padding-bottom: 0.2em;
+}
+
+.ingredientList{
+  padding-left: 3em;
+  font-size: 13px;
 }
 
 #signUpContainer{

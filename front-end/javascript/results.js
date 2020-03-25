@@ -57,6 +57,7 @@ function loadRecipes(){
         const recipeIngredient = document.createElement("li");
         recipeIngredient.innerHTML = ingredient;
         recipeIngredient.classList.add(
+          'ingredientList',
           'recipeEventListener',
           recipeIDClass
         );
