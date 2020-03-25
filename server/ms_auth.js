@@ -80,7 +80,6 @@ function generateToken(data) {
 async function hashPassword(req, res, next) {
   if (req.body.password) {
     try {
-      console.log(req.body);
       req.body.password = await bcrypt.hash(req.body.password, 10);
       next();
     } catch(err) {
