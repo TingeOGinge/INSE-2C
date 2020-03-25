@@ -23,8 +23,14 @@ function loadRecipes(){
 
       const recipeHeader = document.createElement("h3");
       recipeHeader.id = 'recipeTitle';
+      recipeHeader.addEventListener('click', linkHandler);
       recipeHeader.innerHTML = recipe.recipe_name;
       el.recipeTitle.append(recipeHeader);
+
+      const ingredientTitle = document.createElement("h4");
+      ingredientTitle.id = 'ingredientTitle';
+      ingredientTitle.textContent = "Ingredients:";
+      el.recipeTitle.append(ingredientTitle);
 
       const recipeIngredients = document.createElement("ul");
       recipeIngredients.id = 'recipeIngredient';
@@ -36,10 +42,21 @@ function loadRecipes(){
         el.recipeTitle.append(recipeIngredient);
       }
     }
+  }
 }
+
+function linkHandler(e){
+  window.console.log(e.Storage.getItem());
+  // .localStorage.getItem()
+  // if (e.target !== e.currentTarget) {
+  //     let clickedItem = e.target.id;
+  //     alert("Hello " + clickedItem);
+  // }
+  // e.stopPropagation();
 }
 
 function addEventListeners() {
+  // el.recipeClicker.addEventListener("click", linkHandler);
 }
 
 function pageLoaded() {
