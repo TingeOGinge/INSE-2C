@@ -4,14 +4,15 @@
 // json.parse.object
 
 const el = {};
+const recipes = (window.localStorage.getItem('searchResult') != null)
+  ? JSON.parse(window.localStorage.getItem('searchResult')) : null;
 
 function prepareHandles() {
   el.recipeTitle = document.querySelector('#recipePlaceholder');
 }
 
 function loadRecipes(){
-  if (window.localStorage.getItem('searchResult') != null){
-    const recipes = JSON.parse(window.localStorage.getItem('searchResult'));
+  if (recipes != null){
 
     let recipe = "";
     let ingredient = "";
@@ -64,7 +65,7 @@ function loadRecipes(){
     }
     document.querySelectorAll('.recipeEventListener').forEach(elem => {
       elem.addEventListener('click', linkHandler);
-    })
+    });
   }
 }
 
@@ -73,33 +74,17 @@ function linkHandler(e){
   let recipeID;
   elementClassList.forEach(elementClass => {
     if (elementClass.includes('recipeID')) {
-      console.log(elementClass.replace('recipeID', ''));
+      recipeID = elementClass.replace('recipeID', '');
     }
   });
-
-
-  // loop through the classes and find the one that starts with recipeID String.includes().replace('recipeID', '') parseInt(x, 10)
-
-    // window.console.log(recipeIDString);
-
-  // recipes.find(recipe => recipe.recipe_id === result above)
-
-
-  // .localStorage.getItem()
-  // if (e.target !== e.currentTarget) {
-  //     let clickedItem = e.target.id;
-  //     alert("Hello " + clickedItem);
-  // }
-  // e.stopPropagation();
-}
-
-function addEventListeners() {
-  el.recipeClicker.addEventListener("click", linkHandler);
+  recipeID = parseInt(recipeID, 10);
+  const chosenRecipe = recipes.find(recipe => recipe.recipe_id === recipeID);
+  window.localStorage.setItem('chosenRecipe', JSON.stringify(chosenRecipe));
+  window.location.href = 'recipe.html';
 }
 
 function pageLoaded() {
   prepareHandles();
-  // addEventListeners();
   loadRecipes();
 }
 
