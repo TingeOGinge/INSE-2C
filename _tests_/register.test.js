@@ -23,7 +23,7 @@ describe("Test front-end/index.js", () => {
   test("Test valid registering of a user", async () => {
     fetch.mockResponse('', { status: 201 });
 
-    register.el.username.value = randomUsername;
+    register.el.username.value = 'username';
     register.el.password.value = 'password';
     await mockRegister();
     expect(window.location.href).toEqual('login.html');
