@@ -108,6 +108,16 @@ async function getUserSchedule(token) {
   return schedule;
 }
 
+/** search takes search parameters (called data) and returns a list of recipes.
+* It does this by passing the search data to URLSearchParams in the form of a
+* string to be part of url.search. Recipes are returned after awaiting the url.href.
+* if the response isnt what is to be expected it throws an error
+*@param {object} data - search parameters
+*@param {String} url - URL to mainSearch api
+*@param {String} url.search - search string to be used
+*@param {String} url.href - attribute of anchor tag
+*/
+
 async function search(data) {
   const url = new URL('http://localhost:5000/api/mainSearch');
   url.search = new URLSearchParams(data).toString();
