@@ -49,8 +49,8 @@ async function login(data) {
 *  and waiting for a response from the scheduleRecipe API. If successful the jwt
 * is passed back. If unsuccessful an error is thrown.
 * @param {Object} data l- JSON object containing date+time in ISO 8601 format and recipe id
-* @param {datetime} data.scheduled_time datetime for scheduled recipe in ISO 8601 format
-* @param {Integer} data.recipe_id ID to recipe that is being scheduled
+* @param {datetime} data.scheduled_time- datetime for scheduled recipe in ISO 8601 format
+* @param {Integer} data.recipe_id - ID to recipe that is being scheduled
 * @param {Object} requestOptions -  stringified scheduled_time and recipe_id data
 * @param {String} url - url to schedule recipe api
 * @param {String} token - jwt that is stored in local storage for future use
@@ -64,6 +64,18 @@ async function scheduleRecipe(data, token) {
   if (!response.ok) throw new Error(response.statusText);
   return response;
 }
+
+/** deleteFromSchedule deletes a scheduled recipe from the user's account.
+* It does this by stringifying the recipe_id and datetime and awaiting a response
+* from the deleteFromSchedule API. If successful it returns the jwt. If unsuccessful
+* it throws an error. 
+* @param {Object} data - JSON object containing date+time in ISO 8601 format and recipe id
+* @param {datetime} data.scheduled_time - datetime for deleteFromSchedule in ISO 8601 format
+* @param {Integer} data.recipe_id - ID to recipe that is being deleted
+* @param {Object} requestOptions -  stringified scheduled_time and recipe_id data
+* @param {String} url - url to delete recipe api
+* @param {String} token - jwt that is stored in local storage for future use
+*/
 
 async function deleteFromSchedule(data, token) {
   const url = 'http://localhost:5000/api/deleteFromSchedule';
