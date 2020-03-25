@@ -1,5 +1,10 @@
 /* global module */
 
+/** @module clientside.js
+*/
+
+
+
 async function registerUser(data) {
   const url = 'http://localhost:5000/api/registerUser';
   const requestOptions = generatePOSTRequestOptions(data);
@@ -69,6 +74,15 @@ async function getRecipe(id) {
   const recipe = await response.json();
   return recipe;
 }
+
+/** generateRequestOptions takes data and a jwt. If there is a token it will
+* assign it to retval.headers.authorization. retval is returned containig the data
+* requested as a strubg.
+* @param {Object} data - data to be turned into a string
+* @param {object} token - jwt
+* @param {object} retval - returns stringified data
+* @param {String} retval.headers.authorization - authorization string for returned value
+*/
 
 function generatePOSTRequestOptions(data, token) {
   const retval =  {
