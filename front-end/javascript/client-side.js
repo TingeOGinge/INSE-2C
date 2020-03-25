@@ -59,6 +59,15 @@ async function search(data) {
   return recipes;
 }
 
+async function getRecipe(id) {
+  const url = `http://localhost:5000/api/getRecipe/${id}`;
+  const response = await fetch(url);
+
+  if (!response.ok) throw new Error(response.statusText);
+  const recipe = await response.json();
+  return recipe;
+}
+
 function generateRequestOptions(data, token) {
   const retval =  {
     method: 'POST',
@@ -76,6 +85,7 @@ if (typeof module === 'object') {
     scheduleRecipe,
     search,
     deleteFromSchedule,
-    getUserSchedule
+    getUserSchedule,
+    getRecipe
   };
 }

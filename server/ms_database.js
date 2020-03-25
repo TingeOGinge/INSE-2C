@@ -71,7 +71,23 @@ const queryDictionary = {
                 'LEFT JOIN dietary_restrictions e on d.diet_restriction_id = e.diet_restriction_id ' +
                 'WHERE c.ingredient_name SIMILAR TO $1 ' +
                 'OR a.recipe_name SIMILAR TO $1' +
-              'GROUP BY a.recipe_id'
+              'GROUP BY a.recipe_id',
+  searchRecipeID: 'SELECT ' +
+                    'DISTINCT a.recipe_id, ' +
+                    'a.recipe_name, ' +
+                    'EXTRACT(epoch FROM a.recipe_cooking_time)/60 as cooking_minutes, ' +
+                    'a.recipe_method, ' +
+                    'a.recipe_ingredients, ' +
+                    'a.recipe_serving_size, ' +
+                    'a.recipe_calories, ' +
+                    'ARRAY_AGG (DISTINCT e.diet_restriction_name) as dietary_restrictions ' +
+                  'FROM recipe a ' +
+                    'LEFT JOIN recipe_ingredient b ON a.recipe_id = b.recipe_id ' +
+                    'LEFT JOIN ingredient c on b.ingredient_id = c.ingredient_id ' +
+                    'LEFT JOIN recipe_dietary d on a.recipe_id = d.recipe_id ' +
+                    'LEFT JOIN dietary_restrictions e on d.diet_restriction_id = e.diet_restriction_id ' +
+                    'WHERE a.recipe_id = $1 ' +
+                  'GROUP BY a.recipe_id'
 };
 
 async function query(queryFlag, parameters) {

@@ -103,5 +103,15 @@ async function search(req, res) {
   }
 }
 
-module.exports = {search};
-module.exports = {search, filterRecipe, prioritySort};
+async function getRecipe(req, res) {
+  const id = req.params.id;
+  console.log(id);
+  try {
+    const recipe = await query('searchRecipeID', id);
+    (recipe.rows.length > 0) ? res.json(recipe.rows[0]) : res.sendStatus(404);
+  } catch(err) {
+    res.sendStatus(404);
+  }
+}
+
+module.exports = {search, filterRecipe, prioritySort, getRecipe};
