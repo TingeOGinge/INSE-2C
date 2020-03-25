@@ -45,10 +45,15 @@ async function login(data) {
 
 /** scheduleRecipe allows a user to schedule a recipe to a particular ISO 8601
 * formatted time. The user must be logged in to do this as all scheduled recuoes
-* are linked to accounts. It does this by stringifying the data+time plus username
+* are linked to accounts. It does this by stringifying the datetime plus recipe_id
 *  and waiting for a response from the scheduleRecipe API. If successful the jwt
-* is passed back. If un 
-*
+* is passed back. If unsuccessful an error is thrown.
+* @param {Object} data l- JSON object containing date+time in ISO 8601 format and recipe id
+* @param {datetime} data.scheduled_time datetime for scheduled recipe in ISO 8601 format
+* @param {Integer} data.recipe_id ID to recipe that is being scheduled
+* @param {Object} requestOptions -  stringified scheduled_time and recipe_id data
+* @param {String} url - url to schedule recipe api
+* @param {String} token - jwt that is stored in local storage for future use
 */
 
 async function scheduleRecipe(data, token) {
