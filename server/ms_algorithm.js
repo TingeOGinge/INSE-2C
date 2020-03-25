@@ -15,6 +15,11 @@ async function collectRecipes(searchObj, res) {
 }
 
 function filterRecipe(recipe, searchObj) {
+  while(recipe.dietary_restrictions.includes(null)) {
+    let nullIndex = recipe.dietary_restrictions.indexOf(null);
+    recipe.dietary_restrictions.splice(nullIndex, 1);
+  }
+
   if (searchObj.restrictions) {
     for (const restriction of searchObj.restrictions) {
       if (!(recipe.dietary_restrictions.includes(restriction))) {
