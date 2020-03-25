@@ -3,13 +3,13 @@
 /** @module clientside.js
 */
 
-/** registerUser registers a new user ny passing in data in the form of a 
+/** registerUser registers a new user ny passing in data in the form of a
 * username and password in a JSON object. It calls on the generateRequestOptions
 * function to stringify the data. Throws error if the response is not as expected
 * @param {Object} data - JSON object containing username and password.
 * @param {String} data.username - username for registering user
 * @param {String} data.password - password for registering user
-* @param {Object} requestOptions - stringified username and password ms_database
+* @param {Object} requestOptions - stringified username and password data
 * @param {String} url - url to register User API
 */
 
@@ -21,6 +21,17 @@ async function registerUser(data) {
   if (!response.ok) throw new Error(response.statusText);
   return response;
 }
+
+/** login logs the user in using a json object conatiaining username and password
+* by stringifying the data passed through, waiting for a response from the login
+* API using the stringified data and returning the payload's jwt. When the user
+* has a jwt they are in a logged in session.
+*@param {Object} data - JSON object containing username and password
+*@param {String} data.username - username of user
+*@param {String} data.password - password of user
+*@param {Object} requestOptions -  stringified username and password data
+*@param {String} url - url to login api
+*/
 
 async function login(data) {
   const url = 'http://localhost:5000/api/login';
