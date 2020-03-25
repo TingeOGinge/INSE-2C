@@ -68,7 +68,7 @@ async function scheduleRecipe(data, token) {
 /** deleteFromSchedule deletes a scheduled recipe from the user's account.
 * It does this by stringifying the recipe_id and datetime and awaiting a response
 * from the deleteFromSchedule API. If successful it returns the jwt. If unsuccessful
-* it throws an error. 
+* it throws an error.
 * @param {Object} data - JSON object containing date+time in ISO 8601 format and recipe id
 * @param {datetime} data.scheduled_time - datetime for deleteFromSchedule in ISO 8601 format
 * @param {Integer} data.recipe_id - ID to recipe that is being deleted
@@ -85,6 +85,14 @@ async function deleteFromSchedule(data, token) {
   if (!response.ok) throw new Error(response.statusText);
   return response;
 }
+
+/** getUserSchedule gets the user's account's scheduled recipes.
+* It does this by awaiting a response from the getUserSchedule API.
+* If successful it returns the jwt. If unsuccessful it throws an error.
+* @param token - jwt
+* @param requestOptions - jwt in generateRequestOptions' retval.headers.authorization
+* @param url - url to getUserSchedule API
+*/
 
 async function getUserSchedule(token) {
   const url = 'http://localhost:5000/api/getUserSchedule';
@@ -121,7 +129,7 @@ async function getRecipe(id) {
 
 /** generateRequestOptions takes data and a jwt. If there is a token it will
 * assign it to retval.headers.authorization. retval is returned containig the data
-* requested as a strubg.
+* requested as a string.
 * @param {Object} data - data to be turned into a string
 * @param {object} token - jwt
 * @param {object} retval - returns stringified data
