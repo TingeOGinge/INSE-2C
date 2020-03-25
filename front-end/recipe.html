@@ -5,6 +5,9 @@
 
 
   <body>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0"></script>
+
     <nav class="navbar">
       <a href="index.html" aria-label="Home" class="navbar_home">Ecochef</a>
       <a href="profile.html" aria-label="Profile" class="btnStyle" id=btnProfile><img src="media/profile.png"></a>
@@ -34,9 +37,10 @@
       <input type="datetime-local" class=social id="schedule-time"
        name="schedule-time" value="2020-01-01T12:00"
        min="2020-01-01T12:00" max="2030-01-01T12:00">
-
       <h4 class=social>Share it</h4>
+      <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
       <h4 class=social>Print it</h4>
+      <button id="print" type="button">Print</button>
     </aside>
 
   <script src="javascript/client-side.js"> </script>
