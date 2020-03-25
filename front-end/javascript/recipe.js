@@ -33,10 +33,10 @@ function loadRecipe(){
 }
 
 function socialControl(){
-  el.print.addEventListener('click', window.print());
+  el.print.addEventListener('click', () => window.print());
 
 
-  el.dateControl.value = new Date();
+  el.dateControl.valueAsNumber = new Date().getTime();
 
 
 
