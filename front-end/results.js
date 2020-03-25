@@ -17,36 +17,74 @@ function loadRecipes(){
     let ingredient = "";
 
     for (recipe of recipes){
+      let recipeIDClass = `recipeID${recipe.recipe_id}`;
       const recipeContainer = document.createElement("div");
-      recipeContainer.id = 'recipe';
+      recipeContainer.classList.add(
+        'recipe',
+        'recipeEventListener',
+        recipeIDClass
+      );
       el.recipeTitle.append(recipeContainer);
 
       const recipeHeader = document.createElement("h3");
-      recipeHeader.id = 'recipeTitle';
-      recipeHeader.addEventListener('click', linkHandler);
+      recipeHeader.classList.add(
+        'recipeTitle',
+        'recipeEventListener',
+        recipeIDClass
+      );
       recipeHeader.innerHTML = recipe.recipe_name;
-      el.recipeTitle.append(recipeHeader);
+      recipeContainer.append(recipeHeader);
 
       const ingredientTitle = document.createElement("h4");
-      ingredientTitle.id = 'ingredientTitle';
+      ingredientTitle.classList.add(
+        'ingredientTitle',
+        'recipeEventListener',
+        recipeIDClass
+      );
       ingredientTitle.textContent = "Ingredients:";
-      el.recipeTitle.append(ingredientTitle);
+      recipeContainer.append(ingredientTitle);
 
       const recipeIngredients = document.createElement("ul");
       recipeIngredients.id = 'recipeIngredient';
-      el.recipeTitle.append(recipeIngredients);
+      recipeIngredients.classList.add(
+        'recipeEventListener',
+        recipeIDClass
+      );
+      recipeContainer.append(recipeIngredients);
 
       for (ingredient of recipe.recipe_ingredients){
         const recipeIngredient = document.createElement("li");
         recipeIngredient.innerHTML = ingredient;
-        el.recipeTitle.append(recipeIngredient);
+        recipeIngredient.classList.add(
+          'recipeEventListener',
+          recipeIDClass
+        );
+        recipeContainer.append(recipeIngredient);
       }
     }
+    document.querySelectorAll('.recipeEventListener').forEach(elem => {
+      elem.addEventListener('click', linkHandler);
+    })
   }
 }
 
 function linkHandler(e){
-  window.console.log(e.Storage.getItem());
+  const elementClassList = e.target.classList;
+  let recipeID;
+  elementClassList.forEach(elementClass => {
+    if (elementClass.includes('recipeID')) {
+      console.log(elementClass.replace('recipeID', ''));
+    }
+  });
+
+
+  // loop through the classes and find the one that starts with recipeID String.includes().replace('recipeID', '') parseInt(x, 10)
+
+    // window.console.log(recipeIDString);
+
+  // recipes.find(recipe => recipe.recipe_id === result above)
+
+
   // .localStorage.getItem()
   // if (e.target !== e.currentTarget) {
   //     let clickedItem = e.target.id;
@@ -56,12 +94,12 @@ function linkHandler(e){
 }
 
 function addEventListeners() {
-  // el.recipeClicker.addEventListener("click", linkHandler);
+  el.recipeClicker.addEventListener("click", linkHandler);
 }
 
 function pageLoaded() {
   prepareHandles();
-  addEventListeners();
+  // addEventListeners();
   loadRecipes();
 }
 
