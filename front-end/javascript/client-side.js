@@ -43,6 +43,14 @@ async function login(data) {
   return payload.token;
 }
 
+/** scheduleRecipe allows a user to schedule a recipe to a particular ISO 8601
+* formatted time. The user must be logged in to do this as all scheduled recuoes
+* are linked to accounts. It does this by stringifying the data+time plus username
+*  and waiting for a response from the scheduleRecipe API. If successful the jwt
+* is passed back. If un 
+*
+*/
+
 async function scheduleRecipe(data, token) {
   const url = 'http://localhost:5000/api/scheduleRecipe';
   const requestOptions = generatePOSTRequestOptions(data, token);
