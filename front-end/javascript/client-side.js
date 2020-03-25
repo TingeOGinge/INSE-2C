@@ -2,7 +2,7 @@
 
 async function registerUser(data) {
   const url = 'http://localhost:5000/api/registerUser';
-  const requestOptions = generateRequestOptions(data);
+  const requestOptions = generatePOSTRequestOptions(data);
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw new Error(response.statusText);
@@ -11,7 +11,7 @@ async function registerUser(data) {
 
 async function login(data) {
   const url = 'http://localhost:5000/api/login';
-  const requestOptions = generateRequestOptions(data);
+  const requestOptions = generatePOSTRequestOptions(data);
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw new Error(response.statusText);
@@ -21,7 +21,7 @@ async function login(data) {
 
 async function scheduleRecipe(data, token) {
   const url = 'http://localhost:5000/api/scheduleRecipe';
-  const requestOptions = generateRequestOptions(data, token);
+  const requestOptions = generatePOSTRequestOptions(data, token);
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw new Error(response.statusText);
@@ -30,7 +30,7 @@ async function scheduleRecipe(data, token) {
 
 async function deleteFromSchedule(data, token) {
   const url = 'http://localhost:5000/api/deleteFromSchedule';
-  const requestOptions = generateRequestOptions(data, token);
+  const requestOptions = generatePOSTRequestOptions(data, token);
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw new Error(response.statusText);
@@ -40,12 +40,16 @@ async function deleteFromSchedule(data, token) {
 
 async function getUserSchedule(token) {
   const url = 'http://localhost:5000/api/getUserSchedule';
-  const requestOptions = generateRequestOptions(undefined, token);
+  const requestOptions = {
+    headers : {
+      authorization: `Bearer ${token}`
+    }
+  };
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw new Error(response.statusText);
-  const payload = await response.json();
-  return payload.token;
+  const schedule = await response.json();
+  return schedule;
 }
 
 async function search(data) {
@@ -67,12 +71,13 @@ async function getRecipe(id) {
   return recipe;
 }
 
-function generateRequestOptions(data, token) {
+function generatePOSTRequestOptions(data, token) {
   const retval =  {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+    body: (data) ? JSON.stringify(data) : undefined
   };
+  console.log(retval);
   if (token) retval.headers.authorization = `Bearer ${token}`;
   return retval;
 }
