@@ -3,11 +3,9 @@
 const el = {};
 
 async function loginUser() {
-  console.log('login triggered');
   if (el.username.value !== "" && el.password.value !== "") {
     try {
       const loginObj = {username: el.username.value, password: el.password.value};
-      console.log(loginObj);
       const jwt = await login(loginObj);
       window.localStorage.setItem('jwt', jwt);
       window.location.href = 'index.html';
@@ -41,4 +39,4 @@ function init() {
 
 window.addEventListener('load', init);
 
-if (typeof module === 'object') module.exports = {el, login};
+if (typeof module === 'object') module.exports = {el, loginUser};
