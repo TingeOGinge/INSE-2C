@@ -1,11 +1,21 @@
 /* global module, search */
 
+// Object that holds all the document's elements that we want
+// Probably not worth documenting as it's just a general practice but no harm if it is
 const el = {
   ingredientArray: [],
   chosenRestrictions: []
 };
 
 /* adds ingredients to list below  */
+// attached to event listener when someone presses 'Add Ingredient' or presses enter in the search bar
+// Creates a list element
+// Adds the 'parameter' class to the element
+// Adds an event listener so if it's clicked it will be removed
+// Content of the list item is the value in the search bars
+// It's pushed to the el.ingredientArray for use later
+// Search bar is cleared
+// <li> is added to <ul> on html page
 function addIngredienttoLI() {
   const listItem = document.createElement("li");
   const pElem = document.createElement("p");
@@ -45,6 +55,11 @@ function removeParameterHandler(e) {
   });
 }
 
+// Trawl through all necessary elements in the page
+// Checks value in element is present and of a valid format (i.e., a number)
+// Converts string number to actual integer where needed
+// Returns false if input is invalid anywhere
+// Returns search object if all is well
 function collectSearchObject() {
   const searchObj = {
     parameters: el.ingredientArray,
@@ -86,6 +101,13 @@ function collectSearchObject() {
 
 /* handles what is done when the search button is pressed */
 
+// Function triggered when user clicks search button
+// Collects search object in function above
+// If search object is not valid it throws an error
+// Otherwise the query is made to the database
+// If database throws an error it will be caught
+// Otherwise the search result is stored in local storage
+// User is then redirected to the results page
 async function searchHandler(){
   if (el.ingredientArray.length > 0) {
     try{
@@ -109,6 +131,7 @@ function uncheckRestriction(e) {
 }
 
 /* handles all elements and stores them in 'el' class */
+// Selects elements from the document to be used later on
 function prepareHandles() {
   el.ingredientButton = document.querySelector('#addIngredient');
   el.searchBar = document.querySelector('#searchbar');
@@ -124,6 +147,7 @@ function prepareHandles() {
 }
 
 /* listens on all events */
+// Adds event listeners where needed
 function addEventListeners() {
   el.ingredientButton.addEventListener('click', addIngredienttoLI);
   el.searchButton.addEventListener('click', searchHandler);
@@ -132,12 +156,16 @@ function addEventListeners() {
   el.restrictions.forEach(e => e.addEventListener('click', uncheckRestriction));
 }
 
+// Pop us is generated when search object is invalid
+// This function is fired when user closes that pop up
+// Rehides the pop up and removes the old error message
 function popupButtonHandler(){
   el.popupContainer.classList.add('hiddenContent','errorPopup');
   el.popupContent.textContent = '';
 }
 
 /* remove all content from searchbar */
+// Used to remove the content from the search bar
 function removeContentFrom(what) {
   what.value = '';
 }
@@ -149,18 +177,20 @@ function checkKeys(e) {
   }
 }
 
+// Runs when the page is loaded - similar to a Java main function
 function pageLoaded() {
   prepareHandles();
   addEventListeners();
   window.localStorage.removeItem('searchResult');
 }
 
+window.addEventListener('load', pageLoaded);
 
-// Needed for testing purposes
+
+
+// Everything below is needed for testing purposes and doesn't need documenting
 const indexAPI = {el, searchHandler};
 
 if (typeof module === 'object') {
   module.exports = indexAPI;
 }
-
-window.addEventListener('load', pageLoaded);
