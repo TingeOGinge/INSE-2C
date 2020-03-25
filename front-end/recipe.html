@@ -32,16 +32,20 @@
 
     <aside class=recipe>
       <h3>Like the sound of this recipe?</h3>
+
       <h4 class=social>Schedule it</h4>
       <label for="schedule-time" class=social id="schedule-time">Choose a date and time to schedule your recipe:</label>
       <input type="datetime-local" class=social id="schedule-time"
        name="schedule-time" value="2020-01-01T12:00"
        min="2020-01-01T12:00" max="2030-01-01T12:00">
       <button type="button" name="button" id="scheduleButton">Schedule Recipe</button>
+
       <h4 class=social>Share it</h4>
+      <a href'#' id="shareButton">
       <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+      </a>
       <h4 class=social>Print it</h4>
-      <button id="print" type="button" name="printButton">Print</button>
+      <button id="printButton" type="button" name="printButton">Print</button>
     </aside>
 
   <script src="javascript/client-side.js"> </script>

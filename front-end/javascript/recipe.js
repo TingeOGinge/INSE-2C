@@ -1,4 +1,4 @@
-/* global getRecipe, scheduleRecipe */
+/* global getRecipe, scheduleRecipe, FB */
 
 const el = {};
 let recipe;
@@ -8,8 +8,9 @@ function prepareHandles() {
   el.recipeIngredients = document.querySelector('#ingredients');
   el.recipeMethod = document.querySelector('#method');
   el.dateControl = document.querySelector('input[type="datetime-local"]');
-  el.print = document.querySelector('#print');
+  el.print = document.querySelector('#printButton');
   el.schedule = document.querySelector('#scheduleButton');
+  el.share = document.querySelector('#shareButton');
 }
 
 function loadRecipe(recipe){
@@ -35,10 +36,29 @@ function loadRecipe(recipe){
   }
 }
 
-function socialControl(){
+function socialHandler(){
   el.print.addEventListener('click', () => window.print());
   el.dateControl.valueAsNumber = new Date().getTime();
+  el.share.href = `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}?id=${recipe.recipe_id}`;
+
+  // el.share.onclick = () => {
+  //   FB.ui({
+  //     method: 'share',
+  //     href: `${window.location.href}?id=${recipe.recipe_id}`,
+  //   }, function(response){});
+  // };
 }
+
+  //
+  // el.share.setAttribute('data-href', `${window.location.href}?id=${recipe.recipe_id}`);
+  // console.log(el.share['data-href']);
+
+
+
+
+
+
+
 
 async function checkURL() {
   let retval = (window.localStorage.getItem('chosenRecipe') != null)
@@ -71,7 +91,7 @@ async function pageLoaded() {
   recipe = await checkURL();
   loadRecipe(recipe);
   el.schedule.addEventListener('click', scheduleHandler);
-  socialControl();
+  socialHandler();
 }
 
 window.addEventListener('load', pageLoaded);
