@@ -10,31 +10,32 @@
       <a href="profile.html" aria-label="Profile" class="btnStyle" id=btnProfile><img src="media/profile.png"></a>
       <a href="login.html" aria-label="Login" class="btnStyle" id=btnWhite>Login</a>
       <a href="register.html" aria-label="Register" class="btnStyle" id="btnBlue">Register</a>
-      </nav></nav>
+      </nav>
 
 
-<h1> The results are in </h1>
-<p>We’ve found recipes that you can cook with your ingredients and some that require a few extras to make</p>
-<ul id="allRecipes">
-<div>
-  <p>Recipe 1</p>
-</div>
+    <h2 id=detail></h2>
 
-<div>
-  <p>Recipe 2</p>
-</div>
-<div>
-  <p>Recipe 3</p>
-</div>
-<div>
-  <p>Recipe 4</p>
-</div>
-<div>
-  <p>Recipe 5</p>
-</div>
-<div>
-  <p>Recipe 6</p>
-</div>
-</ul>
+    <aside class=recipe>
+      <h3>What you'll need</h3>
+      <ul id=ingredients class=recipeLayout>
+      </ul>
+    </aside>
 
-<script src="javascript/profileButton.js"> </script>
+    <aside class=recipe>
+      <h3>Method</h3>
+      <ul id=method class=recipeLayout>
+      </ul>
+    </aside>
+
+    <aside class=recipe>
+      <h3>Like the sound of this recipe?</h3>
+      <ul class="dropdown" id="usrSelectionAll">
+        <img id="usrSelection" src="media/time.jpg">
+        <img id="usrSelection" src="media/calories.jpg">
+        <img id="usrSelection" src="media/serving.jpg">
+      </ul>
+    </aside>
+
+  <script src="javascript/client-side.js"> </script>
+  <script src="javascript/recipe.js"></script>
+  <script src="javascript/profileButton.js"> </script>

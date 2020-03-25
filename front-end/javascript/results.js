@@ -14,8 +14,8 @@ function prepareHandles() {
 function loadRecipes(){
   if (recipes != null){
 
-    let recipe = "";
-    let ingredient = "";
+    let recipe;
+    let ingredient;
 
     for (recipe of recipes){
       let recipeIDClass = `recipeID${recipe.recipe_id}`;
