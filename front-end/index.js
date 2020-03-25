@@ -130,6 +130,7 @@ function checkKeys(e) {
 function pageLoaded() {
   prepareHandles();
   addEventListeners();
+  window.localStorage.removeItem('searchResult');
 }
 
 
