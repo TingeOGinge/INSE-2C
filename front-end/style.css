@@ -200,6 +200,15 @@ header * {
   margin: 1rem;
 }
 
+#signUpContainer{
+  border-style: solid; border-width: 1px ;
+  margin-bottom: 4%;
+  margin-top: 5%;
+  margin-left: 10%;
+  margin-right: 10%
+
+}
+
 .hiddenContent{
   display: none !important;
 }
