@@ -29,11 +29,14 @@
 
     <aside class=recipe>
       <h3>Like the sound of this recipe?</h3>
-      <ul class="dropdown" id="usrSelectionAll">
-        <img id="usrSelection" src="media/time.jpg">
-        <img id="usrSelection" src="media/calories.jpg">
-        <img id="usrSelection" src="media/serving.jpg">
-      </ul>
+      <h4 class=social>Schedule it</h4>
+      <label for="schedule-time" class=social id="schedule-time">Choose a date and time to schedule your recipe:</label>
+      <input type="datetime-local" class=social id="schedule-time"
+       name="schedule-time" value="2020-01-01T12:00"
+       min="2020-01-01T12:00" max="2030-01-01T12:00">
+
+      <h4 class=social>Share it</h4>
+      <h4 class=social>Print it</h4>
     </aside>
 
   <script src="javascript/client-side.js"> </script>

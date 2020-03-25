@@ -7,6 +7,7 @@ function prepareHandles() {
   el.recipeTitle = document.querySelector('#detail');
   el.recipeIngredients = document.querySelector('#ingredients');
   el.recipeMethod = document.querySelector('#method');
+  el.dateControl = document.querySelector('input[type="datetime-local"]');
 }
 
 function loadRecipe(){
@@ -30,9 +31,17 @@ function loadRecipe(){
   }
 }
 
+function dateControl(){
+  el.dateControl.value = new Date();
+
+
+
+}
+
 function pageLoaded() {
   prepareHandles();
   loadRecipe();
+  dateControl();
 }
 
 window.addEventListener('load', pageLoaded);
