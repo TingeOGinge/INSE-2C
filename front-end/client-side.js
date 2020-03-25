@@ -19,9 +19,29 @@ async function login(data) {
   return payload.token;
 }
 
-async function scheduleRecipe(data) {
+async function scheduleRecipe(data, token) {
   const url = 'http://localhost:5000/api/scheduleRecipe';
-  const requestOptions = generateRequestOptions(data);
+  const requestOptions = generateRequestOptions(data, token);
+  const response = await fetch(url, requestOptions);
+
+  if (!response.ok) throw new Error(response.statusText);
+  const payload = await response.json();
+  return payload.token;
+}
+
+async function deleteFromSchedule(data, token) {
+  const url = 'http://localhost:5000/api/deleteFromSchedule';
+  const requestOptions = generateRequestOptions(data, token);
+  const response = await fetch(url, requestOptions);
+
+  if (!response.ok) throw new Error(response.statusText);
+  const payload = await response.json();
+  return payload.token;
+}
+
+async function getUserSchedule(token) {
+  const url = 'http://localhost:5000/api/getUserSchedule';
+  const requestOptions = generateRequestOptions(undefined, token);
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw new Error(response.statusText);
@@ -50,5 +70,12 @@ function generateRequestOptions(data, token) {
 }
 
 if (typeof module === 'object') {
-  module.exports = {registerUser, login, scheduleRecipe, search};
+  module.exports = {
+    registerUser,
+    login,
+    scheduleRecipe,
+    search,
+    deleteFromSchedule,
+    getUserSchedule
+  };
 }
