@@ -3,7 +3,15 @@
 /** @module clientside.js
 */
 
-
+/** registerUser registers a new user ny passing in data in the form of a 
+* username and password in a JSON object. It calls on the generateRequestOptions
+* function to stringify the data. Throws error if the response is not as expected
+* @param {Object} data - JSON object containing username and password.
+* @param {String} data.username - username for registering user
+* @param {String} data.password - password for registering user
+* @param {Object} requestOptions - stringified username and password ms_database
+* @param {String} url - url to register User API
+*/
 
 async function registerUser(data) {
   const url = 'http://localhost:5000/api/registerUser';
