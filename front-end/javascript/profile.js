@@ -4,10 +4,8 @@ const el = {};
 let recipes;
 
 function loadRecipes(){
-    let recipe;
-    let ingredient;
 
-    for (recipe of recipes){
+    for (const recipe of recipes){
       let recipeIDClass = `recipeID${recipe.recipe_id}`;
       const recipeContainer = document.createElement("div");
       recipeContainer.classList.add(
@@ -42,8 +40,8 @@ function loadRecipes(){
         recipeIDClass
       );
       recipeContainer.append(recipeIngredients);
-
-      for (ingredient of recipe.recipe_ingredients){
+      
+      for (const ingredient of recipe.recipe_ingredients){
         const recipeIngredient = document.createElement("li");
         recipeIngredient.innerHTML = ingredient;
         recipeIngredient.classList.add(
