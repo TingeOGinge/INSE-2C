@@ -1,12 +1,9 @@
 const register = require('../front-end/register.js');
 const path = require('path');
 const fs = require('fs');
-const crypto = require('crypto');
 
 const HTML_TEMPLATE = fs.readFileSync(path.join(__dirname, '..', 'front-end', 'register.html'));
 const LOAD_EVENT = new Event('load');
-
-const randomUsername = crypto.randomBytes(10).toString('hex');
 
 function resetWindowLocation() {
   window.location.href = 'register.html';
@@ -35,7 +32,7 @@ describe("Test front-end/index.js", () => {
   test("Test duplicate registering of a user", async () => {
     fetch.mockResponse('', { status: 409 });
 
-    register.el.username.value = randomUsername;
+    register.el.username.value = 'username';
     register.el.password.value = 'password';
     expect(await mockRegister()).toBe(false);
     expect(window.location.href).toEqual('register.html');
