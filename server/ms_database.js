@@ -45,14 +45,15 @@ const queryDictionary = {
   scheduleRecipe: 'INSERT INTO account_recipe (account_id, recipe_id, scheduled_time) values($1, $2, $3)',
   getUsers: 'TABLE account',
   getUserSchedule: 'SELECT recipe_name, scheduled_time, recipe_cooking_time, recipe_serving_size, ' +
-					' recipe_calories,ARRAY_AGG (ingredient_name ORDER BY ingredient_name) ingredient_name, recipe_method FROM ' +
-                    'recipe a ' +
+                      ' recipe_calories,ARRAY_AGG (ingredient_name ORDER BY ingredient_name) ingredient_name, recipe_method FROM ' +
+                      'recipe a ' +
                     'LEFT JOIN account_recipe b ON a.recipe_id = b.recipe_id ' +
-					'LEFT JOIN recipe_ingredient c ON a.recipe_id = c.recipe_id ' +
-					'LEFT JOIN ingredient d ON c.ingredient_id = d.ingredient_id ' +
+                    'LEFT JOIN recipe_ingredient c ON a.recipe_id = c.recipe_id ' +
+                    'LEFT JOIN ingredient d ON c.ingredient_id = d.ingredient_id ' +
                     'WHERE account_id = $1 ' +
-					'GROUP BY recipe_name, scheduled_time, recipe_cooking_time, recipe_serving_size, ' +
-					'recipe_calories, recipe_method ' +
+                    'AND scheduled_time > now() ' +
+                    'GROUP BY recipe_name, scheduled_time, recipe_cooking_time, recipe_serving_size, ' +
+                    'recipe_calories, recipe_method ' +
           'ORDER BY scheduled_time',
   deleteFromSchedule: 'DELETE from account_recipe WHERE account_id = $1 AND recipe_id = $2 AND scheduled_time = $3',
   mainSearch: 'SELECT ' +

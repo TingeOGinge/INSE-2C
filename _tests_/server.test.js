@@ -5,7 +5,11 @@ const {poolEnd} = require('../server/ms_database.js');
 const resultData = require('./results.json');
 
 const randomUsername = crypto.randomBytes(10).toString('hex');
-const scheduledTime = new Date().toISOString();
+Date.prototype.addHours = function(h) {
+  this.setTime(this.getTime() + (h*60*60*1000));
+  return this;
+};
+const scheduledTime = new Date().addHours(1).toISOString();
 
 describe("Test the server routes", () => {
 
