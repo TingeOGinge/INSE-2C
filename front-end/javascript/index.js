@@ -97,11 +97,6 @@ function prepareHandles() {
   // add profile btn
 }
 
-// pflistener
-// if (window.localStorage.getitem('jwt') =! null){
-//
-// }
-
 /* listens on all events */
 function addEventListeners() {
   el.ingredientButton.addEventListener('click', addIngredienttoLI);
