@@ -1,4 +1,4 @@
-const api = require('../front-end/client-side.js');
+const api = require('../front-end/javascript/client-side.js');
 const resultData = require('./results.json');
 
 const exampleToken = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImFjY291bnRfdXNlcm5hbWUiOiJEaWxsb24iLCJhY2NvdW50X2lkIjoxNDUsImFkbWluX3N0YXR1cyI6dHJ1ZX0sImlhdCI6MTU4NDc3NjYxMSwiZXhwIjoxNTg0ODYzMDExfQ.jWPk1jinxvLuQuK_oFE6dh_nnPfRTUaGeOLMZTXtWuNfJSzdcSdeGS-q4TVoXEMhslZ7x-h9L5J2pgsjdNemKDsDafbrvTCdII1BZRZOfTrmRht__bwQm9CJ5DbnStwBu52AfUCrvaGnJCQR3UAcwkvbdSgiRwf4l5bAB_cT9sDmPR9FJFazeZc8QRCWANGLW5FrUZ7uFC95AX627DuxxSNOTStO298OjyHm80cFleN8zKYxms3tSpypG5qYgL5YMLEY8OAjtWR6eM2avlacatPoJKeoUaJzQ-ZP3wmwres383pEMJ72_AJHPHEEAiwQhEWOWYxodur0dUMaEA4gJA';

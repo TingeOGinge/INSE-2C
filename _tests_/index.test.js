@@ -1,4 +1,4 @@
-const index = require('../front-end/index.js');
+const index = require('../front-end/javascript/index.js');
 const path = require('path');
 const fs = require('fs');
 const resultData = require('./results.json');

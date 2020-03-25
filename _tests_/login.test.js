@@ -1,4 +1,4 @@
-const loginScript = require('../front-end/login.js');
+const loginScript = require('../front-end/javascript/login.js');
 const path = require('path');
 const fs = require('fs');
 

@@ -1,4 +1,4 @@
-const register = require('../front-end/register.js');
+const register = require('../front-end/javascript/register.js');
 const path = require('path');
 const fs = require('fs');
 
