@@ -82,7 +82,7 @@ describe("Test the client-side API functions", () =>{
   test("Test scheduling a recipe", async () => {
     fetch.mockResponses(
       [
-        `{"token":"${exampleToken}"}`,
+        '',
         { status: 200 }
       ],
       [
@@ -104,8 +104,8 @@ describe("Test the client-side API functions", () =>{
     );
 
     // Valid attempt
-    const token = await api.scheduleRecipe(`{"recipe_id":2,"scheduled_time":"${newDate}"}`);
-    expect(token).toEqual(exampleToken);
+    const response = await api.scheduleRecipe(`{"recipe_id":2,"scheduled_time":"${newDate}"}`);
+    expect(response.status).toBe(200);
 
     // No JWT in request
     await expect(api.scheduleRecipe(`{"recipe_id":2,"scheduled_time":"${newDate}"}`))

@@ -1,6 +1,7 @@
-/* global getRecipe */
+/* global getRecipe, scheduleRecipe */
 
 const el = {};
+let recipe;
 
 function prepareHandles() {
   el.recipeTitle = document.querySelector('#detail');
@@ -8,6 +9,7 @@ function prepareHandles() {
   el.recipeMethod = document.querySelector('#method');
   el.dateControl = document.querySelector('input[type="datetime-local"]');
   el.print = document.querySelector('#print');
+  el.schedule = document.querySelector('#scheduleButton');
 }
 
 function loadRecipe(recipe){
@@ -39,24 +41,36 @@ function socialControl(){
 }
 
 async function checkURL() {
-  let recipe = (window.localStorage.getItem('chosenRecipe') != null)
+  let retval = (window.localStorage.getItem('chosenRecipe') != null)
     ? JSON.parse(window.localStorage.getItem('chosenRecipe')) : null;
   if (window.location.href.includes('?id=')) {
     const id = window.location.href.replace(/.*\?id=/, '');
     try {
-      recipe = await getRecipe(id);
+      retval = await getRecipe(id);
     } catch(err) {
-      recipe = null;
-      console.log(err);
+      retval = null;
     }
   }
-  return recipe;
+  return retval;
+}
+
+async function scheduleHandler() {
+  try {
+    const token = window.localStorage.getItem('jwt');
+    if(!token) throw new Error('Please login to schedule a recipe');
+    const data = {recipe_id: recipe.recipe_id, scheduled_time: el.dateControl.value};
+    await scheduleRecipe(data, token);
+    console.log('Success');
+  } catch(err) {
+    console.log(err);
+  }
 }
 
 async function pageLoaded() {
   prepareHandles();
-  const recipe = await checkURL();
+  recipe = await checkURL();
   loadRecipe(recipe);
+  el.schedule.addEventListener('click', scheduleHandler);
   socialControl();
 }
 
