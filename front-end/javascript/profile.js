@@ -1,5 +1,7 @@
+/* global getUserSchedule */
+
 const el = {};
-const recipes = {};
+let recipes;
 
 function loadRecipes(){
     let recipe;
@@ -72,12 +74,24 @@ function linkHandler(e){
   window.location.href = 'recipe.html';
 }
 
+async function getSchedule() {
+  const token = window.localStorage.getItem('jwt');
+  try {
+    if(!token) throw new Error('No JWT found');
+    const schedule = await getUserSchedule(token);
+    return schedule;
+  } catch(err) {
+    console.log(err.stack);
+  }
+}
+
 function prepareHandles() {
   el.recipeTitle = document.querySelector('#recipePlaceholder');
 }
 
-function pageLoaded() {
+async function pageLoaded() {
   prepareHandles();
+  recipes = await getSchedule();
   loadRecipes();
 }
 
