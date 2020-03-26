@@ -5,6 +5,7 @@ let recipe;
 
 function prepareHandles() {
   el.recipeTitle = document.querySelector('#detail');
+  el.recipeAbout = document.querySelector('#about');
   el.recipeIngredients = document.querySelector('#ingredients');
   el.recipeMethod = document.querySelector('#method');
   el.dateControl = document.querySelector('input[type="datetime-local"]');
@@ -15,6 +16,8 @@ function prepareHandles() {
 }
 
 function loadRecipe(recipe){
+  window.console.log(recipe)
+
   if (recipe != null){
     let ingredient;
     let steps;

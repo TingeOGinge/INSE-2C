@@ -182,6 +182,7 @@ header * {
 
 #usrSelectionAll{
   margin-left: 10%;
+  padding-top: 4%;
 }
 
 #usrRequirementsAll{
@@ -222,10 +223,6 @@ header * {
   cursor: pointer;
 }
 
-.restrictionLabel {
-
-}
-
 .recipeIngredient{
   margin: 1rem;
 }
@@ -234,6 +231,21 @@ header * {
   display: flex;
   padding-bottom: 1em;
 }
+
+.restrictionLabel{
+  padding-left: 0.5em;
+  font-size: 80%;
+}
+
+@media screen and (max-width: 600px) {
+  .restrictionLabel {
+    padding-left: 0em;
+    padding-top: 0.5em;
+    font-size: 60% !important;}
+  .restrictionWrapper{display: grid;}
+
+  }
+ }
 
 .recipeTitle{
   padding: 1em;
