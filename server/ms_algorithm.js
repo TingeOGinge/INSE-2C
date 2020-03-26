@@ -126,31 +126,21 @@ function prioritySort(recipes, searchObj) {
 
 
 function convertQueryFormats(searchObj) {
-  searchObj.parameters = searchObj.parameters.split(',');
-
-  if(searchObj.time) {
-    if(isNaN(searchObj.time)) {
-      searchObj.valid = false;
-      return;
-    }
-    searchObj.time = parseInt(searchObj.time, 10);
+  if (searchObj.parameters && !Array.isArray(searchObj.parameters)) {
+    searchObj.parameters = searchObj.parameters.split(',');
   }
-  if(searchObj.calories) {
-    if(isNaN(searchObj.calories)) {
-      searchObj.valid = false;
-      return;
-    }
-    searchObj.calories = parseInt(searchObj.calories, 10);
+  if (searchObj.calories && Number.isInteger(searchObj.caloreis)) {
+     searchObj.calories = Number(searchObj.calories);
+   }
+  if (searchObj.serving && Number.isInteger(searchObj.caloreis)) {
+     searchObj.serving = Number(searchObj.serving);
+   }
+  if (searchObj.time && Number.isInteger(searchObj.caloreis)) {
+     searchObj.time = Number(searchObj.time);
+   }
+  if (searchObj.restrictions && !Array.isArray(searchObj.restrictions)) {
+    searchObj.restrictions = [searchObj.restrictions];
   }
-  if(searchObj.serving) {
-    if(isNaN(searchObj.serving)) {
-      searchObj.valid = false;
-      return;
-    }
-    searchObj.serving = parseInt(searchObj.serving, 10);
-  }
-
-  if(searchObj.restrictions) searchObj.restrictions = searchObj.restrictions.split(',');
 }
 
 
