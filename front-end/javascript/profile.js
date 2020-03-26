@@ -31,8 +31,8 @@ function loadRecipes() {
       recipeIDClass
     );
     let scheduleTime = recipe.scheduled_time;
-    scheduleTime = new Date(scheduleTime);
-    scheduleTime = `${scheduleTime.getFullYear()}-${scheduleTime.getMonth()+1}-${scheduleTime.getDate()} - ${scheduleTime.getHours()}:${scheduleTime.getMinutes()}`;
+    scheduleTime = new Date(scheduleTime).toLocaleString('en-GB', {timeZone: 'UTC'});
+    // scheduleTime = `${scheduleTime.getFullYear()}-${scheduleTime.getMonth()+1}-${scheduleTime.getDate()} - ${scheduleTime.getHours()}:${scheduleTime.getMinutes()}`;
     // Sat Mar 28 2020 21:53:27 GMT+0000 (Greenwich Mean Time)
     recipeTime.innerHTML = scheduleTime;
     recipeContainer.append(recipeTime);

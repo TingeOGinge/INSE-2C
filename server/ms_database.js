@@ -21,7 +21,13 @@ async function foo {
 
   If query() fails then 'undefined' is returned
 */
+
 const {Pool} = require('pg');
+const pg = require('pg');
+let types = pg.types;
+types.setTypeParser(1114, function(stringValue) {
+  return new Date(stringValue + "+0000");
+});
 
 const connectionString = 'postgresql://myuser:inse2c@localhost:5432/ecochefdb';
 
