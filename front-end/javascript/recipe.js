@@ -10,7 +10,7 @@ function prepareHandles() {
   el.dateControl = document.querySelector('input[type="datetime-local"]');
   el.print = document.querySelector('#printButton');
   el.schedule = document.querySelector('#scheduleButton');
-  el.share = document.querySelector('#shareButton');
+  el.facebookShare = document.querySelector('#shareButton');
 }
 
 function loadRecipe(recipe){
@@ -39,7 +39,7 @@ function loadRecipe(recipe){
 function socialHandler(){
   el.print.addEventListener('click', () => window.print());
   el.dateControl.valueAsNumber = new Date().getTime();
-  el.share.href = `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}?id=${recipe.recipe_id}`;
+  el.facebookShare.href = `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}?id=${recipe.recipe_id}`;
 
   // el.share.onclick = () => {
   //   FB.ui({
