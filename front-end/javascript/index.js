@@ -34,7 +34,6 @@ function removeParameterHandler(e) {
   e.target.classList.forEach(elem => {
     if(elem.includes('param-')) removeClass = `.${elem}`;
   });
-  console.log(removeClass);
   document.querySelectorAll(removeClass).forEach(elem => {
     if(elem.tagName === 'LI') {
       const index = el.ingredientArray.indexOf(elem.textContent.replace('X', ''));
@@ -75,8 +74,9 @@ function collectSearchObject() {
   }
 
   el.restrictions.forEach(elem => {
-    if (elem.checked) el.chosenRestrictions.push(elem);
+    if (elem.checked) el.chosenRestrictions.push(elem.name);
   });
+  searchObj.restrictions = el.chosenRestrictions;
 
   return searchObj;
 }
@@ -92,10 +92,10 @@ async function searchHandler(){
       const searchResult = await search(searchObj);
       window.localStorage.setItem('searchResult', JSON.stringify(searchResult));
       window.location.href = 'results.html';
+      console.log(searchObj);
     } catch (err) {
       // handle search with no response
-      console.log(err);
-      el.popupContent.textContent = err;
+      el.popupContent.textContent = err.message;
       el.popupContainer.classList.remove('hiddenContent');
     }
   }
