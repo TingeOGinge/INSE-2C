@@ -201,12 +201,12 @@ header * {
 
 #diet{
     margin: 0px;
-    display: grid | inline-grid;
+    display: inline-grid;
 }
 
-#vegetarian,#gluten-free,#dairy-free,#vegan{
+{
   font-size: 70%;
-  /* display: inline; */
+  display: inline;
 }
 
 
@@ -222,8 +222,17 @@ header * {
   cursor: pointer;
 }
 
+.restrictionLabel {
+
+}
+
 .recipeIngredient{
   margin: 1rem;
+}
+
+.restrictionWrapper {
+  display: flex;
+  padding-bottom: 1em;
 }
 
 .recipeTitle{

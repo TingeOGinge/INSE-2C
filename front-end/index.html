@@ -56,14 +56,22 @@
         <input id=serve  class=dietaryReqInput type=text autofocus autocomplete=off>
 
         <div id=diet class=dietaryReqInput>
-          <input class="restriction" type="checkbox" id="vegetarian" name="vegetarian">
-          <label id="vegetarian" for="vegetarian">Vegetarian</label>
-          <input class="restriction" type="checkbox" id="gluten-free" name="gluten-free">
-          <label id="gluten-free" for="gluten-free">No Gluten</label>
-          <input class="restriction" type="checkbox" id="dairy-free" name="dairy-free">
-          <label id="dairy-free" for="dairy-free">No Dairy</label>
-          <input class="restriction" type="checkbox" id="vegan" name="vegan">
-          <label id="vegan" for="vegan">Vegan</label>
+          <div class="restrictionWrapper">
+            <input class="restriction" type="checkbox" id="vegetarian" name="vegetarian">
+            <label class="restrictionLabel" id="vegetarianLabel" for="vegetarian">Vegetarian</label>
+          </div>
+          <div class="restrictionWrapper">
+            <input class="restriction" type="checkbox" id="gluten-free" name="gluten-free">
+            <label class="restrictionLabel" id="gluten-freeLabel" for="gluten-free">No Gluten</label>
+          </div>
+          <div class="restrictionWrapper">
+            <input class="restriction" type="checkbox" id="dairy-free" name="dairy-free">
+            <label class="restrictionLabel" id="dairy-freeLabel" for="dairy-free">No Dairy</label>
+          </div>
+          <div class="restrictionWrapper">
+            <input class="restriction" type="checkbox" id="vegan" name="vegan">
+            <label class="restrictionLabel" id="veganLabel" for="vegan">Vegan</label>
+          </div>
         </div>
     </div>
 
