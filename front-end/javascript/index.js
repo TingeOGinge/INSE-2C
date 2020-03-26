@@ -8,15 +8,17 @@ const el = {
 /* adds ingredients to list below  */
 function addIngredienttoLI() {
   const listItem = document.createElement("li");
+  const pElem = document.createElement("p");
   const removeItemBtn = document.createElement("button");
 
   let query = document.getElementById("searchbar").value;
   listItem.classList.add('parameter','addIngredientList', `param-${query}`);
-  listItem.textContent = query;
+  pElem.textContent = query;
 
   removeItemBtn.textContent = "X";
-  removeItemBtn.classList.add('addIngredientList', `param-${query}`);
+  removeItemBtn.classList.add('addIngredientList', `param-${query}`, 'paramButton');
   removeItemBtn.addEventListener('click', removeParameterHandler);
+  listItem.append(pElem);
   listItem.append(removeItemBtn);
 
 

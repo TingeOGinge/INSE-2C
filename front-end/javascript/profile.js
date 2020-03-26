@@ -69,8 +69,8 @@ function loadRecipes() {
 
     const recipeRemove = document.createElement("button");
     recipeRemove.textContent = "Remove Recipe";
-    recipeRemove.id = 'recipeRemoveBtn';
     recipeRemove.classList.add(
+      'recipeRemoveBtn',
       'recipeRemove',
       recipeIDClass
     );

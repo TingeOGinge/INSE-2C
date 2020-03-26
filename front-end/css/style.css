@@ -147,7 +147,14 @@ header * {
 .addIngredientList{
   font-size: 90%;
   list-style-type: none;
-  margin-left: 5%;
+  margin: .5em 0;
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+}
+
+.paramButton{
+  width: 1em;
 }
 
 #addIngredient{
@@ -212,11 +219,13 @@ header * {
 
 
 .recipe{
-  border-style: solid; border-width: 1px ;
+  border-style: solid;
+  border-width: 1px ;
+  border-color: var(--col1);
   margin-bottom: 4%;
   margin-left: 10%;
   margin-right: 10%;
-  padding-bottom: 1em;
+  padding: 1em;
 }
 
 .recipe:hover{
@@ -276,10 +285,8 @@ header * {
   list-style: decimal;
 }
 
-#recipeRemoveBtn{
-  float: right;
-  margin-right: 1em;
-  margin-bottom: 1em;
+.recipeRemoveBtn{
+  margin: 0 0 5em 10%;
 }
 
 #signUpContainer{
