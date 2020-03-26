@@ -97,7 +97,7 @@ async function populateDietaryRestrictions(data, client) {
 }
 
 async function main() {
-  const connectionString = 'postgresql://postgres:postgres@localhost:5432/ecochefdb';
+  const connectionString = 'postgresql://myuser:inse2c@localhost:5432/ecochefdb';
   const pool = new Pool({connectionString});
   const client = await pool.connect();
 
