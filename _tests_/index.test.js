@@ -77,10 +77,13 @@ describe("Test front-end/index.js", () => {
   test("Test deleting elements from search parameters", () => {
     index.el.searchBar.value = 'chicken';
     index.el.ingredientButton.click();
-    const searchParams = document.querySelectorAll('.parameter');
-    expect(index.el.ingredientArray.length === 1).toBe(true);
-    expect(index.el.ingredientArray[0] === 'chicken');
-    searchParams[0].click();
+    const searchParams = document.querySelectorAll('.param-chicken');
+    expect(index.el.ingredientArray.length).toBe(1);
+    expect(searchParams.length).toBe(2);
+    expect(index.el.ingredientArray[0]).toBe('chicken');
+    searchParams.forEach(elem => {
+      if(elem.tagName === 'BUTTON') elem.click();
+    });
     expect(index.el.ingredientArray.length === 0).toBe(true);
   });
 

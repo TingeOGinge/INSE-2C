@@ -127,7 +127,7 @@ describe("Test the client-side API functions", () =>{
   test("Test deleting a recipe from user's schedule", async () => {
     fetch.mockResponses(
       [
-        `{"token":"${exampleToken}"}`,
+        '',
         { status: 200 }
       ],
       [
@@ -149,8 +149,8 @@ describe("Test the client-side API functions", () =>{
     );
 
     // Valid attempt
-    const token = await api.deleteFromSchedule(`{"recipe_id":2,"scheduled_time":"${newDate}"}`);
-    expect(token).toEqual(exampleToken);
+    const response = await api.deleteFromSchedule(`{"recipe_id":2,"scheduled_time":"${newDate}"}`);
+    expect(response.status).toEqual(200);
 
     // No JWT in request
     await expect(api.deleteFromSchedule(`{"recipe_id":2,"scheduled_time":"${newDate}"}`))
