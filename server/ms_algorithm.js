@@ -125,6 +125,35 @@ function prioritySort(recipes, searchObj) {
 }
 
 
+function convertQueryFormats(searchObj) {
+  searchObj.parameters = searchObj.parameters.split(',');
+
+  if(searchObj.time) {
+    if(isNaN(searchObj.time)) {
+      searchObj.valid = false;
+      return;
+    }
+    searchObj.time = parseInt(searchObj.time, 10);
+  }
+  if(searchObj.calories) {
+    if(isNaN(searchObj.calories)) {
+      searchObj.valid = false;
+      return;
+    }
+    searchObj.calories = parseInt(searchObj.calories, 10);
+  }
+  if(searchObj.serving) {
+    if(isNaN(searchObj.serving)) {
+      searchObj.valid = false;
+      return;
+    }
+    searchObj.serving = parseInt(searchObj.serving, 10);
+  }
+
+  if(searchObj.restrictions) searchObj.restrictions = searchObj.restrictions.split(',');
+}
+
+
 /**
 *search uses collectRecipes and filterRecipes to return sorted recipes. It does
 * this by first calling collectRecipes then filters recipes using filterRecipe.
@@ -154,6 +183,7 @@ async function search(req, res) {
   try {
     const searchObj = req.query;
     convertQueryFormats(searchObj);
+    console.log(searchObj);
     const recipes = await collectRecipes(searchObj, res);
 
     if (recipes && recipes.length > 0) {
