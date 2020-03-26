@@ -98,6 +98,7 @@ header * {
   width: 20px;
   height: 20px;
   display: block;
+  padding: 2px 2px 2px 2px;
 }
 
 #btnProfile img{
@@ -139,6 +140,12 @@ header * {
   display: none;
 } */
 
+.addIngredientList{
+  list-style-type: none;
+  margin-left: 5%;
+  display: inline-block;
+}
+
 #addIngredient{
   margin-top: 1em;
   background: #FFFFFF;
@@ -146,18 +153,18 @@ header * {
   margin-right: 0em;
 }
 
-#ingredient ul {
-  padding-left: 2rem;
-  list-style-type: none;
+#ingredient {
+  margin-left: 5%;
+  margin-top: 7%;
 }
 
-#ingredient li {
+/* #ingredient li {
   padding-left: 2rem;
   background-image: url(media/remove.png);
   background-position: 0 0;
   background-size: 1.6rem 1.6rem;
   background-repeat: no-repeat;
-}
+} */
 
 #usrSelection{
   width: 18%;

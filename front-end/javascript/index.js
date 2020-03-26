@@ -8,10 +8,18 @@ const el = {
 /* adds ingredients to list below  */
 function addIngredienttoLI() {
   const listItem = document.createElement("li");
-  listItem.classList.add('parameter');
-  listItem.addEventListener('click', removeParameterHandler);
+  const removeItemBtn = document.createElement("button");
+
+  listItem.classList.add('parameter','addIngredientList');
   let query = document.getElementById("searchbar").value;
   listItem.textContent = query;
+
+  removeItemBtn.textContent = "X";
+  removeItemBtn.classList.add('addIngredientList');
+  removeItemBtn.addEventListener('click', removeParameterHandler);
+  listItem.append(removeItemBtn);
+
+
   el.ingredientList.append(listItem);
   el.ingredientArray.push(query);
   removeContentFrom(el.searchBar);
@@ -21,7 +29,9 @@ function removeParameterHandler(e) {
   if (el.ingredientArray.indexOf(e.target.textContent) !== -1) {
     el.ingredientArray.splice(e.target.textContent, 1);
   }
+  const searchParam = e.target.nextSibling;
   e.target.remove();
+  searchParam.remove();
 }
 
 function collectSearchObject() {
@@ -94,7 +104,6 @@ function prepareHandles() {
   el.popupContainer = document.querySelector('#searchErrorPopup');
   el.popupContent= document.querySelector('#searchErrorContent');
   el.popupButton = document.querySelector('#searchPopupButton');
-  // add profile btn
 }
 
 /* listens on all events */
