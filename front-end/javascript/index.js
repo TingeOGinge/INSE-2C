@@ -26,15 +26,20 @@ function addIngredienttoLI() {
 }
 
 function removeParameterHandler(e) {
-  if (el.ingredientArray.indexOf(e.target.textContent) !== -1) {
-    el.ingredientArray.splice(e.target.textContent, 1);
-  }
+  // if (el.ingredientArray.indexOf(e.target.textContent) !== -1) {
+  //   el.ingredientArray.splice(e.target.textContent, 1);
+  // }
+  // console.log(e.target.textContent);
   let removeClass;
   e.target.classList.forEach(elem => {
     if(elem.includes('param-')) removeClass = `.${elem}`;
   });
+  console.log(removeClass);
   document.querySelectorAll(removeClass).forEach(elem => {
-    if(elem.tagName === 'LI') el.ingredientArray.splice(elem.value, 1);
+    if(elem.tagName === 'LI') {
+      const index = el.ingredientArray.indexOf(elem.textContent.replace('X', ''));
+      el.ingredientArray.splice(index, 1);
+    }
     elem.remove();
   });
 }
