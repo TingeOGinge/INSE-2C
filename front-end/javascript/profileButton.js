@@ -12,20 +12,23 @@ function init() {
     elem.profileButton.classList.add('greyOutImage');
 
     elem.loginButton.href = 'login.html';
-    elem.loginButton.classList.remove('greyOutImage');
 
     elem.registerButton = 'register.html';
-    elem.registerButton.classList.remove('greyOutImage');
   } else {
     elem.profileButton.href = 'profile.html';
     elem.profileButton.classList.remove('greyOutImage');
 
     elem.loginButton.href = '#';
-    elem.loginButton.classList.add('greyOutImage');
+    elem.loginButton.textContent = 'Logout';
+    elem.loginButton.addEventListener('click', logout);
 
     elem.registerButton.href = '#';
     elem.registerButton.classList.add('greyOutImage');
   }
 
+}
 
+function logout() {
+  window.localStorage.removeItem('jwt');
+  location.reload();
 }

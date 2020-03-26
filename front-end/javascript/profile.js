@@ -129,7 +129,7 @@ function linkHandler(e){
 async function getSchedule() {
   const token = window.localStorage.getItem('jwt');
   try {
-    if(!token) throw new Error('No JWT found');
+    if(!token) window.location.href = '/';
     const schedule = await getUserSchedule(token);
     return schedule;
   } catch(err) {
