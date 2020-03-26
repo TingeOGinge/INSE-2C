@@ -127,7 +127,7 @@ function addEventListeners() {
 }
 
 function popupButtonHandler(){
-  el.popupContainer.classList.add('hiddenContent');
+  el.popupContainer.classList.add('hiddenContent','errorPopup');
   el.popupContent.textContent = '';
 }
 

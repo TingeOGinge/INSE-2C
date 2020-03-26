@@ -6,6 +6,7 @@ function prepareHandles() {
   el.username = document.querySelector('#username');
   el.password = document.querySelector('#password');
   el.registerButton = document.querySelector('#registerButton');
+  el.registerPopup = document.querySelector('#registerPopup');
 }
 
 async function register() {
@@ -16,7 +17,8 @@ async function register() {
       window.location.href = 'login.html';
     } catch(err) {
       // Either 409 Conflict, 400 Bad Request or 500 Internal Server Error if unforseen issue
-      console.log(err);
+      el.registerPopup.textContent = err.message;
+      el.registerPopup.classList.remove('hiddenContent');
       return false;
     }
   }

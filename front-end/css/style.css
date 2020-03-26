@@ -216,6 +216,11 @@ header * {
 .dietaryReqInput{
 }
 
+.errorPopup{
+  margin-left: 10%;
+  margin-top: 2em;
+}
+
 #diet{
     margin: 0px;
     display: inline-grid;
