@@ -4,6 +4,25 @@ const el = {};
 let recipes;
 
 
+function loadPrompt() {
+  const promptContainer = document.createElement('div');
+  promptContainer.classList.add('recipe');
+  el.recipeTitle.append(promptContainer);
+
+  const promptHeader = document.createElement('h3');
+  promptHeader.classList.add('recipeTitle');
+  promptHeader.textContent = "It seems you don't have any recipes scheduled!";
+  promptContainer.append(promptHeader);
+
+  const promptRedirect = document.createElement('a');
+  promptRedirect.href = '/';
+  promptContainer.append(promptRedirect);
+  
+  const promptContent = document.createElement('p');
+  promptContent.textContent = 'Click to begin searching';
+  promptRedirect.append(promptContent);
+}
+
 function loadRecipes() {
   for (const recipe of recipes){
     let recipeIDClass = `recipeID${recipe.recipe_id}`;
@@ -145,6 +164,7 @@ async function pageLoaded() {
   prepareHandles();
   recipes = await getSchedule();
   if(recipes) loadRecipes();
+  else loadPrompt();
 }
 
 window.addEventListener('load', pageLoaded);
