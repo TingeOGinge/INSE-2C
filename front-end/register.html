@@ -11,20 +11,25 @@
       <a href="register.html" aria-label="Register" class="btnStyle" id="btnBlue">Register</a>
     </nav>
 
-
-      <h2 id=signUp>Sign up for an EcoChef account</h2>
-      <div id=signUpContainer>
+    <div class="container">
+      <h1 id=signUp>Sign up for an EcoChef account</h1>
+      <div class="tbox">
         <input id="username" type="text" placeholder="Username" value="">
         <input id="password" type="password" placeholder="Password" value="">
-        <button type="button" name="registerButton" id="registerButton">Register</button>
+        <div class="buttonWrapper">
+          <a type="button" class='btnStyle , btnLogReg' name="registerButton" id="registerButton">Register</a>
+        </div>
       </div>
-    <!-- <div class="login_link">
-        <p>Already Registered?</p>
-        <input id=search class=btnStyle type=button href="login.html">Log In>
-    </div> -->
 
-    <script src="javascript/client-side.js"></script>
-    <script src="javascript/register.js"></script>
-    <script src="javascript/profileButton.js"> </script>
+      <div class="register_link">
+          <p>Already Registered?</p>
+          <a id=btnAccounts class=btnStyle type=button href="login.html">Login</a>
+      </div>
+    </div>
   </body>
+
+  <script src="javascript/client-side.js"></script>
+  <script src="javascript/register.js"></script>
+  <script src="javascript/profileButton.js"> </script>
+
 </html>

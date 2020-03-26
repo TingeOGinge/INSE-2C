@@ -82,6 +82,11 @@ header * {
     margin-right: 1em;
 }
 
+#btnAccounts{
+  margin-top: 2em;
+  float: none;
+}
+
 #btnBlue{
   background: #18A0FB;
   color: #FFFFFF;
@@ -322,28 +327,49 @@ header * {
   display: none !important;
 }
 
-body.Login {
-  margin: 0;
-  padding: 0;
-  font-family: montserrat;
-  background: rgb(2,0,36);
-  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(5,160,185,1) 0%, rgba(6,76,170,1) 97%, rgba(7,59,154,1) 100%);
-  height: 100vh;
-  overflow: hidden;
-}
 .container{
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 400px;
-  background: white;
+  border-style: solid; border-width: 1px ;
   border-radius: 10px;
 }
+
 .container h1{
   text-align: center;
-  padding: 0 0 20px 0;
-  border-bottom: 1px solid silver;
+  padding-bottom: 1em;
+  border-bottom: 1px solid black;
+}
+
+.tbox input{
+  margin-top: 1em;
+  width: 80%;
+  margin-left: 10%;
+  padding-left: 3%;
+  height: 2.5em;
+  border: solid thin black;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+ .register_link{
+  margin: 30px 0;
+  text-align: center;
+  font-size: 16px;
+  color: #666666;
+}
+
+.btnLogReg{
+  margin-top: 2em;
+}
+
+#allRecipes{
+  margin-left: 10%;
 }
 
 /* #ingredient{
