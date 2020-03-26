@@ -135,21 +135,6 @@ async function getSchedule() {
   }
 }
 
-async function deleteRecipe(e) {
-  const chosenRecipe = getRecipeFromEvent(e);
-  const token = window.localStorage.getItem('jwt');
-  try {
-    if(!token) throw new Error('No JWT found');
-    const data = {
-      recipe_id: chosenRecipe.recipe_id,
-      scheduled_time: chosenRecipe.scheduled_time
-    };
-    await deleteFromSchedule(data, token);
-  } catch(err) {
-    console.log(err);
-  }
-}
-
 function prepareHandles() {
   el.recipeTitle = document.querySelector('#recipePlaceholder');
 }
