@@ -21,6 +21,19 @@ function loadRecipe(recipe){
     let steps;
     el.recipeTitle.append(recipe.recipe_name);
 
+    const info = {
+      "Cooking Time in Minutes": recipe.cooking_minutes,
+      "Serving Size": recipe.recipe_serving_size,
+      "Calories": recipe.recipe_calories,
+      "Dietary Restrictions": recipe.dietary_restrictions.join(', ')
+    };
+
+    for(const [prompt, value] of Object.entries(info)) {
+      const infoElement = document.createElement("li");
+      infoElement.classList.add('listStyling');
+      infoElement.innerHTML = `${prompt} - ${value}`;
+      el.recipeAbout.append(infoElement);
+    }
     for (ingredient of recipe.recipe_ingredients){
       const recipeIngredient = document.createElement("li");
       recipeIngredient.classList.add('listStyling');
