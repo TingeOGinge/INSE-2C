@@ -3,6 +3,7 @@
 const el = {};
 let recipes;
 
+
 function loadRecipes() {
   for (const recipe of recipes){
     let recipeIDClass = `recipeID${recipe.recipe_id}`;
@@ -22,6 +23,21 @@ function loadRecipes() {
     );
     recipeHeader.innerHTML = recipe.recipe_name;
     recipeContainer.append(recipeHeader);
+
+    const recipeTime = document.createElement("p");
+    recipeTime.id = "recipe-time";
+    recipeTime.classList.add(
+      'recipeEventListener',
+      recipeIDClass
+    );
+    let scheduleTime = recipe.scheduled_time;
+    scheduleTime = new Date(scheduleTime);
+    scheduleTime = `${scheduleTime.getFullYear()}-${scheduleTime.getMonth()+1}-${scheduleTime.getDate()} - ${scheduleTime.getHours()}:${scheduleTime.getMinutes()}`;
+    // Sat Mar 28 2020 21:53:27 GMT+0000 (Greenwich Mean Time)
+    recipeTime.innerHTML = scheduleTime;
+    recipeContainer.append(recipeTime);
+
+    window.console.log(recipe.recipe_cooking_time);
 
     const ingredientTitle = document.createElement("h4");
     ingredientTitle.classList.add(
@@ -50,10 +66,31 @@ function loadRecipes() {
       );
       recipeContainer.append(recipeIngredient);
     }
+
+    //removeButton
+
+    const recipeRemove = document.createElement("button");
+    recipeRemove.textContent = "Remove Recipe";
+    recipeRemove.id = 'recipeRemoveBtn';
+    recipeRemove.classList.add(
+      'recipeRemove',
+      'recipeEventListener',
+      recipeIDClass
+    );
+    recipeRemove.addEventListener('click', removeRecipeHandler);
+    recipeContainer.append(recipeRemove);
+
+    }
+
+    document.querySelectorAll('.recipeEventListener').forEach(elem => {
+      elem.addEventListener('click', linkHandler);
+    });
   }
-  document.querySelectorAll('.recipeEventListener').forEach(elem => {
-    elem.addEventListener('click', linkHandler);
-  });
+
+
+
+function removeRecipeHandler(){
+  window.console.log('HI');
 }
 
 function getRecipeFromEvent(e) {

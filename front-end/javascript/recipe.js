@@ -1,4 +1,4 @@
-/* global getRecipe, scheduleRecipe */
+/* global getRecipe, scheduleRecipe, FB */
 
 const el = {};
 let recipe;
@@ -40,7 +40,19 @@ function socialHandler(){
   el.print.addEventListener('click', () => window.print());
   el.dateControl.valueAsNumber = new Date().getTime();
   el.share.href = `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}?id=${recipe.recipe_id}`;
+
+  // el.share.onclick = () => {
+  //   FB.ui({
+  //     method: 'share',
+  //     href: `${window.location.href}?id=${recipe.recipe_id}`,
+  //   }, function(response){});
+  // };
 }
+
+  //
+  // el.share.setAttribute('data-href', `${window.location.href}?id=${recipe.recipe_id}`);
+  // console.log(el.share['data-href']);
+
 
 async function checkURL() {
   let retval = (window.localStorage.getItem('chosenRecipe') != null)
@@ -60,7 +72,6 @@ async function scheduleHandler() {
   try {
     const token = window.localStorage.getItem('jwt');
     if(!token) throw new Error('Please login to schedule a recipe');
-    if(el.dateControl.valueAsNumber < new Date().getTime()) throw new Error ('Scheduled recipes must not be in the past');
     const data = {recipe_id: recipe.recipe_id, scheduled_time: el.dateControl.value};
     await scheduleRecipe(data, token);
     console.log('Success');

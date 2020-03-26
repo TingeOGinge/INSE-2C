@@ -191,7 +191,6 @@ header * {
 .recipe{
   border-style: solid; border-width: 1px ;
   margin-bottom: 4%;
-  margin-top: 5%;
   margin-left: 10%;
   margin-right: 10%;
   padding-bottom: 1em;
@@ -234,6 +233,11 @@ header * {
   list-style: decimal;
 }
 
+#recipeRemoveBtn{
+  float: right;
+  margin-right: 1em;
+  margin-bottom: 1em;
+}
 
 #signUpContainer{
   border-style: solid; border-width: 1px ;
@@ -243,8 +247,9 @@ header * {
   margin-right: 10%
 }
 
-#schedule-time{
-
+#recipe-time{
+  margin-left: 1.2em;
+  margin-bottom: 1em;
 }
 
 .listStyling{
