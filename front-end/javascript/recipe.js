@@ -10,6 +10,7 @@ function prepareHandles() {
   el.dateControl = document.querySelector('input[type="datetime-local"]');
   el.print = document.querySelector('#printButton');
   el.schedule = document.querySelector('#scheduleButton');
+  el.scheduleMessage = document.querySelector('#scheduleMessage');
   el.facebookShare = document.querySelector('#shareButton');
 }
 
@@ -40,19 +41,7 @@ function socialHandler(){
   el.print.addEventListener('click', () => window.print());
   el.dateControl.valueAsNumber = new Date().getTime();
   el.facebookShare.href = `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}?id=${recipe.recipe_id}`;
-
-  // el.share.onclick = () => {
-  //   FB.ui({
-  //     method: 'share',
-  //     href: `${window.location.href}?id=${recipe.recipe_id}`,
-  //   }, function(response){});
-  // };
 }
-
-  //
-  // el.share.setAttribute('data-href', `${window.location.href}?id=${recipe.recipe_id}`);
-  // console.log(el.share['data-href']);
-
 
 async function checkURL() {
   let retval = (window.localStorage.getItem('chosenRecipe') != null)
@@ -75,10 +64,11 @@ async function scheduleHandler() {
     if(el.dateControl.valueAsNumber < Date.now()) throw new Error('Cannot schedule recipe in the past');
     const data = {recipe_id: recipe.recipe_id, scheduled_time: el.dateControl.value};
     await scheduleRecipe(data, token);
-    console.log('Success');
+    el.scheduleMessage.textContent = 'Recipe scheduled';
   } catch(err) {
-    console.log(err);
+    el.scheduleMessage.textContent = err.message;
   }
+  el.scheduleMessage.classList.remove('hiddenContent');
 }
 
 async function pageLoaded() {
