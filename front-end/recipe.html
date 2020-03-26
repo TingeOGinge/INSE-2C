@@ -1,0 +1,59 @@
+<!doctype html>
+<meta charset=utf-8 name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" title="Ecochef" href="css/style.css">
+<title>Recipe</title>
+
+
+  <body>
+    <div id="fb-root"></div>
+
+    <nav class="navbar">
+      <a href="index.html" aria-label="Home" class="navbar_home">Ecochef</a>
+      <a href="profile.html" aria-label="Profile" class="btnStyle" id=btnProfile><img src="media/profile.png"></a>
+      <a href="login.html" aria-label="Login" class="btnStyle" id=btnWhite>Login</a>
+      <a href="register.html" aria-label="Register" class="btnStyle" id="btnBlue">Register</a>
+      </nav>
+
+
+    <h2 id=detail></h2>
+
+    <aside class=recipe>
+      <h3>About this Recipe</h3>
+      <ul id=about class=recipeLayout>
+      </ul>
+    </aside>
+
+    <aside class=recipe>
+      <h3>What you'll need</h3>
+      <ul id=ingredients class=recipeLayout>
+      </ul>
+    </aside>
+
+    <aside class=recipe>
+      <h3>Method</h3>
+      <ul id=method class=recipeLayout>
+      </ul>
+    </aside>
+
+    <aside class=recipe>
+      <h3>Like the sound of this recipe?</h3>
+
+      <h4 class=social>Schedule it</h4>
+      <label for="schedule-time" class=social id="schedule-time">Choose a date and time to schedule your recipe:</label>
+      <input type="datetime-local" class=social id="schedule-time"
+       name="schedule-time" value="2020-01-01T12:00"
+       min="2020-01-01T12:00" max="2030-01-01T12:00">
+      <button type="button" name="button" id="scheduleButton">Schedule Recipe</button>
+      <p id="scheduleMessage" class="hiddenContent errorPopup"></p>
+
+      <h4 class=social>Share it</h4>
+      <a href'#' id="shareButton">
+      <img src="media/iconfinder_facebook_circle_color_107175.svg" alt="facebook share icon">
+      </a>
+      <h4 class=social>Print it</h4>
+      <button id="printButton" type="button" name="printButton">Print</button>
+    </aside>
+
+  <script src="javascript/client-side.js"> </script>
+  <script src="javascript/recipe.js"></script>
+  <script src="javascript/profileButton.js"> </script>

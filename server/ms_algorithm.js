@@ -53,6 +53,11 @@ async function collectRecipes(searchObj, res) {
 */
 
 function filterRecipe(recipe, searchObj) {
+  while(recipe.dietary_restrictions.includes(null)) {
+    let nullIndex = recipe.dietary_restrictions.indexOf(null);
+    recipe.dietary_restrictions.splice(nullIndex, 1);
+  }
+
   if (searchObj.restrictions) {
     for (const restriction of searchObj.restrictions) {
       if (!(recipe.dietary_restrictions.includes(restriction))) {
@@ -119,6 +124,7 @@ function prioritySort(recipes, searchObj) {
   return recipes.sort((a, b) => a.score - b.score);
 }
 
+
 /**
 *search uses collectRecipes and filterRecipes to return sorted recipes. It does
 * this by first calling collectRecipes then filters recipes using filterRecipe.
@@ -146,7 +152,8 @@ function prioritySort(recipes, searchObj) {
 
 async function search(req, res) {
   try {
-    const searchObj = req.body;
+    const searchObj = req.query;
+    convertQueryFormats(searchObj);
     const recipes = await collectRecipes(searchObj, res);
 
     if (recipes && recipes.length > 0) {
@@ -154,16 +161,26 @@ async function search(req, res) {
       if (retval.length === 0) res.sendStatus(404);
       else {
         prioritySort(retval, searchObj);
-        res.json(retval);
+
+        res.json((retval.length < 20) ? retval : retval.slice(0, 20));
       }
-    } else {
-      res.sendStatus(404);
     }
-
-
+    else {
+      res.end();
+    }
   } catch (err) {
     console.log(err.stack);
   }
 }
 
-module.exports = {search};
+async function getRecipe(req, res) {
+  const id = req.params.id;
+  try {
+    const recipe = await query('searchRecipeID', id);
+    (recipe.rows.length > 0) ? res.json(recipe.rows[0]) : res.sendStatus(404);
+  } catch(err) {
+    res.sendStatus(404);
+  }
+}
+
+module.exports = {search, filterRecipe, prioritySort, getRecipe};

@@ -38,6 +38,7 @@ async function validateSession(req, res, next) {
         });
       } else {
         req.tokenPayload = payload.data;
+        console.log(req.tokenPayload)
         res.body = {token: generateToken(payload.data)};
         next();
       }
@@ -111,8 +112,12 @@ Salt is left at the default of ten to provide a middle ground between security a
 */
 async function hashPassword(req, res, next) {
   if (req.body.password) {
-    req.body.password = await bcrypt.hash(req.body.password, 10);
-    next();
+    try {
+      req.body.password = await bcrypt.hash(req.body.password, 10);
+      next();
+    } catch(err) {
+      res.sendStatus(400);
+    }
   } else {
     res.sendStatus(400);
   }

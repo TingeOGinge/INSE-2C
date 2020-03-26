@@ -20,7 +20,7 @@ const app = express();
 const path = require('path');
 const cors = require('cors');
 const {validateLogin, validateSession, hashPassword} = require('./ms_auth.js');
-const {search} = require('./ms_algorithm.js');
+const {search, getRecipe} = require('./ms_algorithm.js');
 
 const {
   getUsers,
@@ -40,6 +40,7 @@ app.get('/api/getUsers', validateSession, getUsers);
 // HTTP GET Requests
 app.get('/api/getUserSchedule', validateSession, retrieveUserSchedule);
 app.get('/api/mainSearch', search);
+app.get('/api/getRecipe/:id', getRecipe);
 
 
 // HTTP POST Requests

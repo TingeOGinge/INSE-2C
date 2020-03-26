@@ -1,9 +1,6 @@
 create database ecochefdb;
 create user myuser with encrypted password 'inse2c';
 \c ecochefdb
-grant all privileges on all tables in schema public to myuser;
-grant usage, select on all sequences in schema public to myuser;
-
 
 create table ingredient (
 ingredient_id serial primary key,
@@ -51,3 +48,6 @@ create table recipe_dietary (
   recipe_id integer references recipe(recipe_id) ON DELETE CASCADE,
   diet_restriction_id integer references dietary_restrictions(diet_restriction_id) ON DELETE CASCADE
 );
+
+grant all privileges on all tables in schema public to myuser;
+grant usage, select on all sequences in schema public to myuser;
