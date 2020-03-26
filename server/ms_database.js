@@ -44,7 +44,7 @@ const queryDictionary = {
                             'where ingredient_name similar to $1',
   scheduleRecipe: 'INSERT INTO account_recipe (account_id, recipe_id, scheduled_time) values($1, $2, $3)',
   getUsers: 'TABLE account',
-  getUserSchedule: 'SELECT recipe_name, scheduled_time, recipe_cooking_time, recipe_serving_size, ' +
+  getUserSchedule: 'SELECT DISTINCT scheduled_time, recipe_name, a.recipe_id, recipe_cooking_time, recipe_serving_size, ' +
                       ' recipe_calories, recipe_ingredients, recipe_method FROM ' +
                       'recipe a ' +
                     'LEFT JOIN account_recipe b ON a.recipe_id = b.recipe_id ' +
