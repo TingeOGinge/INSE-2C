@@ -59,6 +59,7 @@ async function deleteFromSchedule(req, res) {
       req.body.scheduled_time
     ];
     const result = await query('deleteFromSchedule', params);
+    console.log(result);
     (result.rowCount > 0) ? res.sendStatus(200) : res.sendStatus(404);
   } catch (err) {
     console.log(err.stack);

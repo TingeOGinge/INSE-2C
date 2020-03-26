@@ -72,11 +72,13 @@ function loadRecipes() {
     recipeRemove.id = 'recipeRemoveBtn';
     recipeRemove.classList.add(
       'recipeRemove',
-      'recipeEventListener',
       recipeIDClass
     );
+    // recipeContainer.append(recipeRemove);
     recipeRemove.addEventListener('click', removeRecipeHandler);
-    recipeContainer.append(recipeRemove);
+
+    recipeContainer.insertAdjacentElement('afterend', recipeRemove);
+
 
     }
 
