@@ -1,4 +1,4 @@
-/* global getRecipe, scheduleRecipe, FB */
+/* global getRecipe, scheduleRecipe */
 
 const el = {};
 let recipe;
@@ -72,6 +72,7 @@ async function scheduleHandler() {
   try {
     const token = window.localStorage.getItem('jwt');
     if(!token) throw new Error('Please login to schedule a recipe');
+    if(el.dateControl.valueAsNumber < Date.now()) throw new Error('Cannot schedule recipe in the past');
     const data = {recipe_id: recipe.recipe_id, scheduled_time: el.dateControl.value};
     await scheduleRecipe(data, token);
     console.log('Success');
