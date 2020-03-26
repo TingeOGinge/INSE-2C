@@ -29,7 +29,7 @@
     </aside>
 
     <aside id=detail>
-      <h4>Your Ingredients</h4>
+      <h4 id=ingredientsHeader>Your Ingredients</h4>
       <ul id="ingredient">
       </ul>
     </aside>
@@ -43,22 +43,27 @@
       <img id="usrSelection" src="media/calories.jpg">
       <img id="usrSelection" src="media/serving.jpg">
       <img id="usrSelection" src="media/diet.jpg">
+      <label class=usrLabels>Cooking Time</label>
+      <label class=usrLabels>Calories</label>
+      <label class=usrLabels>Servings</label>
+      <label class=usrLabels>Dietary Requirements</label>
+
     </ul>
 
     <div class="dropdown" id="usrSelectionAll">
-        <input id=time type=text autofocus autocomplete=off>
-        <input id=cal type=text autofocus autocomplete=off>
-        <input id=serve type=text autofocus autocomplete=off>
+        <input id=time  class=dietaryReqInput type=text autofocus autocomplete=off>
+        <input id=cal  class=dietaryReqInput type=text autofocus autocomplete=off>
+        <input id=serve  class=dietaryReqInput type=text autofocus autocomplete=off>
 
-        <div id=diet>
+        <div id=diet class=dietaryReqInput>
           <input class="restriction" type="checkbox" id="vegetarian" name="vegetarian">
-          <label for="vegetarian">Vegetarian</label>
+          <label id="vegetarian" for="vegetarian">Vegetarian</label>
           <input class="restriction" type="checkbox" id="gluten-free" name="gluten-free">
-          <label for="gluten-free">No Gluten</label>
+          <label id="gluten-free" for="gluten-free">No Gluten</label>
           <input class="restriction" type="checkbox" id="dairy-free" name="dairy-free">
-          <label for="dairy-free">No Dairy</label>
+          <label id="dairy-free" for="dairy-free">No Dairy</label>
           <input class="restriction" type="checkbox" id="vegan" name="vegan">
-          <label for="vegan">Vegan</label>
+          <label id="vegan" for="vegan">Vegan</label>
         </div>
     </div>
 
