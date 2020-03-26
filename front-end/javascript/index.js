@@ -10,12 +10,12 @@ function addIngredienttoLI() {
   const listItem = document.createElement("li");
   const removeItemBtn = document.createElement("button");
 
-  listItem.classList.add('parameter','addIngredientList');
   let query = document.getElementById("searchbar").value;
+  listItem.classList.add('parameter','addIngredientList', `param-${query}`);
   listItem.textContent = query;
 
   removeItemBtn.textContent = "X";
-  removeItemBtn.classList.add('addIngredientList');
+  removeItemBtn.classList.add('addIngredientList', `param-${query}`);
   removeItemBtn.addEventListener('click', removeParameterHandler);
   listItem.append(removeItemBtn);
 
@@ -29,9 +29,14 @@ function removeParameterHandler(e) {
   if (el.ingredientArray.indexOf(e.target.textContent) !== -1) {
     el.ingredientArray.splice(e.target.textContent, 1);
   }
-  const searchParam = e.target.nextSibling;
-  e.target.remove();
-  searchParam.remove();
+  let removeClass;
+  e.target.classList.forEach(elem => {
+    if(elem.includes('param-')) removeClass = `.${elem}`;
+  });
+  document.querySelectorAll(removeClass).forEach(elem => {
+    if(elem.tagName === 'LI') el.ingredientArray.splice(elem.value, 1);
+    elem.remove();
+  });
 }
 
 function collectSearchObject() {
