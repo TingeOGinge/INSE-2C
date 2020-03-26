@@ -34,8 +34,6 @@ async function deleteFromSchedule(data, token) {
   const response = await fetch(url, requestOptions);
 
   if (!response.ok) throw new Error(response.statusText);
-  const payload = await response.json();
-  return payload.token;
 }
 
 async function getUserSchedule(token) {
