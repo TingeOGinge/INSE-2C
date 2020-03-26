@@ -37,8 +37,6 @@ function loadRecipes() {
     recipeTime.innerHTML = scheduleTime;
     recipeContainer.append(recipeTime);
 
-    window.console.log(recipe.recipe_cooking_time);
-
     const ingredientTitle = document.createElement("h4");
     ingredientTitle.classList.add(
       'ingredientTitle',
@@ -89,8 +87,20 @@ function loadRecipes() {
 
 
 
-function removeRecipeHandler(){
-  window.console.log('HI');
+async function removeRecipeHandler(e){
+  const chosenRecipe = getRecipeFromEvent(e);
+  const token = window.localStorage.getItem('jwt');
+  try {
+    if (!token) throw new Error('No JWT found');
+    const data = {
+      recipe_id: chosenRecipe.recipe_id,
+      scheduled_time: chosenRecipe.scheduled_time
+    };
+    await deleteFromSchedule(data, token);
+    location.reload();
+  } catch(err) {
+    console.log(err);
+  }
 }
 
 function getRecipeFromEvent(e) {
@@ -147,7 +157,7 @@ function prepareHandles() {
 async function pageLoaded() {
   prepareHandles();
   recipes = await getSchedule();
-  loadRecipes();
+  if(recipes) loadRecipes();
 }
 
 window.addEventListener('load', pageLoaded);
