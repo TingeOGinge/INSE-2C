@@ -1,7 +1,4 @@
-// window.localstorage.getitem
-//
-//
-// json.parse.object
+/* global module */
 
 const el = {};
 const recipes = (window.localStorage.getItem('searchResult') != null)
@@ -90,3 +87,8 @@ function pageLoaded() {
 }
 
 window.addEventListener('load', pageLoaded);
+
+
+if (typeof module === 'object') {
+  module.exports = loadRecipes;
+}
