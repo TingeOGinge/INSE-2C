@@ -16,8 +16,6 @@ function prepareHandles() {
 }
 
 function loadRecipe(recipe){
-  window.console.log(recipe)
-
   if (recipe != null){
     let ingredient;
     let steps;
