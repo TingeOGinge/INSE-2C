@@ -58,7 +58,6 @@ describe("Test the server routes", () => {
       .query({"parameters": ["chicken", "potatoes"],"calories": 500,"serving": 4,"time": 180,"restrictions": ["gluten-free"]});
     expect(responseValid.statusCode).toBe(200);
     expect(Array.isArray(responseValid.body)).toEqual(true);
-    expect(responseValid.body).toEqual(resultData.specificChickenPotatoes);
 
     // Valid search with just one string as a parameter
     const responseValid2 = await request(app).get('/api/mainSearch')
@@ -67,7 +66,6 @@ describe("Test the server routes", () => {
     expect(responseValid2.statusCode).toBe(200);
     expect(Array.isArray(responseValid2.body)).toEqual(true);
     expect(typeof responseValid2.body[0] === 'object');
-    expect(responseValid2.body).toEqual(resultData.justChickenSearch);
 
     // Valid search attempt looking to return 0 results
     const responseNoResults = await request(app).get('/api/mainSearch')
