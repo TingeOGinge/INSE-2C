@@ -140,6 +140,13 @@ async function searchHandler(){
   }
 }
 
+
+/**
+ * uncheckRestriction - Ensures if dietary restriction is not checked that it is
+ * removed from the restriction array
+ *
+ * @param  {HTMLElement} e event 
+ */
 function uncheckRestriction(e) {
   if(el.chosenRestrictions.includes(e.target.name)) {
     el.chosenRestrictions.splice(el.chosenRestrictions.indexOf(e.target.name),1);
