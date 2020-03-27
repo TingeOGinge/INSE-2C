@@ -35,3 +35,5 @@ To view the project's documentation please follow the link below
 
 
 ## About The Project
+
+The Ecochef webapp provides a simple way for users to find, schedule and share recipes based on ingredients they have.

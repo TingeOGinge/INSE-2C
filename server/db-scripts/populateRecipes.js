@@ -3,8 +3,6 @@ const parse = require('csv-parse/lib/sync');
 const fs = require('fs');
 const path = require('path');
 
-console.log = function() {};
-
 const CSV_PARSE_OPTIONS = {
   columns: true,
   skip_empty_lines: true,
