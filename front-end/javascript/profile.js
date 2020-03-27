@@ -2,7 +2,7 @@
 
 
 /**
- * @module profile
+ * @module Profile Page
  */
 
 const el = {};
