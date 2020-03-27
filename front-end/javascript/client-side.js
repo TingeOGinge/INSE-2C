@@ -6,11 +6,12 @@
 /** registerUser registers a new user ny passing in data in the form of a
 * username and password in a JSON object. It calls on the generateRequestOptions
 * function to stringify the data. Throws error if the response is not as expected
+* @async
 * @param {Object} data - JSON object containing username and password.
-* @param {String} data.username - username for registering user
-* @param {String} data.password - password for registering user
-* @param {Object} requestOptions - stringified username and password data
-* @param {String} url - url to register User API
+* @property {String} data.username - username for registering user
+* @property {String} data.password - password for registering user
+* @returns fetch() response object
+* @throws Will throw an error if the status code is not okay (404 etc)
 */
 
 async function registerUser(data) {
@@ -26,11 +27,12 @@ async function registerUser(data) {
 * by stringifying the data passed through, waiting for a response from the login
 * API using the stringified data and returning the payload's jwt. When the user
 * has a jwt they are in a logged in session.
+* @async
 *@param {Object} data - JSON object containing username and password
-*@param {String} data.username - username of user
-*@param {String} data.password - password of user
-*@param {Object} requestOptions -  stringified username and password data
-*@param {String} url - url to login api
+*@property {String} data.username - username of user
+*@property {String} data.password - password of user
+* @returns {string} - JSON Web Token
+* @throws Will throw if response status code is not okay
 */
 
 async function login(data) {
@@ -48,12 +50,13 @@ async function login(data) {
 * are linked to accounts. It does this by stringifying the datetime plus recipe_id
 *  and waiting for a response from the scheduleRecipe API. If successful the jwt
 * is passed back. If unsuccessful an error is thrown.
+* @async
 * @param {Object} data l- JSON object containing date+time in ISO 8601 format and recipe id
-* @param {datetime} data.scheduled_time- datetime for scheduled recipe in ISO 8601 format
-* @param {Integer} data.recipe_id - ID to recipe that is being scheduled
-* @param {Object} requestOptions -  stringified scheduled_time and recipe_id data
-* @param {String} url - url to schedule recipe api
+* @property {datetime} data.scheduled_time- datetime for scheduled recipe in ISO 8601 format
+* @property {Integer} data.recipe_id - ID to recipe that is being scheduled
 * @param {String} token - jwt that is stored in local storage for future use
+* @returns {object} fetch() response object
+* @throws Will throw if response status code is not okay
 */
 
 async function scheduleRecipe(data, token) {
@@ -69,12 +72,13 @@ async function scheduleRecipe(data, token) {
 * It does this by stringifying the recipe_id and datetime and awaiting a response
 * from the deleteFromSchedule API. If successful it returns the jwt. If unsuccessful
 * it throws an error.
+* @async
 * @param {Object} data - JSON object containing date+time in ISO 8601 format and recipe id
-* @param {datetime} data.scheduled_time - datetime for deleteFromSchedule in ISO 8601 format
-* @param {Integer} data.recipe_id - ID to recipe that is being deleted
-* @param {Object} requestOptions -  stringified scheduled_time and recipe_id data
-* @param {String} url - url to delete recipe api
+* @property {datetime} data.scheduled_time - datetime for deleteFromSchedule in ISO 8601 format
+* @property {Integer} data.recipe_id - ID to recipe that is being deleted
 * @param {String} token - jwt that is stored in local storage for future use
+* @returns {object} fetch() response object
+* @throws Will throw if response status code is not okay
 */
 
 async function deleteFromSchedule(data, token) {
@@ -89,9 +93,10 @@ async function deleteFromSchedule(data, token) {
 /** getUserSchedule gets the user's account's scheduled recipes.
 * It does this by awaiting a response from the getUserSchedule API.
 * If successful it returns the jwt. If unsuccessful it throws an error.
+* @async
 * @param token - jwt
-* @param requestOptions - jwt in generateRequestOptions' retval.headers.authorization
-* @param url - url to getUserSchedule API
+* @returns {object[]} - Each object returned is a recipe in the user's schedule
+* @throws Will throw if response status code is not okay
 */
 
 async function getUserSchedule(token) {
@@ -112,10 +117,10 @@ async function getUserSchedule(token) {
 * It does this by passing the search data to URLSearchParams in the form of a
 * string to be part of url.search. Recipes are returned after awaiting the url.href.
 * if the response isnt what is to be expected it throws an error
-*@param {object} data - search parameters
-*@param {String} url - URL to mainSearch api
-*@param {String} url.search - search string to be used
-*@param {String} url.href - attribute of anchor tag
+*@async
+*@param {object} data - search parameters that are put into the url search parameters
+*@returns {object[]} - Each object returned is a recipe in the user's schedule
+* @throws Will throw if response status code is not okay
 */
 
 async function search(data) {
@@ -127,6 +132,12 @@ async function search(data) {
   const recipes = await response.json();
   return recipes;
 }
+
+/** getRecipe returns a recipe object from the server based on a given ID
+ *  @param id - the id of the recipe you wish to return
+ * @returns {object} Specified recipe
+ * @throws Will throw if response status code is not okay
+ */
 
 async function getRecipe(id) {
   const url = `http://localhost:5000/api/getRecipe/${id}`;
@@ -142,8 +153,9 @@ async function getRecipe(id) {
 * requested as a string.
 * @param {Object} data - data to be turned into a string
 * @param {object} token - jwt
-* @param {object} retval - returns stringified data
+* @param {object} retval - returns data in body as a string
 * @param {String} retval.headers.authorization - authorization string for returned value
+* @returns {object} Formatted request options for fetch()
 */
 
 function generatePOSTRequestOptions(data, token) {
