@@ -132,7 +132,6 @@ function loadRecipes() {
  * removeRecipeHandler - Event handler for when a user wishes to remove a recipe
  * from their schedule
  *
- * @event
  * @param  {object} MouseEvent description
  */
 async function removeRecipeHandler(e){
