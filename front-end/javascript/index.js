@@ -2,7 +2,7 @@
 
 
 /**
- * @module Homepage and Search
+ * @module Homepage and Search Page
  */
 
 /**
@@ -150,7 +150,7 @@ async function searchHandler(){
  * uncheckRestriction - Ensures if dietary restriction is not checked that it is
  * removed from the restriction array
  *
- * @param  {HTMLElement} e event 
+ * @param  {HTMLElement} e event
  */
 function uncheckRestriction(e) {
   if(el.chosenRestrictions.includes(e.target.name)) {
