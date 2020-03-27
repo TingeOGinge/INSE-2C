@@ -1,6 +1,14 @@
 # INSE-2C
 Group 2 Team C INSE Project - Recipe Recommendations Webapp
 
+Members:
+ - TingeOGinge - Dillon Patrick O'Shea - UP887062
+ - JamesDBardsley - James Bardsley - UP858234
+ - Johnedreid - John Reid - UP889557
+ - TMSG999 - Tiago Goncalves - UP898927
+ - BenGaraffa - Benjamin Sebastian Garaffa - UP900263
+ - napstA - Oliver George Walden Peters - UP896088
+
 ## Install the following to run this program locally
 
 - PostgreSQL - Listening on `port 5432`
