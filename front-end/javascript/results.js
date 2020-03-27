@@ -1,5 +1,10 @@
 /* global module */
 
+
+/**
+ * @module Search Results Page
+ */
+
 /**
  * @const {object} - Initialises element object used for globally storing HTML elements
  */
