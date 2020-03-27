@@ -24,6 +24,10 @@ describe("Test the client-side API functions", () =>{
       ],
       [
         '',
+        { status: 400}
+      ],
+      [
+        '',
         { status: 500 }
       ]
     );
@@ -36,6 +40,10 @@ describe("Test the client-side API functions", () =>{
     // Username conflict
     await expect(api.registerUser(`[{"username":"username","password":"password"}]`))
             .rejects.toThrow('Conflict');
+
+    // Bad request body properties
+    await expect(api.registerUser(`[{"name":"username","word":"password"}]`))
+            .rejects.toThrow('Bad Request');
 
     // Internal server error
     await expect(api.registerUser()).rejects.toThrow('Internal Server Error');
