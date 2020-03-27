@@ -23,7 +23,6 @@ const {validateLogin, validateSession, hashPassword} = require('./ms_auth.js');
 const {search, getRecipe} = require('./ms_algorithm.js');
 
 const {
-  getUsers,
   registerUser,
   scheduleRecipe,
   retrieveUserSchedule,
@@ -33,9 +32,6 @@ const {
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'front-end')));
 app.use(cors());
-
-// TEST FUNCTION NOT INTENDED FOR PRODUCTION
-app.get('/api/getUsers', validateSession, getUsers);
 
 // HTTP GET Requests
 app.get('/api/getUserSchedule', validateSession, retrieveUserSchedule);

@@ -94,7 +94,6 @@ async function searchHandler(){
       const searchResult = await search(searchObj);
       window.localStorage.setItem('searchResult', JSON.stringify(searchResult));
       window.location.href = 'results.html';
-      console.log(searchObj);
     } catch (err) {
       // handle search with no response
       el.popupContent.textContent = err.message;

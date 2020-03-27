@@ -76,7 +76,6 @@ function generatePOSTRequestOptions(data, token) {
     headers: { 'Content-Type': 'application/json' },
     body: (data) ? JSON.stringify(data) : undefined
   };
-  console.log(retval);
   if (token) retval.headers.authorization = `Bearer ${token}`;
   return retval;
 }
