@@ -10,10 +10,21 @@ const el = {
   chosenRestrictions: []
 };
 
+
 /**
+ * addIngredienttoLI - populates ingredients searched for by the user in to list
+ * elements whilst appending to this to an array and placing a remove button and
+ * 'remove' button next to each list element that allows the user to remove items
+ * from the list. The removeContentFrom() function is called to remove text from
+ * the searchbar.
  *
+ * @property {HTMLElement}  listItem - list tag element
+ * @property {HTMLElement}  pElem - p tag element
+ * @property {HTMLElement}  removeItemBtn - button tag element
+ * @property {HTMLElement}  query - text inside searchbar
  *
  */
+
 function addIngredienttoLI() {
   const listItem = document.createElement("li");
   const pElem = document.createElement("p");
@@ -29,17 +40,21 @@ function addIngredienttoLI() {
   listItem.append(pElem);
   listItem.append(removeItemBtn);
 
-
   el.ingredientList.append(listItem);
   el.ingredientArray.push(query);
   removeContentFrom(el.searchBar);
 }
 
+/**
+ * removeParameterHandler - finds ingredient in list of elements by using a regex
+ * statement to check the ingredient in class name against the ingredient in element
+ * name to be removed, this enables the ingredient to be addressed and removed from the
+ * ingredientArray.
+ *
+ * @param  {Event} e element event property
+ * @property {String} removeClass name of ingredient to be removed
+ */
 function removeParameterHandler(e) {
-  // if (el.ingredientArray.indexOf(e.target.textContent) !== -1) {
-  //   el.ingredientArray.splice(e.target.textContent, 1);
-  // }
-  // console.log(e.target.textContent);
   let removeClass;
   e.target.classList.forEach(elem => {
     if(elem.includes('param-')) removeClass = `.${elem}`;
@@ -53,11 +68,14 @@ function removeParameterHandler(e) {
   });
 }
 
-// Trawl through all necessary elements in the page
-// Checks value in element is present and of a valid format (i.e., a number)
-// Converts string number to actual integer where needed
-// Returns false if input is invalid anywhere
-// Returns search object if all is well
+/**
+ * collectSearchObject - Trawl through all necessary elements in the page
+ * Checks value in element is present and of a valid format (i.e., a number)
+ * Converts string number to actual integer where needed
+ *
+ * @return {Boolean} Returns false if input is invalid anywhere
+ * @return {Object} Returns search object if all is well
+ */
 function collectSearchObject() {
   const searchObj = {
     parameters: el.ingredientArray,
@@ -96,16 +114,16 @@ function collectSearchObject() {
   return searchObj;
 }
 
-
-/* handles what is done when the search button is pressed */
-
-// Function triggered when user clicks search button
-// Collects search object in function above
-// If search object is not valid it throws an error
-// Otherwise the query is made to the database
-// If database throws an error it will be caught
-// Otherwise the search result is stored in local storage
-// User is then redirected to the results page
+/**
+ * searchHandler - Function triggered when user clicks search button
+ * Collects search object in function above
+ * If search object is not valid it throws an error
+ * Otherwise the query is made to the database
+ * If database throws an error it will be caught
+ * Otherwise the search result is stored in local storage
+ * User is then redirected to the results page
+ *
+ */
 async function searchHandler(){
   if (el.ingredientArray.length > 0) {
     try{
@@ -128,8 +146,11 @@ function uncheckRestriction(e) {
   }
 }
 
-/* handles all elements and stores them in 'el' class */
-// Selects elements from the document to be used later on
+/**
+ * prepareHandles - Selects elements from the document to be used later on by
+ * storing in the global element (el) class
+ *
+ */
 function prepareHandles() {
   el.ingredientButton = document.querySelector('#addIngredient');
   el.searchBar = document.querySelector('#searchbar');
@@ -144,8 +165,9 @@ function prepareHandles() {
   el.popupButton = document.querySelector('#searchPopupButton');
 }
 
-/* listens on all events */
-// Adds event listeners where needed
+/**
+ * addEventListeners - Adds event listeners where needed
+ */
 function addEventListeners() {
   el.ingredientButton.addEventListener('click', addIngredienttoLI);
   el.searchButton.addEventListener('click', searchHandler);
@@ -154,28 +176,39 @@ function addEventListeners() {
   el.restrictions.forEach(e => e.addEventListener('click', uncheckRestriction));
 }
 
-// Pop us is generated when search object is invalid
-// This function is fired when user closes that pop up
-// Rehides the pop up and removes the old error message
+/**
+ * popupButtonHandler - Pop us is generated when search object is invalid
+ * This function is fired when user closes that pop up
+ * Rehides the pop up and removes the old error message
+ */
 function popupButtonHandler(){
   el.popupContainer.classList.add('hiddenContent','errorPopup');
   el.popupContent.textContent = '';
 }
 
-/* remove all content from searchbar */
-// Used to remove the content from the search bar
+/**
+ * removeContentFrom - Used to remove the content from the search bar
+ *
+ * @param  {HTMLElement} what Object holding the searchbar element
+ */
 function removeContentFrom(what) {
   what.value = '';
 }
 
-/* allows return key to be used to add ingredients */
+/**
+ * checkKeys - allows return key to be used to add ingredients to list
+ *
+ * @param  {HTMLElement} e event
+ */
 function checkKeys(e) {
   if (e.key === 'Enter') {
     addIngredienttoLI();
   }
 }
 
-// Runs when the page is loaded - similar to a Java main function
+/**
+ * pageLoaded - Runs when the page is loaded - similar to a Java main function
+ */
 function pageLoaded() {
   prepareHandles();
   addEventListeners();
