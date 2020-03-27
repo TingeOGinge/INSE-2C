@@ -77,7 +77,6 @@ async function deleteFromSchedule(req, res) {
       req.body.scheduled_time
     ];
     const result = await query('deleteFromSchedule', params);
-    console.log(result);
     (result.rowCount > 0) ? res.sendStatus(200) : res.sendStatus(404);
   } catch (err) {
     console.log(err.stack);
@@ -102,33 +101,9 @@ async function retrieveUserSchedule(req, res) {
   }
 }
 
-
-//------------------------------------------------------------------------------
-// Test function to retrieve all information on a user
-// DELETE BEFORE RELEASING PROTOTYPE \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
-//------------------------------------------------------------------------------
-async function getUsers(req, res) {
-  try {
-    if (req.tokenPayload.admin_status) {
-      const result = await query('getUsers');
-      (result) ? res.send(result.rows) : res.sendStatus(404);
-    } else {
-      res.sendStatus(404);
-    }
-  } catch (err) {
-    console.log(err.stack);
-    res.sendStatus(500);
-  }
-}
-//------------------------------------------------------------------------------
-// Test function to retrieve all information on a user ^^^^^^^^^^^^^^^^^^^^^^^^
-// DELETE BEFORE RELEASING PROTOTYPE
-//------------------------------------------------------------------------------
-
 module.exports = {
   registerUser,
   scheduleRecipe,
   retrieveUserSchedule,
-  getUsers,
   deleteFromSchedule
 };

@@ -38,7 +38,6 @@ async function validateSession(req, res, next) {
         });
       } else {
         req.tokenPayload = payload.data;
-        console.log(req.tokenPayload)
         res.body = {token: generateToken(payload.data)};
         next();
       }

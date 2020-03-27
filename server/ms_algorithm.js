@@ -173,7 +173,6 @@ async function search(req, res) {
   try {
     const searchObj = req.query;
     convertQueryFormats(searchObj);
-    console.log(searchObj);
     const recipes = await collectRecipes(searchObj, res);
 
     if (recipes && recipes.length > 0) {

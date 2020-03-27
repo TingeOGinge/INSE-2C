@@ -17,7 +17,7 @@ function loadPrompt() {
   const promptRedirect = document.createElement('a');
   promptRedirect.href = '/';
   promptContainer.append(promptRedirect);
-  
+
   const promptContent = document.createElement('p');
   promptContent.textContent = 'Click to begin searching';
   promptRedirect.append(promptContent);
