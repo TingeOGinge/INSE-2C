@@ -103,6 +103,12 @@ async function searchHandler(){
   }
 }
 
+function uncheckRestriction(e) {
+  if(el.chosenRestrictions.includes(e.target.name)) {
+    el.chosenRestrictions.splice(el.chosenRestrictions.indexOf(e.target.name),1);
+  }
+}
+
 /* handles all elements and stores them in 'el' class */
 function prepareHandles() {
   el.ingredientButton = document.querySelector('#addIngredient');
@@ -124,6 +130,7 @@ function addEventListeners() {
   el.searchButton.addEventListener('click', searchHandler);
   el.searchBar.addEventListener('keyup', checkKeys);
   el.popupButton.addEventListener('click', popupButtonHandler);
+  el.restrictions.forEach(e => e.addEventListener('click', uncheckRestriction));
 }
 
 function popupButtonHandler(){
