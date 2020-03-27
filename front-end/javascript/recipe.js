@@ -1,4 +1,4 @@
-/* global getRecipe, scheduleRecipe */
+/* global getRecipe, scheduleRecipe, module */
 
 const el = {};
 let recipe;
@@ -36,13 +36,13 @@ function loadRecipe(recipe){
     }
     for (ingredient of recipe.recipe_ingredients){
       const recipeIngredient = document.createElement("li");
-      recipeIngredient.classList.add('listStyling');
+      recipeIngredient.classList.add('listStyling', 'ingredientElem');
       recipeIngredient.innerHTML = ingredient;
       el.recipeIngredients.append(recipeIngredient);
     }
     for (steps of recipe.recipe_method){
       const recipeMethod = document.createElement("li");
-      recipeMethod.classList.add('listStyling');
+      recipeMethod.classList.add('listStyling', 'methodElem');
       recipeMethod.innerHTML = steps;
       el.recipeMethod.append(recipeMethod);
     }
@@ -60,14 +60,19 @@ function socialHandler(){
 async function checkURL() {
   let retval = (window.localStorage.getItem('chosenRecipe') != null)
     ? JSON.parse(window.localStorage.getItem('chosenRecipe')) : null;
-  if (window.location.href.includes('?id=')) {
-    const id = window.location.href.replace(/.*\?id=/, '');
-    try {
-      retval = await getRecipe(id);
-    } catch(err) {
-      retval = null;
+  try {
+    if (window.location.href.includes('?id=')) {
+      const id = window.location.href.replace(/.*\?id=/, '');
+      try {
+        retval = await getRecipe(id);
+      } catch(err) {
+        retval = null;
+      }
     }
+  } catch(err) {
+    console.log(err);
   }
+
   return retval;
 }
 
@@ -89,8 +94,15 @@ async function pageLoaded() {
   prepareHandles();
   recipe = await checkURL();
   loadRecipe(recipe);
-  el.schedule.addEventListener('click', scheduleHandler);
-  socialHandler();
+  if (recipe) {
+    el.schedule.addEventListener('click', scheduleHandler);
+    socialHandler();
+  }
 }
 
 window.addEventListener('load', pageLoaded);
+
+
+if(typeof module === 'object') {
+  module.exports = {el, loadRecipe, pageLoaded};
+}
