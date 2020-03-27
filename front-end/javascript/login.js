@@ -11,7 +11,7 @@ async function loginUser() {
       window.location.href = 'index.html';
     } catch(err) {
       // Either 409 Conflict, 400 Bad Request or 500 Internal Server Error if unforseen issue
-      el.loginPopup.textContent = (err.message == 'Forbidden') ? 'Incorrect Password' : err.message;
+      el.loginPopup.textContent = (err.message === 'Forbidden') ? 'Incorrect Password' : err.message;
       el.loginPopup.classList.remove('hiddenContent');
       return false;
     }
