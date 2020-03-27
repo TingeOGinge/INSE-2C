@@ -9,19 +9,32 @@ const LOAD_EVENT = new Event('load');
 describe("Test results.js", () => {
 
   beforeEach(() => {
-    fetch.resetMocks();
     document.body.innerHTML = HTML_TEMPLATE;
     window.localStorage.clear();
   });
 
-  test("Test with recipe in localStorage", () => {
-    window.localStorage.__STORE__['searchResult'] = resultData.justChickenSearch;
-    dispatchEvent(LOAD_EVENT);
+  const dummyData = JSON.stringify(resultData.justChickenSearch);
 
-    const resultLength = window.localStorage.__STORE__['searchResult'].length;
-    console.log(document.body.innerHTML);
-    // expect(resultLength).toEqual(document.querySelectorAll('.recipe').length);
-    expect(1 + 1).toBe(2);
+  test("Test with recipe in localStorage", async () => {
+    try {
+      window.localStorage.setItem('searchResult', dummyData);
+      dispatchEvent(LOAD_EVENT);
+      expect(loadRecipes.el.recipes.length)
+        .toEqual(document.querySelectorAll('.recipeContainer').length);
+      expect(loadRecipes.el.recipes.length).toEqual(resultData.justChickenSearch.length);
+    } catch(err) {
+      console.log(err);
+    }
+
+  });
+
+  test("Test with recipe NOT in localStorage", async () => {
+    try {
+      dispatchEvent(LOAD_EVENT);
+      expect(window.location.href).toEqual('/');
+    } catch(err) {
+      console.log(err);
+    }
 
   });
 
