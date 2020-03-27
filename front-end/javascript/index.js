@@ -1,21 +1,19 @@
 /* global module, search */
 
-// Object that holds all the document's elements that we want
-// Probably not worth documenting as it's just a general practice but no harm if it is
+/**
+ * @const {object}
+ * @property {string[]} ingredientArray - Contains search parameters for user
+ * @property {string[]} chosenRestrictions - Contains restrictions with which we filter the results
+ */
 const el = {
   ingredientArray: [],
   chosenRestrictions: []
 };
 
-/* adds ingredients to list below  */
-// attached to event listener when someone presses 'Add Ingredient' or presses enter in the search bar
-// Creates a list element
-// Adds the 'parameter' class to the element
-// Adds an event listener so if it's clicked it will be removed
-// Content of the list item is the value in the search bars
-// It's pushed to the el.ingredientArray for use later
-// Search bar is cleared
-// <li> is added to <ul> on html page
+/**
+ *
+ *
+ */
 function addIngredienttoLI() {
   const listItem = document.createElement("li");
   const pElem = document.createElement("p");
