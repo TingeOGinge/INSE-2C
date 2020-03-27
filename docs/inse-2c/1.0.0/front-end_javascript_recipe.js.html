@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: front-end/javascript/recipe.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: front-end/javascript/recipe.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* global getRecipe, scheduleRecipe, module */
+
+
+/**
+ * @module Recipe Page
+ */
+
+const el = {};
+let recipe;
+
+
+/**
+ * prepareHandles - Collects elements from document for manipulation later
+ *
+ */
+function prepareHandles() {
+  el.recipeTitle = document.querySelector('#detail');
+  el.recipeAbout = document.querySelector('#about');
+  el.recipeIngredients = document.querySelector('#ingredients');
+  el.recipeMethod = document.querySelector('#method');
+  el.dateControl = document.querySelector('input[type="datetime-local"]');
+  el.print = document.querySelector('#printButton');
+  el.schedule = document.querySelector('#scheduleButton');
+  el.scheduleMessage = document.querySelector('#scheduleMessage');
+  el.facebookShare = document.querySelector('#shareButton');
+}
+
+/**
+ * loadRecipes - If the user does have recipes scheduled this function will
+ * procedurally generate div HTLMelements containing the users recipes
+ *
+ * If a user clicks on a recipe they will be redirected to the recipe's page
+ *
+ */
+function loadRecipe(recipe){
+  if (recipe != null){
+    let ingredient;
+    let steps;
+    el.recipeTitle.append(recipe.recipe_name);
+
+    const info = {
+      "Cooking Time in Minutes": recipe.cooking_minutes,
+      "Serving Size": recipe.recipe_serving_size,
+      "Calories": recipe.recipe_calories,
+      "Dietary Restrictions": recipe.dietary_restrictions.join(', ')
+    };
+
+    for(const [prompt, value] of Object.entries(info)) {
+      const infoElement = document.createElement("li");
+      infoElement.classList.add('listStyling');
+      infoElement.innerHTML = `${prompt} - ${value}`;
+      el.recipeAbout.append(infoElement);
+    }
+    for (ingredient of recipe.recipe_ingredients){
+      const recipeIngredient = document.createElement("li");
+      recipeIngredient.classList.add('listStyling', 'ingredientElem');
+      recipeIngredient.innerHTML = ingredient;
+      el.recipeIngredients.append(recipeIngredient);
+    }
+    for (steps of recipe.recipe_method){
+      const recipeMethod = document.createElement("li");
+      recipeMethod.classList.add('listStyling', 'methodElem');
+      recipeMethod.innerHTML = steps;
+      el.recipeMethod.append(recipeMethod);
+    }
+  } else {
+    window.location.href = '/';
+  }
+}
+
+
+/**
+ * socialHandler - Adds event listener to the print button to trigger the window
+ * print function. Also sets the schedule time for a recipe to now and sets the
+ * facebook sharer link to one containing the id as a paramater. If reached this
+ * link will load the shared recipes
+ *
+ */
+function socialHandler(){
+  el.print.addEventListener('click', () => window.print());
+  el.dateControl.valueAsNumber = new Date().getTime();
+  el.facebookShare.href = `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}?id=${recipe.recipe_id}`;
+}
+
+
+/**
+ * checkURL - Collects the chosen recipe from local storage. If the url contains
+ * an id parameter, this id is used to load that recipe instead.
+ *
+ * @return {*}  Will return an {object} if a recipe is found, otherwise {null}
+ */
+async function checkURL() {
+  let retval = (window.localStorage.getItem('chosenRecipe') != null)
+    ? JSON.parse(window.localStorage.getItem('chosenRecipe')) : null;
+  try {
+    if (window.location.href.includes('?id=')) {
+      const id = window.location.href.replace(/.*\?id=/, '');
+      try {
+        retval = await getRecipe(id);
+      } catch(err) {
+        retval = null;
+      }
+    }
+  } catch(err) {
+    console.log(err);
+  }
+
+  return retval;
+}
+
+
+/**
+ * scheduleHandler - This will take the datetime input value and attempt to
+ * register the current recipe at that time. The request is invalid if the datetime
+ * selected is in the past or if the server response 409 to say this schedule has
+ * already been made
+ *
+ * A pop up message is displayed on the document to either confirm success or failure
+ */
+async function scheduleHandler() {
+  try {
+    const token = window.localStorage.getItem('jwt');
+    if(!token) throw new Error('Please login to schedule a recipe');
+    if(el.dateControl.valueAsNumber &lt; Date.now()) throw new Error('Cannot schedule recipe in the past');
+    const data = {recipe_id: recipe.recipe_id, scheduled_time: el.dateControl.value};
+    await scheduleRecipe(data, token);
+    el.scheduleMessage.textContent = 'Recipe scheduled';
+  } catch(err) {
+    el.scheduleMessage.textContent = err.message;
+  }
+  el.scheduleMessage.classList.remove('hiddenContent');
+}
+
+/**
+ * pageLoaded - This function is triggered when the page loads to prepare the
+ * necessary data and HTMLelements
+ *
+ */
+async function pageLoaded() {
+  prepareHandles();
+  recipe = await checkURL();
+  loadRecipe(recipe);
+  if (recipe) {
+    el.schedule.addEventListener('click', scheduleHandler);
+    socialHandler();
+  }
+}
+
+window.addEventListener('load', pageLoaded);
+
+
+if(typeof module === 'object') {
+  module.exports = {el, loadRecipe, pageLoaded};
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Buttons.html">Buttons</a></li><li><a href="module-Client%2520Side%2520Server%2520API.html">Client Side Server API</a></li><li><a href="module-Homepage%2520and%2520Search%2520Page.html">Homepage and Search Page</a></li><li><a href="module-ms_account.html">ms_account</a></li><li><a href="module-ms_algorithm.html">ms_algorithm</a></li><li><a href="module-ms_auth.html">ms_auth</a></li><li><a href="module-ms_database.html">ms_database</a></li><li><a href="module-ms_entry.html">ms_entry</a></li><li><a href="module-Profile%2520Page.html">Profile Page</a></li><li><a href="module-Recipe%2520Page.html">Recipe Page</a></li><li><a href="module-Search%2520Results%2520Page.html">Search Results Page</a></li><li><a href="module-User%2520Login%2520Page.html">User Login Page</a></li><li><a href="module-User%2520Register%2520Page.html">User Register Page</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Fri Mar 27 2020 14:53:37 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
