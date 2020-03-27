@@ -1,5 +1,8 @@
 /* global login, module */
 
+/**
+ * @module User Login Page
+ */
 
 /**
  * @const elementObject
