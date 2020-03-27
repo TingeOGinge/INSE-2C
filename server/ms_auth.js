@@ -1,5 +1,6 @@
 /** @module ms_auth
 */
+
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
@@ -10,6 +11,7 @@ const {query} = require('./ms_database.js');
 /** Returns either the provided jsonwebtoken or undefined.
 *@param {object} req - HTTP request
 *@param {String} req.headers.authorization - authorization of JWT.
+* @returns {String} string representation of the JSON web token
 */
 function extractToken(req) {
   const bearerHeader = req.headers['authorization'];
@@ -23,6 +25,7 @@ function extractToken(req) {
 *@param {String} req.token - jwt header
 *@param {Object} req.tokenPayload - jwt payload
 *@param {Object} res - res object represents HTTP response that's sent when it gets an HTTP request.
+* @returns {Object} contains the error message if the JWT validation fails
 */
 async function validateSession(req, res, next) {
   req.token = extractToken(req);
@@ -45,14 +48,6 @@ async function validateSession(req, res, next) {
   }
 }
 
-// Searches for user using name provided in request
-// If user exists bcrypt will compare the plain text password and the hashed one
-// Successful login returns a JWT to validate future requests
-// If user doesn't exist 404 Not Found is returned
-// If password is wrong 403 Forbidden is returned
-// If the query fails a 500 Internal Server Error is returned
-// req.body must include username and password
-
 /**
 *Searches for user using name provided in request
 *If user exists bcrypt will compare the plain text password and the hashed one
@@ -70,6 +65,7 @@ async function validateSession(req, res, next) {
 *@param {Integer} user.account_id - ID of account used by the database
 *@param {Boolean} user.admin_status - Boolean of whether account is admin or not.
 *@param {Object} res - res object represents HTTP response that's sent when it gets an HTTP request.
+* @returns {Object} contains a single property with a {String} JWT
 */
 async function validateLogin (req, res) {
   try {
@@ -100,6 +96,7 @@ async function validateLogin (req, res) {
 }
 
 /** Uses the private RSA key to sign a JWT with a 1 day expiration
+* @returns {String} JSON Web Token
 */
 function generateToken(data) {
   return jwt.sign({data}, PRIVATE_KEY, {algorithm: 'RS256', expiresIn: '1d'});

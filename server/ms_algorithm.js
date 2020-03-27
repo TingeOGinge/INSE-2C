@@ -14,6 +14,7 @@ const {query} = require('./ms_database');
 *@param {Integer} searchObj.time - (optional) Cooking time
 *@param {Array} searchObj.restrictions - (optional) Dietary restrictions such as alergies
 *@param {Object} res - res object represents HTTP response that's sent when it gets an HTTP request.
+* @returns {Object[]} - Each object contains a recipe matching the search query
 */
 
 async function collectRecipes(searchObj, res) {
@@ -50,6 +51,7 @@ async function collectRecipes(searchObj, res) {
 *@param {Integer} searchObj.time - (optional) Cooking time
 *@param {Array} searchObj.restrictions - (optional) Dietary restrictions such as alergies
 *@param {Object} res - res object represents HTTP response that's sent when it gets an HTTP request.
+* @returns {Boolean} - true if the recipe meets the search criteria, false if not
 */
 
 function filterRecipe(recipe, searchObj) {
@@ -98,6 +100,7 @@ the lowest score. Aka the best match.
 *@param {Integer} searchObj.serving - (optional) Serving size
 *@param {Integer} searchObj.time - (optional) Cooking time
 *@param {Array} searchObj.restrictions - (optional) Dietary restrictions such as alergies
+* @returns {Object[]} Each object contains a recipe and the array is sorted by the recipe's score
 */
 
 function prioritySort(recipes, searchObj) {
@@ -125,6 +128,11 @@ function prioritySort(recipes, searchObj) {
 }
 
 
+/**
+ * convertQueryFormats - Ensures search parameters are in the valid format
+ *
+ * @param  {type} searchObj Object sent in request body containing user's search criteria
+ */
 function convertQueryFormats(searchObj) {
   if (searchObj.parameters && !Array.isArray(searchObj.parameters)) {
     searchObj.parameters = searchObj.parameters.split(',');
@@ -167,6 +175,7 @@ function convertQueryFormats(searchObj) {
 *@param {Integer} searchObj.time - (optional) Cooking time
 *@param {Array} searchObj.restrictions - (optional) Dietary restrictions such as alergies
 *@param {Object} res - res object represents HTTP response that's sent when it gets an HTTP request.
+* @returns {Object[]} each object is a recipe sorted in order of closest match
 */
 
 async function search(req, res) {
@@ -192,6 +201,14 @@ async function search(req, res) {
   }
 }
 
+
+/**
+ * getRecipe - Collects a single recipe by the id
+ *
+ * @param  {Object} req expressJS request object
+ * @param  {Object} res expressJs response object
+ * @return {Object[]} each object represents a recipe
+ */
 async function getRecipe(req, res) {
   const id = req.params.id;
   try {

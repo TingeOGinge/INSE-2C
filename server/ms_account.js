@@ -90,6 +90,7 @@ async function deleteFromSchedule(req, res) {
 * Internal Server Error if query fails.
 *@param req.tokenPayload.account_id - Account ID passed from ms_entry
 *@param res - res object represents HTTP response that's sent when it gets an HTTP request.
+* @returns {object[]} Containing all recipes scheduled for user if any present
 */
 async function retrieveUserSchedule(req, res) {
   try {

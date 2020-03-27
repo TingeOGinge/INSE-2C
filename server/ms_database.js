@@ -120,6 +120,7 @@ const queryDictionary = {
 *@param queryFlag.deleteFromSchedule - Deletes scheduled recipe identified by account_id, recipe_id and scheduled_time
 *@param queryFlag.mainSearch - Returns recipe_id, recipe_name, recipe_coking_time (as minutes), recipe_method, recipe_ingredients
 *recipe_serving_size, recipe_calories and dietary_restrictions searched by input similar to ingredient_name or recipe_name
+* @returns {Object} node-postgres query object is returned if no error occurs
  */
 
 async function query(queryFlag, parameters) {
