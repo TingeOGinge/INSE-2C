@@ -17,8 +17,11 @@ const el = {};
  * The JWT is stored in localStorage and used throughout the application to validate
  * the session and the user.
  * Redirects user to homepage.
+ * Should an error occur, the user is presented with an error message depending
+ * on the response from the server.
+ * Either 409 Conflict, 400 Bad Request or 500 Internal Server Error if unforseen issue
  *
- * @return {boolean}  catch error returns a false for testing
+ * @return {boolean}  catch error returns a false for testing purposes
  */
 async function loginUser() {
   if (el.username.value !== "" && el.password.value !== "") {
@@ -28,7 +31,6 @@ async function loginUser() {
       window.localStorage.setItem('jwt', jwt);
       window.location.href = 'index.html';
     } catch(err) {
-      // Either 409 Conflict, 400 Bad Request or 500 Internal Server Error if unforseen issue
       el.loginPopup.textContent = (err.message === 'Forbidden') ? 'Incorrect Password' : err.message;
       el.loginPopup.classList.remove('hiddenContent');
       return false;
