@@ -1,4 +1,4 @@
-/* global getUserSchedule, deleteFromSchedule */
+/* global getUserSchedule, deleteFromSchedule, module */
 
 const el = {};
 let recipes;
@@ -6,7 +6,7 @@ let recipes;
 
 function loadPrompt() {
   const promptContainer = document.createElement('div');
-  promptContainer.classList.add('recipe');
+  promptContainer.classList.add('recipe', 'promptContainer');
   el.recipeTitle.append(promptContainer);
 
   const promptHeader = document.createElement('h3');
@@ -29,6 +29,7 @@ function loadRecipes() {
     const recipeContainer = document.createElement("div");
     recipeContainer.classList.add(
       'recipe',
+      'recipeContainer',
       'recipeEventListener',
       recipeIDClass
     );
@@ -168,3 +169,7 @@ async function pageLoaded() {
 }
 
 window.addEventListener('load', pageLoaded);
+
+if (typeof module === 'object'){
+  module.exports = {el, pageLoaded};
+}
