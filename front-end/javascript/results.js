@@ -1,13 +1,38 @@
 /* global module */
 
+/**
+ * @const {object} - Initialises element object used for globally storing HTML elements
+ */
 const el = {};
 
+/**
+ * prepareHandles - Selects elements from the document to be used later on by
+ * storing in the global element (el) class
+ *
+ */
 function prepareHandles() {
   el.recipeTitle = document.querySelector('#recipePlaceholder');
   el.recipes = (window.localStorage.getItem('searchResult') != null)
     ? JSON.parse(window.localStorage.getItem('searchResult')) : null;
 }
 
+/**
+ * loadRecipes - takes the global recipes array with the search results to populate the recipe
+ * page. Loops through array of recipe search results and creates the follow HTML elements
+ * (-div [recipe container]
+ * -h3 [recipe title]
+ * -h4 [ingredients header]
+ * -ul [ingredient list]
+ * -li) [ingredient]
+ * These are given a class name based on their recipe_id which allows the recipes to dynamically
+ * be created, styled and addressed.
+ * The ingredients are added to the list by iterating through the recipe_ingredients array
+ * The eventListener is attached to every recipe to allow clicking on each recipe by passing to
+ * the linkHandler function.
+ * If no results are populated in to el.recipes from localStorage then user is redirected to
+ * root(index.html).
+ *
+ */
 function loadRecipes(){
   if (el.recipes != null){
 
@@ -71,6 +96,15 @@ function loadRecipes(){
   }
 }
 
+
+/**
+ * linkHandler - Takes the clicked element and using its class name that has its
+ * recipeID, it finds this recipe and stores in chosenRecipe which is moved to
+ * localStorage. The user is then redirected to the recipe page.
+ *
+ * @param  {HTMLElement} e element
+ * @property {object} chosenRecipe all information about recipe from database
+ */
 function linkHandler(e){
   const elementClassList = e.target.classList;
   let recipeID;
@@ -85,6 +119,9 @@ function linkHandler(e){
   window.location.href = 'recipe.html';
 }
 
+/**
+ * pageLoaded - Runs when the page is loaded - similar to a Java main function
+ */
 function pageLoaded() {
   prepareHandles();
   loadRecipes();
