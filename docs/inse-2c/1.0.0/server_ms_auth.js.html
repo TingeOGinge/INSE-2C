@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: server/ms_auth.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: server/ms_auth.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** @module ms_auth
+*/
+
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const fs = require('fs');
+const path = require('path');
+const PRIVATE_KEY = fs.readFileSync(path.join(__dirname, 'private.key'), 'utf-8');
+const {query} = require('./ms_database.js');
+
+/** Returns either the provided jsonwebtoken or undefined.
+*@param {object} req - HTTP request
+*@param {String} req.headers.authorization - authorization of JWT.
+* @returns {String} string representation of the JSON web token
+*/
+function extractToken(req) {
+  const bearerHeader = req.headers['authorization'];
+  return (bearerHeader != null) ? bearerHeader.split(' ')[1] : undefined;
+}
+
+/**If a JWT is successfully extracted from the Authorization header it is verified.
+* Successful verification envokes next();. Invalid tokens return a 404 status
+* and the error message in JSON format.
+*@param {Object} req - HTTP request
+*@param {String} req.token - jwt header
+*@param {Object} req.tokenPayload - jwt payload
+*@param {Object} res - res object represents HTTP response that's sent when it gets an HTTP request.
+* @returns {Object} contains the error message if the JWT validation fails
+*/
+async function validateSession(req, res, next) {
+  req.token = extractToken(req);
+  if (req.token === undefined) {
+    res.sendStatus(404);
+  } else {
+    jwt.verify(req.token, PRIVATE_KEY, {algorithms: ['RS256']}, (err, payload) => {
+      if (err) {
+        res.status(401);
+        res.json({
+          message: 'Access Denied',
+          err
+        });
+      } else {
+        req.tokenPayload = payload.data;
+        res.body = {token: generateToken(payload.data)};
+        next();
+      }
+    });
+  }
+}
+
+/**
+*Searches for user using name provided in request
+*If user exists bcrypt will compare the plain text password and the hashed one
+*Successful login returns a JWT to validate future requests
+*If user doesn't exist 404 Not Found is returned
+*If password is wrong 403 Forbidden is returned
+*If the query fails a 500 Internal Server Error is returned
+*req.body must include username and password
+*@param {Object} req - HTTP request
+*@param {String} req.body.username - Username of user.
+*@param {String} req.body.password - password of user.
+*@param {Object} user - account object passed from ms_database
+*@param {String} user.account_username - username of account from ms_database
+*@param {String} user.account_password - passwrod of account rfom ms_database
+*@param {Integer} user.account_id - ID of account used by the database
+*@param {Boolean} user.admin_status - Boolean of whether account is admin or not.
+*@param {Object} res - res object represents HTTP response that's sent when it gets an HTTP request.
+* @returns {Object} contains a single property with a {String} JWT
+*/
+async function validateLogin (req, res) {
+  try {
+    if (!(req.body.username &amp;&amp; req.body.password)) {
+      res.sendStatus(400);
+    } else {
+      const result = await query('searchAccountName', req.body.username);
+      const user = result.rows[0];
+      if (user == null) {
+        res.sendStatus(404);
+      } else if (await bcrypt.compare(req.body.password, user.account_password)) {
+        res.status(200);
+        const token = generateToken({
+          account_username: user.account_username,
+          account_id: user.account_id,
+          admin_status: user.admin_status
+        });
+        res.json({token});
+      } else {
+        res.sendStatus(403);
+      }
+    }
+  } catch (err) {
+    console.log(err.stack);
+    res.sendStatus(500);
+  }
+
+}
+
+/** Uses the private RSA key to sign a JWT with a 1 day expiration
+* @returns {String} JSON Web Token
+*/
+function generateToken(data) {
+  return jwt.sign({data}, PRIVATE_KEY, {algorithm: 'RS256', expiresIn: '1d'});
+}
+
+/**
+Uses a blowfish cypher encryption method to secure the passwords that will be stored
+Salt is left at the default of ten to provide a middle ground between security and speed
+*/
+async function hashPassword(req, res, next) {
+  if (req.body.password) {
+    try {
+      req.body.password = await bcrypt.hash(req.body.password, 10);
+      next();
+    } catch(err) {
+      res.sendStatus(400);
+    }
+  } else {
+    res.sendStatus(400);
+  }
+}
+
+module.exports = {extractToken, validateSession, validateLogin, hashPassword};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Buttons.html">Buttons</a></li><li><a href="module-Client%2520Side%2520Server%2520API.html">Client Side Server API</a></li><li><a href="module-Homepage%2520and%2520Search%2520Page.html">Homepage and Search Page</a></li><li><a href="module-ms_account.html">ms_account</a></li><li><a href="module-ms_algorithm.html">ms_algorithm</a></li><li><a href="module-ms_auth.html">ms_auth</a></li><li><a href="module-ms_database.html">ms_database</a></li><li><a href="module-ms_entry.html">ms_entry</a></li><li><a href="module-Profile%2520Page.html">Profile Page</a></li><li><a href="module-Recipe%2520Page.html">Recipe Page</a></li><li><a href="module-Search%2520Results%2520Page.html">Search Results Page</a></li><li><a href="module-User%2520Login%2520Page.html">User Login Page</a></li><li><a href="module-User%2520Register%2520Page.html">User Register Page</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Fri Mar 27 2020 14:53:37 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
