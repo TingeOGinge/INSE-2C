@@ -1,7 +1,9 @@
 /* global module */
 
-/** @module clientside.js
-*/
+
+/**
+ * @module Client Side Server API
+ */
 
 /** registerUser registers a new user ny passing in data in the form of a
 * username and password in a JSON object. It calls on the generateRequestOptions
