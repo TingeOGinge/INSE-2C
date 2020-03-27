@@ -1,5 +1,10 @@
 /* global module, search */
 
+
+/**
+ * @module Homepage and Search
+ */
+
 /**
  * @const {object}
  * @property {string[]} ingredientArray - Contains search parameters for user
