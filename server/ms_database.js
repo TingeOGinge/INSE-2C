@@ -39,7 +39,7 @@ types.setTypeParser(1114, function(stringValue) {
 
 // TODO find a way to load host dynamically 
 // Currently only works on this machine on this network
-const connectionString = 'postgresql://myuser:inse2c@192.168.0.11:5432/ecochefdb';
+const connectionString = `postgresql://myuser:inse2c@${process.env.DB_HOST}:${process.env.DB_PORT}/ecochefdb`;
 
 const pool = new Pool({
   connectionString
