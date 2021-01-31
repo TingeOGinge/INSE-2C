@@ -30,7 +30,7 @@ const {
 
 // Bind middleware to app()
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '..', 'front-end')));
+app.use(express.static(path.join(__dirname, 'front-end')));
 app.use(cors());
 
 // HTTP GET Requests
