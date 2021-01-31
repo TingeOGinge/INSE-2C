@@ -1,3 +1,4 @@
 .eslintrc.json
 genToken.sh
 node_modules
+db-data

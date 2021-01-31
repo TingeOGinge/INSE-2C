@@ -8,5 +8,5 @@ while ! pg_isready -h ${DB_HOST} -p ${DB_PORT} > /dev/null 2> /dev/null; do
     sleep 1
 done
 
-node db-data/populateRecipes.js
+# node db-data/populateRecipes.js
 npm run start
