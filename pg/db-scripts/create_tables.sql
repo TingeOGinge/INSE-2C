@@ -1,5 +1,4 @@
 create database ecochefdb;
-create user myuser with encrypted password 'inse2c';
 \c ecochefdb
 
 create table ingredient (
