@@ -1,0 +1,19 @@
+{
+  "name": "bdd",
+  "version": "1.0.0",
+  "description": "Cucumber / Gherkin BDD test suite",
+  "main": "CucumberTestRunner.js",
+  "scripts": {
+    "test": "cucumber-js"
+  },  
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "assert": "^2.0.0",
+    "path": "^0.12.7",
+    "testcontainers": "^7.3.0"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^7.0.0"
+  }
+}

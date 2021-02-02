@@ -5,7 +5,7 @@
   "main": "server/server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "jest"
+    "test": ".bdd/cucumber.js"
   },
   "repository": {
     "type": "git",
