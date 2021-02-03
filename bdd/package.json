@@ -5,11 +5,12 @@
   "main": "CucumberTestRunner.js",
   "scripts": {
     "test": "cucumber-js"
-  },  
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "assert": "^2.0.0",
+    "node-fetch": "^2.6.1",
     "path": "^0.12.7",
     "testcontainers": "^7.3.0"
   },

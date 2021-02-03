@@ -1,10 +1,7 @@
 const { Then } = require('@cucumber/cucumber');
 const assert = require('assert');
 
-Then ('the containers are running', async function () {
-    console.log(this.dbContainer);
-});
-
-Then ('afterwards the container is stopped', async function () {
-    await this.dbContainer.stop();
+Then ('the response body contains {string} {string}', async function (key, value) {
+    const responseBody = await this.response.json();
+    assert(responseBody[key] = value);
 });

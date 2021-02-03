@@ -1,10 +1,9 @@
 const { Given } = require('@cucumber/cucumber');
-const { GenericContainer } = require("testcontainers");
-const path = require('path');
+const fetch = require('node-fetch');
+const assert = require('assert');
 
-Given ('a docker config for the database', async function () {   
-    const buildContext = path.resolve(__dirname, "..", "..", "..", "pg");
-    this.dockerEnvironment = await GenericContainer.fromDockerfile(buildContext).build();
-    // this.dbContainer = await this.dockerEnvironment.withExposedPorts(5432).withName('test').start();
-    // this.dbContainer.
+Given ('a live server', async function () {   
+    const url = `http://localhost:5000/`;
+    const response = await fetch(url);
+    assert(response.ok);
 });

@@ -1,7 +1,10 @@
 Feature: Container test
 
-  Scenario: the db container is started 
-    Given a docker config for the database
-    When I start the environment
-    Then the containers are running
-    And afterwards the container is stopped
+  Scenario Outline: check recipe by id 
+    Given a live server
+    When I call the api route "<route>"
+    Then the response body contains "<key>" "<value>"
+
+  Examples:
+  | route | key | value |
+  | /api/getRecipe/10 | recipe_name | Chorizo carbonara |
