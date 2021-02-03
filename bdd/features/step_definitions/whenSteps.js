@@ -7,3 +7,7 @@ When ('I call the api route {string}', async function (route) {
     this.response = await fetch(url);
     assert(this.response.ok);
 });
+
+When ('I resolve the json response body', async function () {
+    this.response.jsonResponseBody = await this.response.json();
+});
