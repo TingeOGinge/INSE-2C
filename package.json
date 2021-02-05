@@ -1,12 +1,8 @@
 {
   "name": "inse-2c",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Software Engineering Theory and Practice Coursework",
   "main": "server/server.js",
-  "scripts": {
-    "start": "nodemon server.js",
-    "test": ".bdd/cucumber.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TingeOGinge/INSE-2C.git"
@@ -18,23 +14,9 @@
   },
   "homepage": "https://github.com/TingeOGinge/INSE-2C#readme",
   "dependencies": {
-    "jsdoc": "^3.6.3",
-    "supertest": "^4.0.2"
+    "jsdoc": "^3.6.3"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "jest": "^25.1.0",
-    "jest-fetch-mock": "^3.0.3",
-    "jest-localstorage-mock": "^2.4.0"
-  },
-  "jest": {
-    "testPathIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "automock": false,
-    "setupFiles": [
-      "./_tests_/setupJest.js",
-      "jest-localstorage-mock"
-    ]
+    "eslint": "^6.8.0"
   }
 }

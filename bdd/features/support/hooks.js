@@ -15,9 +15,9 @@ BeforeAll({ timeout: 60 * 1000 }, async function () {
   const composeFile = 'docker-compose.yml'
 
   this.environment = await new DockerComposeEnvironment(composeFilePath, composeFile)
-      .withBuild()
-      .withWaitStrategy("inse2c_server", Wait.forLogMessage("Server started on port 5000"))
-      .up();
+    .withBuild()
+    .withWaitStrategy("inse2c_server", Wait.forLogMessage("Server started on port 5000"))
+    .up();
       
   this.server = this.environment.getContainer("inse2c_server");
 });
