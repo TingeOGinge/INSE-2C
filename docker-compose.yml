@@ -3,12 +3,14 @@ version: '3'
 services:
   db:
     container_name: inse2c_db
+    image: inse2c_db:latest
     build: ./pg
     ports:
       - 5432:5432
   
   server:
     container_name: inse2c_server
+    image: inse2c_server:latest
     build: ./server
     ports:
       - 5000:5000
