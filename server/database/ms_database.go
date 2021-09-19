@@ -1,10 +1,9 @@
-package main
+package database
 
 import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/jackc/pgx/pgtype"
@@ -22,6 +21,10 @@ type Recipe struct {
 	DietaryRestrictions []string `json:"dietaryRestrictions"`
 }
 
+type EcochefEnv struct {
+	DBpool *pgxpool.Pool
+}
+
 func (r Recipe) String() string {
 	return fmt.Sprintf("ID: %v\nName: %v\nCooking time: %v\nMethod: %v\nIngredients: %v" +
 						"\nServing Size: %v\nCalories: %v\nDietary Restrictions: %v\n",
@@ -29,7 +32,7 @@ func (r Recipe) String() string {
 						r.Calories, r.DietaryRestrictions)
 }
 
-func mainSearch(dbpool *pgxpool.Pool, parameters []string) ([]interface{}, error) {
+func (env EcochefEnv) MainSearch(parameters []string) ([]Recipe, error) {
 	queryString := 
 `SELECT  
 DISTINCT a.recipe_id,  
@@ -57,12 +60,12 @@ GROUP BY a.recipe_id`
 	// used in PostgreSQL as a boolean or between search parameters
 	parameterString := fmt.Sprintf("%%%v%%", strings.Join(parameters, "|"))
 
-	rows, err := dbpool.Query(context.Background(), queryString, parameterString)
+	rows, err := env.DBpool.Query(context.Background(), queryString, parameterString)
 	if err != nil {
 		return nil, err
 	}
 
-	var recipes []interface{}
+	var recipes []Recipe
 	for rows.Next() {
 		var recipe Recipe
 		var dietaryRestrictions pgtype.TextArray
@@ -84,26 +87,4 @@ GROUP BY a.recipe_id`
 	}
 
 	return recipes, nil
-}
-
-func Query(queryType string, parameters []string) ([]interface{}, error) {
-	url := "postgres://myuser:inse2c@localhost:5432/ecochefdb"
-	dbpool, err := pgxpool.Connect(context.Background(), url)
-	if err != nil {
-		log.Fatal(fmt.Sprintf("Unable to connect to database: %v\n", err))
-		return nil, err
-	}
-	defer dbpool.Close()
-
-	switch queryType {
-	case "mainSearch":
-		recipes, err := mainSearch(dbpool, parameters)
-		if err != nil {
-			return nil, err
-		}
-
-		return recipes, nil
-	default:
-		return nil, errors.New("Query type not recognised")
-	}
 }
