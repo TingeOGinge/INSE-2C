@@ -137,13 +137,13 @@ function convertQueryFormats(searchObj) {
   if (searchObj.parameters && !Array.isArray(searchObj.parameters)) {
     searchObj.parameters = searchObj.parameters.split(',');
   }
-  if (searchObj.calories && Number.isInteger(searchObj.caloreis)) {
+  if (searchObj.calories && Number.isInteger(searchObj.calories)) {
      searchObj.calories = Number(searchObj.calories);
-   }
-  if (searchObj.serving && Number.isInteger(searchObj.caloreis)) {
+  }
+  if (searchObj.serving && Number.isInteger(searchObj.serving)) {
      searchObj.serving = Number(searchObj.serving);
    }
-  if (searchObj.time && Number.isInteger(searchObj.caloreis)) {
+  if (searchObj.time && Number.isInteger(searchObj.time)) {
      searchObj.time = Number(searchObj.time);
    }
   if (searchObj.restrictions && !Array.isArray(searchObj.restrictions)) {
