@@ -21,7 +21,7 @@ type Recipe struct {
 	DietaryRestrictions []string `json:"dietaryRestrictions"`
 }
 
-type EcochefEnv struct {
+type DbEnv struct {
 	DBpool *pgxpool.Pool
 }
 
@@ -32,7 +32,7 @@ func (r Recipe) String() string {
 						r.Calories, r.DietaryRestrictions)
 }
 
-func (env EcochefEnv) MainSearch(parameters []string) ([]Recipe, error) {
+func (env DbEnv) MainSearch(parameters []string) ([]Recipe, error) {
 	queryString := 
 `SELECT  
 DISTINCT a.recipe_id,  
