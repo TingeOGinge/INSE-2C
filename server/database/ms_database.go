@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/jackc/pgx/pgtype"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
@@ -18,7 +17,14 @@ type Recipe struct {
 	Ingredients []string `json:"ingredients"`
 	ServingSize int `json:"servingSize"`
 	Calories int `json:"calories"`
-	DietaryRestrictions []string `json:"dietaryRestrictions"`
+	DietaryRestrictions []*string `json:"dietaryRestrictions"`
+}
+
+type User struct {
+	ID *int `json:"id"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	AdminStatus bool `json:"adminStatus"`
 }
 
 type DbEnv struct {
@@ -30,6 +36,15 @@ func (r Recipe) String() string {
 						"\nServing Size: %v\nCalories: %v\nDietary Restrictions: %v\n",
 						r.ID, r.Name, r.CookingMinutes, r.Method, r.Ingredients, r.ServingSize, 
 						r.Calories, r.DietaryRestrictions)
+}
+
+func (u User) String() string {
+	isPasswordPresent := "**NOT PRESENT**"
+	if u.Password != "" {
+		isPasswordPresent = "**PRESENT**"
+	}
+	return fmt.Sprintf("ID: %v\nUsername: %v\nPassword: %v\nAdmin: %v\n",
+						u.ID, u.Username, isPasswordPresent, u.AdminStatus)
 }
 
 func (env DbEnv) MainSearch(parameters []string) ([]Recipe, error) {
@@ -68,23 +83,41 @@ GROUP BY a.recipe_id`
 	var recipes []Recipe
 	for rows.Next() {
 		var recipe Recipe
-		var dietaryRestrictions pgtype.TextArray
 		
 		err = rows.Scan(&recipe.ID, &recipe.Name, &recipe.CookingMinutes, 
 						&recipe.Method, &recipe.Ingredients, &recipe.ServingSize, 
-						&recipe.Calories, &dietaryRestrictions)
+						&recipe.Calories, &recipe.DietaryRestrictions)
 		if err != nil {
 			return nil, err
-		}
-
-		for _, value := range dietaryRestrictions.Elements {
-			if value.Status == 2 {
-				recipe.DietaryRestrictions = append(recipe.DietaryRestrictions, value.String)
-			}
 		}
 
 		recipes = append(recipes, recipe)
 	}
 
 	return recipes, nil
+}
+
+func (env DbEnv) SelectAccount(username string) (User, error) {
+	queryString := "SELECT * FROM account WHERE account_username = $1"
+	var user User
+	
+	row := env.DBpool.QueryRow(context.Background(), queryString, username)
+	if err := row.Scan(&user.ID, &user.Username, &user.Password, &user.AdminStatus); err != nil {
+		return User{}, err
+	}
+
+	return user, nil
+}
+
+func (env DbEnv) CreateAccount(username, hash string) error {
+	queryString := "INSERT INTO account (account_username, account_password) values($1, $2)"
+
+	tag, err := env.DBpool.Exec(context.Background(), queryString, username, hash)
+	if err != nil {
+		return err
+	}
+	if !tag.Insert() {
+		return fmt.Errorf("command tag did not start with 'INSERT': %v", tag)
+	}
+	return nil
 }
