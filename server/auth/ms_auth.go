@@ -23,7 +23,14 @@ type AuthEnv struct {
 	}
 }
 
-func (env AuthEnv) ValidateLogin (username string, passwordAttempt string) (string, error) {
+type MyClaims struct {
+	ID *int `json:"id"`
+	Username string `json:"username"`
+	Admin bool `json:"admin"`
+	jwt.StandardClaims
+}
+
+func (env AuthEnv) ValidateLogin (username, passwordAttempt string) (string, error) {
 	user, err := env.DB.SelectAccount(username)
 	if err != nil {
 		return "", err
@@ -33,13 +40,23 @@ func (env AuthEnv) ValidateLogin (username string, passwordAttempt string) (stri
 		return "", fmt.Errorf("username or password is incorrect")
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
-		"id": user.ID,
-		"username": user.Username,
-		"admin": user.AdminStatus,
+	return generateToken(&user)
+}
+
+func (env AuthEnv) ValidateSession(tokenString string) (string, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &MyClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return signingKey, nil
 	})
 
-	return token.SignedString(signingKey)
+	if claims, ok := token.Claims.(*MyClaims); ok && token.Valid {
+		return generateToken(&database.User{
+			ID: claims.ID,
+			Username: claims.Username,
+			AdminStatus: claims.Admin,
+		})
+	} else {
+		return "", err
+	}
 }
 
 func (env AuthEnv) CreateUser(username, password string) error {
@@ -59,6 +76,23 @@ func hashPassword(password string) ([]byte, error) {
 
 func checkPassword(password, hash string) bool {
 	return bcrypt.CompareHashAndPassword([]byte(hash), []byte(password)) == nil
+}
+
+func generateToken(user *database.User) (string, error) {
+	claims := MyClaims {
+		user.ID,
+		user.Username,
+		user.AdminStatus,
+		jwt.StandardClaims {
+			ExpiresAt: 15000,
+			Issuer: "ecochef",
+		},
+
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
+
+	return token.SignedString(signingKey)
 }
 
 func init() {

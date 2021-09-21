@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 
 	"github.com/TingeOGinge/INSE-2C/server/algorithm"
 	"github.com/TingeOGinge/INSE-2C/server/auth"
@@ -106,7 +107,7 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
 }
 
 func main() {
-	url := "postgres://myuser:inse2c@localhost:5432/ecochefdb"
+	url := fmt.Sprintf("postgres://myuser:inse2c@%v:%v/ecochefdb", os.Getenv("DB_HOST"), os.Getenv("DB_PORT"))
 	dbpool, err := pgxpool.Connect(context.Background(), url)
 	if err != nil {
 		log.Fatal(fmt.Sprintf("Unable to connect to database: %v\n", err))

@@ -6,6 +6,8 @@ services:
     build: ./pg
     ports:
       - 5432:5432
+    volumes:
+      - ./pg/postgres-data:/var/lib/postgresql/data
   
   server:
     container_name: inse2c_server

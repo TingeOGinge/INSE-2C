@@ -2,3 +2,6 @@
 genToken.sh
 node_modules
 db-data
+./*.json
+./*.js
+private.key
