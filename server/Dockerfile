@@ -1,13 +1,13 @@
-FROM node:latest
+FROM golang:latest
 
-WORKDIR /usr/src
+WORKDIR /go/src/app
 
 COPY . .
-USER root
 ENV DB_HOST "192.168.0.19"
 ENV DB_PORT 5432
 RUN apt-get update && \
-    npm install && \
+    go get -u github.com/TingeOGinge/INSE-2C && \
+    go install -v ./... && \
     apt-get install -f -y postgresql-client && \
     chmod +x wait-for-postgres.sh
 
