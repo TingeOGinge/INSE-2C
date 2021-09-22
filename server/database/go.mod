@@ -2,10 +2,7 @@ module github.com/TingeOGinge/INSE-2C/server/database
 
 go 1.17
 
-require (
-	github.com/jackc/pgx v3.6.2+incompatible
-	github.com/jackc/pgx/v4 v4.13.0
-)
+require github.com/jackc/pgx/v4 v4.13.0
 
 require (
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
