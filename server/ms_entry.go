@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/TingeOGinge/INSE-2C/server/algorithm"
-	"github.com/TingeOGinge/INSE-2C/server/auth"
-	"github.com/TingeOGinge/INSE-2C/server/database"
+	"github.com/TingeOGinge/inse2c/server/algorithm"
+	"github.com/TingeOGinge/inse2c/server/auth"
+	"github.com/TingeOGinge/inse2c/server/database"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
