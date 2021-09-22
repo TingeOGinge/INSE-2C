@@ -1,4 +1,4 @@
-module github.com/TingeOGinge/INSE-2C/server/database
+module github.com/TingeOGinge/inse2c/server/database
 
 go 1.17
 

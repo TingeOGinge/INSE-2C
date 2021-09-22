@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/TingeOGinge/INSE-2C/server/database"
+	"github.com/TingeOGinge/inse2c/server/database"
 
 	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"

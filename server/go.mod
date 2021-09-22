@@ -1,13 +1,13 @@
-module github.com/TingeOGinge/INSE-2C
+module github.com/TingeOGinge/inse2c
 
 go 1.17
 
-replace github.com/TingeOGinge/INSE-2C/server/database => ./database
+replace github.com/TingeOGinge/inse2c/server/database => ./database
 
 require (
-	github.com/TingeOGinge/INSE-2C/server/algorithm v0.0.0-00010101000000-000000000000
-	github.com/TingeOGinge/INSE-2C/server/auth v0.0.0-00010101000000-000000000000
-	github.com/TingeOGinge/INSE-2C/server/database v0.0.0-00010101000000-000000000000
+	github.com/TingeOGinge/inse2c/server/algorithm v0.0.0-00010101000000-000000000000
+	github.com/TingeOGinge/inse2c/server/auth v0.0.0-00010101000000-000000000000
+	github.com/TingeOGinge/inse2c/server/database v0.0.0-00010101000000-000000000000
 	github.com/jackc/pgx/v4 v4.13.0
 )
 
@@ -27,6 +27,6 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 )
 
-replace github.com/TingeOGinge/INSE-2C/server/algorithm => ./algorithm
+replace github.com/TingeOGinge/inse2c/server/algorithm => ./algorithm
 
-replace github.com/TingeOGinge/INSE-2C/server/auth => ./auth
+replace github.com/TingeOGinge/inse2c/server/auth => ./auth

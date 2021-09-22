@@ -3,7 +3,7 @@ package algorithm
 import (
 	"net/url"
 
-	"github.com/TingeOGinge/INSE-2C/server/database"
+	"github.com/TingeOGinge/inse2c/server/database"
 )
 
 type AlgEnv struct {

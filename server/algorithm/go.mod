@@ -1,10 +1,10 @@
-module github.com/TingeOGinge/INSE-2C/server/algorithm
+module github.com/TingeOGinge/inse2c/server/algorithm
 
 go 1.17
 
-replace github.com/TingeOGinge/INSE-2C/server/database => ../database
+replace github.com/TingeOGinge/inse2c/server/database => ../database
 
-require github.com/TingeOGinge/INSE-2C/server/database v0.0.0-00010101000000-000000000000
+require github.com/TingeOGinge/inse2c/server/database v0.0.0-00010101000000-000000000000
 
 require (
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect

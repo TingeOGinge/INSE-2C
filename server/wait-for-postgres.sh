@@ -5,4 +5,4 @@ while ! pg_isready -h db -p 5432 > /dev/null 2> /dev/null; do
     sleep 1
 done
 
-INSE-2C
+inse2c
