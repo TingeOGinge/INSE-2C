@@ -5,6 +5,7 @@ import (
 	"crypto/rsa"
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/TingeOGinge/inse2c/server/database"
 
@@ -43,7 +44,13 @@ func (env AuthEnv) ValidateLogin (username, passwordAttempt string) (string, err
 	return generateToken(&user)
 }
 
-func (env AuthEnv) ValidateSession(tokenString string) (string, error) {
+func (env AuthEnv) ValidateSession(authHeader string) (string, error) {
+	if !strings.HasPrefix(authHeader, "Bearer ") {
+		return "", fmt.Errorf("invalid authorization header format: %v", authHeader)
+	}
+
+	tokenString := strings.Fields(authHeader)[1]
+
 	token, err := jwt.ParseWithClaims(tokenString, &MyClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return signingKey, nil
 	})
