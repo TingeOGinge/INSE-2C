@@ -11,6 +11,7 @@ import (
 	"github.com/TingeOGinge/inse2c/server/algorithm"
 	"github.com/TingeOGinge/inse2c/server/auth"
 	"github.com/TingeOGinge/inse2c/server/database"
+	"github.com/TingeOGinge/inse2c/server/account"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
@@ -20,6 +21,8 @@ type Env struct {
 	}
 	auth interface {
 		ValidateLogin(username, password string) (string, error)
+	}
+	acc interface {
 		CreateUser(username, pasword string) error 
 	}
 }
@@ -59,7 +62,7 @@ func (env *Env) createUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := env.auth.CreateUser(user.Username, user.Password); err != nil {
+	if err := env.acc.CreateUser(user.Username, user.Password); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		log.Output(2, err.Error())
 		return
@@ -112,12 +115,17 @@ func main() {
 		log.Fatal(fmt.Sprintf("Unable to connect to database: %v\n", err))
 	}
 
+	dbEnv := database.DbEnv {DBpool: dbpool}
+
 	env := &Env{
 		algorithm: algorithm.AlgEnv{
-			DB: database.DbEnv{DBpool: dbpool},
+			DB: dbEnv,
 		},
 		auth: auth.AuthEnv{
-			DB: database.DbEnv{DBpool: dbpool},
+			DB: dbEnv,
+		},
+		acc: account.AccEnv{
+			DB: dbEnv,
 		},
 	}
 
