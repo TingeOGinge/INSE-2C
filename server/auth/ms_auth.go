@@ -59,18 +59,7 @@ func (env AuthEnv) ValidateSession(tokenString string) (string, error) {
 	}
 }
 
-func (env AuthEnv) CreateUser(username, password string) error {
-	hash, err := hashPassword(password)
-	if err != nil {
-		return err
-	}
-	if err := env.DB.CreateAccount(username, string(hash)); err != nil {
-		return err
-	}
-	return nil
-}
-
-func hashPassword(password string) ([]byte, error) {
+func HashPassword(password string) ([]byte, error) {
 	return bcrypt.GenerateFromPassword([]byte(password), 10)
 }
 

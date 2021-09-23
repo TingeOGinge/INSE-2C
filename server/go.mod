@@ -5,6 +5,7 @@ go 1.17
 replace github.com/TingeOGinge/inse2c/server/database => ./database
 
 require (
+	github.com/TingeOGinge/inse2c/server/account v0.0.0-00010101000000-000000000000
 	github.com/TingeOGinge/inse2c/server/algorithm v0.0.0-00010101000000-000000000000
 	github.com/TingeOGinge/inse2c/server/auth v0.0.0-00010101000000-000000000000
 	github.com/TingeOGinge/inse2c/server/database v0.0.0-00010101000000-000000000000
@@ -20,9 +21,7 @@ require (
 	github.com/jackc/pgproto3/v2 v2.1.1 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
 	github.com/jackc/pgtype v1.8.1 // indirect
-	github.com/jackc/pgx v3.6.2+incompatible // indirect
 	github.com/jackc/puddle v1.1.4 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	golang.org/x/crypto v0.0.0-20210920023735-84f357641f63 // indirect
 	golang.org/x/text v0.3.7 // indirect
 )
@@ -30,3 +29,5 @@ require (
 replace github.com/TingeOGinge/inse2c/server/algorithm => ./algorithm
 
 replace github.com/TingeOGinge/inse2c/server/auth => ./auth
+
+replace github.com/TingeOGinge/inse2c/server/account => ./account
