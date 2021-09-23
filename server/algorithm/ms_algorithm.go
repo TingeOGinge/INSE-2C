@@ -2,6 +2,7 @@ package algorithm
 
 import (
 	"net/url"
+	"strings"
 
 	"github.com/TingeOGinge/inse2c/server/database"
 )
@@ -12,8 +13,10 @@ type AlgEnv struct {
 	}
 }
 
-func (env AlgEnv) Search(parameters url.Values) ([]database.Recipe, error) {
-	recipes, err := env.DB.MainSearch(parameters["searchTerms"])
+func (env AlgEnv) Search(urlQueries url.Values) ([]database.Recipe, error) {
+	parameters := strings.Split(urlQueries.Get("parameters"), ",")
+
+	recipes, err := env.DB.MainSearch(parameters)
 	if err != nil {
 		return nil, err
 	}
