@@ -10,14 +10,14 @@ import (
 )
 
 type Recipe struct {
-	ID int `json:"id"`
-	Name string `json:"name"`
-	CookingMinutes float64 `json:"cookingMinutes"`
-	Method []string `json:"method"`
-	Ingredients []string `json:"ingredients"`
-	ServingSize int `json:"servingSize"`
-	Calories int `json:"calories"`
-	DietaryRestrictions []*string `json:"dietaryRestrictions"`
+	ID int `json:"recipe_id"`
+	Name string `json:"recipe_name"`
+	CookingMinutes float64 `json:"recipe_cooking_minutes"`
+	Method []string `json:"recipe_method"`
+	Ingredients []string `json:"recipe_ingredients"`
+	ServingSize int `json:"recipe_serving_size"`
+	Calories int `json:"recipe_calories"`
+	DietaryRestrictions []*string `json:"dietary_restrictions"`
 }
 
 type User struct {
