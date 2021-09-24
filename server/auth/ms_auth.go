@@ -44,9 +44,9 @@ func (env AuthEnv) ValidateLogin (username, passwordAttempt string) (string, err
 	return generateToken(&user)
 }
 
-func (env AuthEnv) ValidateSession(authHeader string) (string, error) {
+func (env AuthEnv) ValidateSession(authHeader string) (string, *database.User, error) {
 	if !strings.HasPrefix(authHeader, "Bearer ") {
-		return "", fmt.Errorf("invalid authorization header format: %v", authHeader)
+		return "", nil, fmt.Errorf("invalid authorization header format: %v", authHeader)
 	}
 
 	tokenString := strings.Fields(authHeader)[1]
@@ -56,13 +56,20 @@ func (env AuthEnv) ValidateSession(authHeader string) (string, error) {
 	})
 
 	if claims, ok := token.Claims.(*MyClaims); ok && token.Valid {
-		return generateToken(&database.User{
-			ID: claims.ID,
-			Username: claims.Username,
-			AdminStatus: claims.Admin,
-		})
+		user := &database.User{
+					ID: claims.ID,
+					Username: claims.Username,
+					AdminStatus: claims.Admin,
+		}
+
+		newTokenString, err := generateToken(user)
+		if err != nil {
+			return "", nil, err
+		}
+		
+		return newTokenString, user, nil
 	} else {
-		return "", err
+		return "", nil, err
 	}
 }
 
