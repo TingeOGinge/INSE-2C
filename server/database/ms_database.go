@@ -12,7 +12,7 @@ import (
 type Recipe struct {
 	ID int `json:"recipe_id"`
 	Name string `json:"recipe_name"`
-	CookingMinutes float64 `json:"recipe_cooking_minutes"`
+	CookingMinutes float64 `json:"cooking_minutes"`
 	Method []string `json:"recipe_method"`
 	Ingredients []string `json:"recipe_ingredients"`
 	ServingSize int `json:"recipe_serving_size"`
