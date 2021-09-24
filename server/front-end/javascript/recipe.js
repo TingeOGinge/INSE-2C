@@ -41,9 +41,12 @@ function loadRecipe(recipe){
     const info = {
       "Cooking Time in Minutes": recipe.cooking_minutes,
       "Serving Size": recipe.recipe_serving_size,
-      "Calories": recipe.recipe_calories,
-      "Dietary Restrictions": recipe.dietary_restrictions.join(', ')
+      "Calories": recipe.recipe_calories
     };
+
+    if (recipe.dietary_restrictions[0] != null) {
+      info["Dietary Restrictions"] = recipe.dietary_restrictions.join(', ')
+    }
 
     for(const [prompt, value] of Object.entries(info)) {
       const infoElement = document.createElement("li");
