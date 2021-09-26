@@ -121,3 +121,16 @@ func (env DbEnv) CreateAccount(username, hash string) error {
 	}
 	return nil
 }
+
+func (env DbEnv) InsertAccountRecipe(accountID, recipeID int, scheduledTime string) error {
+	queryString := "INSERT INTO account_recipe (account_id, recipe_id, scheduled_time) values($1, $2, $3)"
+
+	tag, err := env.DBpool.Exec(context.Background(), queryString, accountID, recipeID, scheduledTime)
+	if err != nil {
+		return err
+	}
+	if !tag.Insert() {
+		return fmt.Errorf("command tag did not start with 'INSERT': %v", tag)
+	}
+	return nil
+}
