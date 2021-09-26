@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/TingeOGinge/inse2c/server/database"
 
@@ -52,8 +53,12 @@ func (env AuthEnv) ValidateSession(authHeader string) (string, *database.User, e
 	tokenString := strings.Fields(authHeader)[1]
 
 	token, err := jwt.ParseWithClaims(tokenString, &MyClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return signingKey, nil
+		return signingKey.Public(), nil
 	})
+
+	if err != nil {
+		return "", nil, fmt.Errorf("error parsing token with claims: %v", err)
+	}
 
 	if claims, ok := token.Claims.(*MyClaims); ok && token.Valid {
 		user := &database.User{
@@ -87,7 +92,7 @@ func generateToken(user *database.User) (string, error) {
 		user.Username,
 		user.AdminStatus,
 		jwt.StandardClaims {
-			ExpiresAt: 15000,
+			ExpiresAt: time.Now().Add(5 * time.Minute).Unix(),
 			Issuer: "ecochef",
 		},
 
