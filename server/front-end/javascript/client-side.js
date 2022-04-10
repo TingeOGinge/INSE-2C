@@ -142,7 +142,7 @@ async function search(data) {
  */
 
 async function getRecipe(id) {
-  const url = `http://localhost:5000/api/getRecipe/${id}`;
+  const url = `http://localhost:5000/api/getRecipe?id=${id}`;
   const response = await fetch(url);
 
   if (!response.ok) throw new Error(response.statusText);

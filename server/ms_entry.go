@@ -74,7 +74,12 @@ func (env *Env) createUserHandler(w http.ResponseWriter, r *http.Request) {
 
 func (env *Env) loginHandler(w http.ResponseWriter, r *http.Request) {
 	var user database.User
-	json.NewDecoder(r.Body).Decode(&user)
+	err := json.NewDecoder(r.Body).Decode(&user)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Output(2, err.Error())
+		return
+	}
 
 	if user.Username == "" && user.Password == "" {
 		http.Error(w, "Username or password not included", http.StatusBadRequest)
@@ -154,11 +159,15 @@ func main() {
 			DB: dbEnv,
 		},
 	}
-
+	
+	// GET requests
 	http.HandleFunc("/api/mainSearch", makeHandler(env.searchHandler))
-	http.HandleFunc("/api/registerUser", makeHandler(env.createUserHandler))
+	
+	// POST requests
 	http.HandleFunc("/api/login", makeHandler(env.loginHandler))
+	http.HandleFunc("/api/registerUser", makeHandler(env.createUserHandler))
 	http.HandleFunc("/api/scheduleRecipe", makeHandler(env.scheduleRecipeHandler))
+
 	http.Handle("/", http.FileServer(http.Dir("./front-end")))
 	
 	log.Println("Server started on port 5000")
