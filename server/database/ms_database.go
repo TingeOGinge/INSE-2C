@@ -31,6 +31,8 @@ type DbEnv struct {
 	DBpool *pgxpool.Pool
 }
 
+var recipeQueryPrefix string
+
 func (r Recipe) String() string {
 	return fmt.Sprintf("ID: %v\nName: %v\nCooking time: %v\nMethod: %v\nIngredients: %v" +
 						"\nServing Size: %v\nCalories: %v\nDietary Restrictions: %v\n",
@@ -48,24 +50,14 @@ func (u User) String() string {
 }
 
 func (env DbEnv) MainSearch(parameters []string) ([]Recipe, error) {
-	queryString := 
-`SELECT  
-DISTINCT a.recipe_id,  
-a.recipe_name,  
-EXTRACT(epoch FROM a.recipe_cooking_time)/60 as cooking_minutes,  
-a.recipe_method,  
-a.recipe_ingredients,  
-a.recipe_serving_size,  
-a.recipe_calories,  
-ARRAY_AGG (DISTINCT e.diet_restriction_name) as dietary_restrictions  
-FROM recipe a  
-LEFT JOIN recipe_ingredient b ON a.recipe_id = b.recipe_id  
-LEFT JOIN ingredient c on b.ingredient_id = c.ingredient_id  
-LEFT JOIN recipe_dietary d on a.recipe_id = d.recipe_id  
-LEFT JOIN dietary_restrictions e on d.diet_restriction_id = e.diet_restriction_id  
-WHERE c.ingredient_name SIMILAR TO $1  
+	querySuffix := 
+`WHERE c.ingredient_name SIMILAR TO $1  
 OR a.recipe_name SIMILAR TO $1 
 GROUP BY a.recipe_id`
+
+	var sb strings.Builder
+	fmt.Fprintf(&sb, "%v\n%v", recipeQueryPrefix, querySuffix)
+	queryString := sb.String()
 
 	if len(parameters) == 0 {
 		return nil, errors.New("no search parameters provided")
@@ -109,6 +101,25 @@ func (env DbEnv) SelectAccount(username string) (User, error) {
 	return user, nil
 }
 
+func (env DbEnv) GetRecipeByID(id int) (*Recipe, error) {
+	querySuffix := "WHERE a.recipe_id = $1 GROUP BY a.recipe_id"
+	
+	var sb strings.Builder
+	fmt.Fprintf(&sb, "%v\n%v", recipeQueryPrefix, querySuffix)
+	queryString := sb.String()
+
+	var recipe *Recipe
+	row := env.DBpool.QueryRow(context.Background(), queryString, id)
+	err := row.Scan(&recipe.ID, &recipe.Name, &recipe.CookingMinutes, 
+					&recipe.Method, &recipe.Ingredients, &recipe.ServingSize, 
+					&recipe.Calories, &recipe.DietaryRestrictions)
+	if err != nil {
+		return nil, fmt.Errorf("could not retrieve recipe with id = %v: %v", id, err)
+	}
+
+	return recipe, nil
+}
+
 func (env DbEnv) CreateAccount(username, hash string) error {
 	queryString := "INSERT INTO account (account_username, account_password) values($1, $2)"
 
@@ -133,4 +144,22 @@ func (env DbEnv) InsertAccountRecipe(accountID, recipeID int, scheduledTime stri
 		return fmt.Errorf("command tag did not start with 'INSERT': %v", tag)
 	}
 	return nil
+}
+
+func init() {
+	recipeQueryPrefix = 
+`SELECT  
+DISTINCT a.recipe_id,  
+a.recipe_name,  
+EXTRACT(epoch FROM a.recipe_cooking_time)/60 as cooking_minutes,  
+a.recipe_method,  
+a.recipe_ingredients,  
+a.recipe_serving_size,  
+a.recipe_calories,  
+ARRAY_AGG (DISTINCT e.diet_restriction_name) as dietary_restrictions  
+FROM recipe a  
+LEFT JOIN recipe_ingredient b ON a.recipe_id = b.recipe_id  
+LEFT JOIN ingredient c on b.ingredient_id = c.ingredient_id  
+LEFT JOIN recipe_dietary d on a.recipe_id = d.recipe_id  
+LEFT JOIN dietary_restrictions e on d.diet_restriction_id = e.diet_restriction_id `
 }

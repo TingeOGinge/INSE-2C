@@ -3,3 +3,4 @@ private.key.pub
 .DS_Store
 out/
 pg/postgres-data
+*code-workspace
